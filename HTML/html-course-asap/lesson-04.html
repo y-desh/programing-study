@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 04 · Links — Anchor Elements</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">HTML · ASAP Frontend</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Огляд</a>
+    <a class="nav-link" href="lesson-01.html">01</a><a class="nav-link" href="lesson-02.html">02</a>
+    <a class="nav-link" href="lesson-03.html">03</a>
+    <a class="nav-link on" href="lesson-04.html">04</a>
+    <a class="nav-link" href="lesson-05.html">05</a><a class="nav-link" href="lesson-06.html">06</a>
+    <a class="nav-link" href="lesson-07.html">07</a><a class="nav-link" href="lesson-08.html">08</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="lesson-badge">Лекція 04 · ASAP Frontend HTML Crash Course</div>
+  <h1>Links<br><b>Anchor Elements</b></h1>
+  <p>Як робити посилання в HTML. href і https — обов'язково. target="_blank" — нова вкладка. Посилання між HTML файлами через відносні шляхи.</p>
+</div>
+
+<div class="w">
+
+<!-- ═══ 01 БАЗОВИЙ ANCHOR ═══ -->
+<section class="section">
+  <div class="sec-label">01 — Anchor Element</div>
+  <h2>Тег &lt;a&gt; — посилання</h2>
+  <p class="lead">
+    Anchor element — це посилання. Клік → переходиш кудись. Атрибут <strong>href</strong> каже куди саме. Це inline елемент.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Базовий синтаксис</div>
+    <div class="two" style="align-items:start">
+      <div>
+        <div class="code-file"><div class="dot" style="background:#f87171"></div>index.html</div>
+        <pre>
+<span class="c">&lt;!-- Anchor elements --&gt;</span>
+
+<span class="c">&lt;!-- Emmet: a → Enter → отримуєш: --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">""</span><span class="t">&gt;&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- Заповнюємо: --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://google.com"</span><span class="t">&gt;</span>
+  <span class="tx">Go to Google</span>
+<span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- Структура:
+     &lt;a href="URL"&gt;текст посилання&lt;/a&gt;
+     ↑          ↑              ↑
+     тег    куди йдемо    що бачить юзер --&gt;</span></pre>
+      </div>
+      <div>
+        <div class="preview">
+          <div class="preview-bar">
+            <div class="preview-dot" style="background:#f87171"></div>
+            <div class="preview-dot" style="background:#fbbf24"></div>
+            <div class="preview-dot" style="background:#34d399"></div>
+          </div>
+          <div class="preview-body">
+            <a href="#">Go to Google</a>
+            <p style="font-size:12px;color:#999;margin-top:8px">↑ Синє підкреслене посилання — браузерний дефолт</p>
+          </div>
+        </div>
+        <div class="box red" style="margin-top:10px">
+          <strong>БЕЗ https — не працює!</strong>
+          href="google.com" → шукає файл google.com у твоїй папці. href="https://google.com" → йде в інтернет. Завжди https!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Чому потрібен https — детально</div>
+    <pre>
+<span class="c">&lt;!-- ❌ НЕ ПРАЦЮЄ — HTML шукає файл google.com у папці --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"google.com"</span><span class="t">&gt;</span><span class="tx">Google</span><span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- ✅ ПРАЦЮЄ — вказуємо повний URL --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://google.com"</span><span class="t">&gt;</span><span class="tx">Google</span><span class="t">&lt;/a&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://asapfrontend.com"</span><span class="t">&gt;</span><span class="tx">ASAP</span><span class="t">&lt;/a&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://github.com"</span><span class="t">&gt;</span><span class="tx">GitHub</span><span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- ASAP Frontend:
+     "When you want to send someone to a website,
+     you have to make sure to add the https.
+     It's going to save you hours of headache." --&gt;</span></pre>
+  </div>
+</section>
+
+<!-- ═══ 02 TARGET BLANK ═══ -->
+<section class="section">
+  <div class="sec-label">02 — target="_blank"</div>
+  <h2>Відкрити в новій вкладці</h2>
+  <p class="lead">
+    За замовчуванням клік на посилання відкриває URL в <strong>тій самій вкладці</strong> — ти йдеш з своєї сторінки. Якщо хочеш щоб сторінка залишалась відкритою — використовуй target="_blank".
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">target="_blank" — нова вкладка</div>
+    <div class="two" style="align-items:start">
+      <div>
+        <pre>
+<span class="c">&lt;!-- Без target: переходить у цій вкладці --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://google.com"</span><span class="t">&gt;</span>
+  <span class="tx">Google (та сама вкладка)</span>
+<span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- З target="_blank": нова вкладка! --&gt;</span>
+<span class="t">&lt;a</span>
+  <span class="a">href</span>=<span class="v">"https://google.com"</span>
+  <span class="a">target</span>=<span class="v">"_blank"</span>
+<span class="t">&gt;</span>
+  <span class="tx">Google (нова вкладка)</span>
+<span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- Або в один рядок: --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://asapfrontend.com"</span>
+   <span class="a">target</span>=<span class="v">"_blank"</span><span class="t">&gt;</span><span class="tx">ASAP Frontend</span><span class="t">&lt;/a&gt;</span></pre>
+      </div>
+      <div>
+        <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:20px">
+          <div style="font-size:13px;color:var(--t2);line-height:1.8">
+            <div style="margin-bottom:10px">
+              <span style="font-weight:600;color:var(--t1)">Без target:</span><br>
+              Клік → йдеш з поточної сторінки → зворотньо через Back кнопку
+            </div>
+            <div>
+              <span style="font-weight:600;color:var(--acc2)">З target="_blank":</span><br>
+              Клік → відкривається нова вкладка → твоя сторінка залишається відкритою
+            </div>
+          </div>
+        </div>
+        <div class="box amber" style="margin-top:10px">
+          <strong>Коли використовувати?</strong>
+          Зовнішні посилання (на інші сайти) — зазвичай target="_blank". Посилання між своїми сторінками — без target.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 03 RELATIVE LINKS ═══ -->
+<section class="section">
+  <div class="sec-label">03 — Відносні посилання</div>
+  <h2>Посилання між HTML файлами</h2>
+  <p class="lead">
+    Крім зовнішніх сайтів, посилання можуть вести на <strong>інші сторінки твого ж сайту</strong>. Для цього використовуємо відносні шляхи — без https.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Структура файлів проєкту</div>
+    <div class="two" style="align-items:start">
+      <pre>
+<span class="c">html-crash-course/
+├── index.html     ← головна сторінка
+├── about.html     ← сторінка "Про нас"
+└── contact.html   ← сторінка контактів</span>
+
+<span class="c">&lt;!-- index.html: --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"about.html"</span><span class="t">&gt;</span><span class="tx">Про нас</span><span class="t">&lt;/a&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"contact.html"</span><span class="t">&gt;</span><span class="tx">Контакти</span><span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- about.html — повертаємось назад: --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"index.html"</span><span class="t">&gt;</span><span class="tx">← На головну</span><span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- Ключове: НЕ додаємо https! --&gt;
+&lt;!-- HTML шукає файл у тій же папці --&gt;</span></pre>
+      <div>
+        <div class="box green">
+          <strong>Чому без https?</strong>
+          href="about.html" — HTML шукає файл about.html в тій самій папці що й поточний HTML файл. Це "відносний" шлях.
+        </div>
+        <div class="box blue" style="margin-top:10px">
+          <strong>Без target="_blank"</strong>
+          Для переходів між своїми сторінками — не додаємо target="_blank". Користувач залишається "всередині" твого сайту.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Як створити about.html — покрокова практика</div>
+    <div class="code-file"><div class="dot" style="background:#f87171"></div>Крок 1: Створи about.html</div>
+    <pre>
+<span class="c">&lt;!-- В VS Code: Explorer → New File → about.html --&gt;</span>
+<span class="c">&lt;!-- Потім введи ! → Enter (Emmet boilerplate) --&gt;</span>
+
+<span class="t">&lt;!DOCTYPE html&gt;</span>
+<span class="t">&lt;html</span> <span class="a">lang</span>=<span class="v">"uk"</span><span class="t">&gt;</span>
+<span class="t">&lt;head&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">charset</span>=<span class="v">"UTF-8"</span><span class="t">&gt;</span>
+  <span class="t">&lt;title&gt;</span><span class="tx">About Us</span><span class="t">&lt;/title&gt;</span>
+<span class="t">&lt;/head&gt;</span>
+<span class="t">&lt;body&gt;</span>
+
+  <span class="t">&lt;h1&gt;</span><span class="tx">About Us Page</span><span class="t">&lt;/h1&gt;</span>
+
+  <span class="c">&lt;!-- Кнопка повернення назад: --&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"index.html"</span><span class="t">&gt;</span><span class="tx">← Back to Index</span><span class="t">&lt;/a&gt;</span>
+
+<span class="t">&lt;/body&gt;</span>
+<span class="t">&lt;/html&gt;</span></pre>
+
+    <div class="code-file" style="margin-top:10px"><div class="dot" style="background:#86efac"></div>Крок 2: Додай посилання в index.html</div>
+    <pre>
+<span class="c">&lt;!-- Anchor elements --&gt;</span>
+
+<span class="c">&lt;!-- Зовнішнє посилання (з https, нова вкладка): --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://asapfrontend.com"</span>
+   <span class="a">target</span>=<span class="v">"_blank"</span><span class="t">&gt;</span>
+  <span class="tx">ASAP Frontend</span>
+<span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- Внутрішнє посилання (відносне, без https): --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"about.html"</span><span class="t">&gt;</span><span class="tx">About Us</span><span class="t">&lt;/a&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"contact.html"</span><span class="t">&gt;</span><span class="tx">Contact</span><span class="t">&lt;/a&gt;</span></pre>
+  </div>
+</section>
+
+<!-- ═══ 04 ПІДСУМОК ═══ -->
+<section class="section">
+  <div class="sec-label">04 — Підсумок</div>
+  <h2>Всі варіанти посилань</h2>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Шпаргалка anchor elements</div>
+    <table class="tbl">
+      <tr><th>Тип</th><th>href</th><th>target</th><th>Результат</th></tr>
+      <tr>
+        <td class="td">Зовнішній (та вкладка)</td>
+        <td class="tm">https://site.com</td>
+        <td class="tm">—</td>
+        <td class="td">Переходить у цій вкладці</td>
+      </tr>
+      <tr>
+        <td class="td">Зовнішній (нова вкладка)</td>
+        <td class="tm">https://site.com</td>
+        <td class="tm">_blank</td>
+        <td class="td">Відкриває нову вкладку</td>
+      </tr>
+      <tr>
+        <td class="td">Внутрішній (своя сторінка)</td>
+        <td class="tm">about.html</td>
+        <td class="tm">—</td>
+        <td class="td">Перехід на свою сторінку</td>
+      </tr>
+      <tr>
+        <td class="td">Якір (на цій сторінці)</td>
+        <td class="tm">#section-id</td>
+        <td class="tm">—</td>
+        <td class="td">Скрол до елемента на сторінці</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-title">🎯 Завдання — Лекція 04</div>
+    <div class="ex-body">
+      <strong>1.</strong> В index.html створи посилання на asapfrontend.com з target="_blank"<br>
+      <strong>2.</strong> Створи contact.html з boilerplate (!) → додай h1 "Contact Page"<br>
+      <strong>3.</strong> В index.html додай посилання href="contact.html" → перевір що воно працює<br>
+      <strong>4.</strong> В contact.html додай href="index.html" для повернення назад<br>
+      <strong>5.</strong> Спробуй href="google.com" БЕЗ https → переконайся що не працює → виправ<br>
+      <strong>6.</strong> Два посилання поряд — вони стоять в одному рядку (inline!) — перевір
+    </div>
+    <div class="ex-hint">Підказка: якщо посилання не відкриває сторінку — перевір чи правильна назва файлу і чи він в тій самій папці</div>
+  </div>
+</section>
+
+</div>
+
+<div class="foot">
+  <a href="lesson-03.html" class="foot-link">← 03 · Headings & Paragraphs</a>
+  <div class="foot-info">Лекція 04 / 08</div>
+  <a href="lesson-05.html" class="foot-link">05 · Lists →</a>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tailwind CSS — Tips & Tricks</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:     #080b10;
+    --bg2:    #0e1219;
+    --bg3:    #141820;
+    --border: #1e2535;
+    --text:   #e2e8f0;
+    --muted:  #4a5568;
+    --accent: #38bdf8;
+    --accent2:#0ea5e9;
+    --green:  #34d399;
+    --purple: #a78bfa;
+    --orange: #fb923c;
+    --pink:   #f472b6;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── Layout ── */
+  .shell { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── Header ── */
+  .site-header {
+    padding: 60px 24px 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+  }
+  .site-header h1 {
+    font-size: 42px; font-weight: 700; letter-spacing: -.02em;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
+  .site-header p { color: var(--muted); font-size: 16px; }
+  .badge-count {
+    display: inline-block;
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--accent); font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* ── Tip card ── */
+  .tip {
+    margin-bottom: 48px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .tip:hover { border-color: #2a3550; }
+
+  .tip-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 28px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+  }
+  .tip-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    background: var(--bg3); border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+  }
+  .tip-title {
+    font-size: 17px; font-weight: 600; color: var(--text);
+    flex: 1;
+  }
+  .tip-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 3px 10px; border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .tip-body { padding: 28px; }
+  .tip-desc {
+    color: #94a3b8; margin-bottom: 24px; font-size: 15px; line-height: 1.7;
+  }
+
+  /* ── Code block ── */
+  .code-wrap {
+    background: #05080d;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .code-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 14px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+  .code-bar span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+  }
+  .copy-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    background: transparent; border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 4px; cursor: pointer;
+    transition: all .15s;
+  }
+  .copy-btn:hover { color: var(--text); border-color: #3a4560; }
+  pre {
+    padding: 18px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; line-height: 1.8;
+    overflow-x: auto;
+    color: #a8b8d8;
+    white-space: pre;
+  }
+  .hl-class  { color: #38bdf8; }
+  .hl-prop   { color: #a78bfa; }
+  .hl-val    { color: #34d399; }
+  .hl-comm   { color: #3a4a6a; font-style: italic; }
+  .hl-tag    { color: #fb923c; }
+
+  /* ── Demo area ── */
+  .demo-wrap {
+    border: 1px dashed #1e2535;
+    border-radius: 8px;
+    padding: 24px;
+    background: var(--bg3);
+  }
+  .demo-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .1em;
+    margin-bottom: 16px;
+  }
+
+  /* ── Tip-specific colors ── */
+  .tag-utility  { background: rgba(56,189,248,.1); color: var(--accent); }
+  .tag-layout   { background: rgba(167,139,250,.1); color: var(--purple); }
+  .tag-visual   { background: rgba(52,211,153,.1);  color: var(--green); }
+  .tag-interact { background: rgba(251,146,60,.1);  color: var(--orange); }
+  .tag-typo     { background: rgba(244,114,182,.1); color: var(--pink); }
+
+  /* ── Navigation pills ── */
+  .nav-pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 48px;
+  }
+  .nav-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 5px 12px; border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted); background: var(--bg2);
+    text-decoration: none; transition: all .15s;
+  }
+  .nav-pill:hover { color: var(--text); border-color: #2a3550; }
+
+  /* ── Scroll snap demo ── */
+  .snap-demo {
+    display: flex; overflow-x: auto; gap: 12px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+  .snap-demo::-webkit-scrollbar { height: 4px; }
+  .snap-demo::-webkit-scrollbar-thumb { background: #2a3550; }
+  .snap-item {
+    scroll-snap-align: start; flex-shrink: 0;
+    width: 200px; height: 100px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px;
+  }
+
+  /* ── Aspect ratio demo ── */
+  .aspect-demo-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+
+  /* ── Container demo ── */
+  .container-visual {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px; position: relative;
+  }
+  .container-inner {
+    border: 1px dashed var(--accent);
+    border-radius: 4px; padding: 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--accent); text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 28px; }
+    .tip-header { flex-wrap: wrap; }
+    .aspect-demo-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="badge-count">9 tips collected</div>
+  <h1>Tailwind CSS Tips & Tricks</h1>
+  <p>Інтерактивні приклади — від accent-color до glassmorphism</p>
+</header>
+
+<div class="shell">
+
+  <!-- Nav pills -->
+  <nav class="nav-pills">
+    <a href="#tip-1" class="nav-pill">#1 accent-color</a>
+    <a href="#tip-2" class="nav-pill">#2 Fluid text</a>
+    <a href="#tip-3" class="nav-pill">#3 file: prefix</a>
+    <a href="#tip-4" class="nav-pill">#4 selection:</a>
+    <a href="#tip-5" class="nav-pill">#5 divide</a>
+    <a href="#tip-6" class="nav-pill">#6 aspect-ratio</a>
+    <a href="#tip-7" class="nav-pill">#7 scroll-snap</a>
+    <a href="#tip-8" class="nav-pill">#8 backdrop-filter</a>
+    <a href="#tip-9" class="nav-pill">#9 container</a>
+  </nav>
+
+  <!-- ════════════════ TIP 1 ════════════════ -->
+  <article class="tip" id="tip-1">
+    <div class="tip-header">
+      <span class="tip-num">01</span>
+      <h2 class="tip-title">accent-color — колір браузерних елементів</h2>
+      <span class="tip-tag tag-utility">utility</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Змінює колір дефолтних браузерних елементів — чекбокси, radio, range слайдери.
+        Без додаткового CSS або бібліотек.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre><span class="hl-comm">&lt;!-- Звичайний синій браузера --&gt;</span>
+&lt;<span class="hl-tag">input</span> <span class="hl-prop">type</span>=<span class="hl-val">"checkbox"</span> checked&gt;
+
+<span class="hl-comm">&lt;!-- Кастомний колір --&gt;</span>
+&lt;<span class="hl-tag">input</span> <span class="hl-prop">type</span>=<span class="hl-val">"checkbox"</span> <span class="hl-prop">class</span>=<span class="hl-val">"accent-sky-400"</span> checked&gt;
+&lt;<span class="hl-tag">input</span> <span class="hl-prop">type</span>=<span class="hl-val">"checkbox"</span> <span class="hl-prop">class</span>=<span class="hl-val">"accent-emerald-400"</span> checked&gt;
+&lt;<span class="hl-tag">input</span> <span class="hl-prop">type</span>=<span class="hl-val">"checkbox"</span> <span class="hl-prop">class</span>=<span class="hl-val">"accent-violet-500"</span> checked&gt;
+&lt;<span class="hl-tag">input</span> <span class="hl-prop">type</span>=<span class="hl-val">"range"</span>    <span class="hl-prop">class</span>=<span class="hl-val">"accent-orange-400"</span>&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo</p>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:#94a3b8">
+            <input type="checkbox" checked style="accent-color:#38bdf8;width:18px;height:18px">
+            accent-sky-400
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:#94a3b8">
+            <input type="checkbox" checked style="accent-color:#34d399;width:18px;height:18px">
+            accent-emerald-400
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:#94a3b8">
+            <input type="checkbox" checked style="accent-color:#a78bfa;width:18px;height:18px">
+            accent-violet-500
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:#94a3b8">
+            <input type="radio" checked style="accent-color:#fb923c;width:18px;height:18px">
+            accent-orange-400 (radio)
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;color:#94a3b8">
+            accent-orange-400 (range)
+            <input type="range" style="accent-color:#fb923c;width:200px">
+          </label>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ════════════════ TIP 2 ════════════════ -->
+  <article class="tip" id="tip-2">
+    <div class="tip-header">
+      <span class="tip-num">02</span>
+      <h2 class="tip-title">Fluid text — clamp() без breakpoints</h2>
+      <span class="tip-tag tag-typo">typography</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Замість стрибків на breakpoints — текст змінюється плавно на кожен піксель екрану.
+        Resize вікно браузера щоб побачити різницю.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre><span class="hl-comm">&lt;!-- Звичайний — стрибає на breakpoints --&gt;</span>
+&lt;<span class="hl-tag">h1</span> <span class="hl-prop">class</span>=<span class="hl-val">"text-2xl md:text-4xl lg:text-6xl"</span>&gt;
+  Заголовок
+&lt;/<span class="hl-tag">h1</span>&gt;
+
+<span class="hl-comm">&lt;!-- Fluid — плавно змінюється --&gt;</span>
+&lt;<span class="hl-tag">h1</span> <span class="hl-prop">class</span>=<span class="hl-val">"text-[clamp(24px,5vw,72px)]"</span>&gt;
+  Заголовок
+&lt;/<span class="hl-tag">h1</span>&gt;
+
+<span class="hl-comm">&lt;!-- Формула: clamp(мін, поточний, макс) --&gt;</span>
+&lt;<span class="hl-tag">p</span> <span class="hl-prop">class</span>=<span class="hl-val">"text-[clamp(14px,2vw,20px)]"</span>&gt;
+  Параграф що плавно масштабується
+&lt;/<span class="hl-tag">p</span>&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo — resize вікно</p>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:4px">Звичайний (стрибає)</p>
+            <p style="font-size:clamp(16px,3vw,32px);font-weight:700;color:#94a3b8">
+              text-2xl md:text-4xl
+            </p>
+          </div>
+          <div style="height:1px;background:var(--border)"></div>
+          <div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:4px">Fluid (плавно)</p>
+            <p style="font-size:clamp(16px,4vw,48px);font-weight:700;color:var(--accent)">
+              clamp(16px, 4vw, 48px)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ════════════════ TIP 3 ════════════════ -->
+  <article class="tip" id="tip-3">
+    <div class="tip-header">
+      <span class="tip-num">03</span>
+      <h2 class="tip-title">file: — стилізація input type="file"</h2>
+      <span class="tip-tag tag-utility">utility</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Префікс <code style="color:var(--accent);font-family:JetBrains Mono,monospace">file:</code> застосовує стилі до кнопки вибору файлу.
+        Без кастомних бібліотек і хаку з display:none.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre>&lt;<span class="hl-tag">input</span>
+  <span class="hl-prop">type</span>=<span class="hl-val">"file"</span>
+  <span class="hl-prop">class</span>=<span class="hl-val">"
+    file:mr-4 file:py-2 file:px-6
+    file:border-0 file:rounded-lg
+    file:bg-sky-500 file:text-white
+    file:font-medium file:cursor-pointer
+    file:hover:bg-sky-600
+    file:transition-colors
+    text-slate-400 text-sm
+    cursor-pointer
+  "</span>
+&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo</p>
+        <input
+          type="file"
+          style="
+            color: #94a3b8;
+            font-size: 13px;
+            cursor: pointer;
+          "
+        >
+        <style>
+          input[type=file]::file-selector-button {
+            margin-right: 16px;
+            padding: 6px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #0ea5e9;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s;
+          }
+          input[type=file]::file-selector-button:hover {
+            background: #0284c7;
+          }
+        </style>
+      </div>
+    </div>
+  </article>
+
+  <!-- ════════════════ TIP 4 ════════════════ -->
+  <article class="tip" id="tip-4">
+    <div class="tip-header">
+      <span class="tip-num">04</span>
+      <h2 class="tip-title">selection: — колір виділення тексту</h2>
+      <span class="tip-tag tag-visual">visual</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Змінює колір підсвітки коли користувач виділяє текст мишкою.
+        Виділи текст у демо нижче.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre><span class="hl-comm">&lt;!-- Зелене виділення --&gt;</span>
+&lt;<span class="hl-tag">p</span> <span class="hl-prop">class</span>=<span class="hl-val">"selection:bg-emerald-400 selection:text-black"</span>&gt;
+  Виділи цей текст мишкою
+&lt;/<span class="hl-tag">p</span>&gt;
+
+<span class="hl-comm">&lt;!-- Фіолетове виділення --&gt;</span>
+&lt;<span class="hl-tag">p</span> <span class="hl-prop">class</span>=<span class="hl-val">"selection:bg-violet-500 selection:text-white"</span>&gt;
+  А тут фіолетовий
+&lt;/<span class="hl-tag">p</span>&gt;
+
+<span class="hl-comm">&lt;!-- На весь блок --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"selection:bg-amber-300 selection:text-black"</span>&gt;
+  Весь текст матиме золоте виділення
+&lt;/<span class="hl-tag">div</span>&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo — виділи текст мишкою</p>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <p style="font-size:15px;color:#e2e8f0" onmouseup="void(0)">
+            <style>.sel-green::selection{background:#34d399;color:#000}</style>
+            <span class="sel-green">Зелений — selection:bg-emerald-400 selection:text-black</span>
+          </p>
+          <p style="font-size:15px;color:#e2e8f0">
+            <style>.sel-violet::selection{background:#8b5cf6;color:#fff}</style>
+            <span class="sel-violet">Фіолетовий — selection:bg-violet-500 selection:text-white</span>
+          </p>
+          <p style="font-size:15px;color:#e2e8f0">
+            <style>.sel-amber::selection{background:#fbbf24;color:#000}</style>
+            <span class="sel-amber">Золотий — selection:bg-amber-400 selection:text-black</span>
+          </p>
+          <p style="font-size:15px;color:#e2e8f0">
+            <style>.sel-pink::selection{background:#ec4899;color:#fff}</style>
+            <span class="sel-pink">Рожевий — selection:bg-pink-500 selection:text-white</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ════════════════ TIP 5 ════════════════ -->
+  <article class="tip" id="tip-5">
+    <div class="tip-header">
+      <span class="tip-num">05</span>
+      <h2 class="tip-title">divide — розділювачі між елементами</h2>
+      <span class="tip-tag tag-layout">layout</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Автоматично додає border між дочірніми елементами — не треба вручну ставити border на кожен і прибирати з останнього.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre><span class="hl-comm">&lt;!-- Вертикальний розділювач --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"divide-y divide-gray-700"</span>&gt;
+  &lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"p-4"</span>&gt;Елемент 1&lt;/<span class="hl-tag">div</span>&gt;
+  &lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"p-4"</span>&gt;Елемент 2&lt;/<span class="hl-tag">div</span>&gt;
+  &lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"p-4"</span>&gt;Елемент 3&lt;/<span class="hl-tag">div</span>&gt;
+&lt;/<span class="hl-tag">div</span>&gt;
+
+<span class="hl-comm">&lt;!-- Горизонтальний розділювач --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"flex divide-x divide-gray-700"</span>&gt;
+  &lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"px-4"</span>&gt;Колонка 1&lt;/<span class="hl-tag">div</span>&gt;
+  &lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"px-4"</span>&gt;Колонка 2&lt;/<span class="hl-tag">div</span>&gt;
+&lt;/<span class="hl-tag">div</span>&gt;
+
+<span class="hl-comm">&lt;!-- Dashed стиль --&gt;</span>
+&lt;<span class="hl-tag">ul</span> <span class="hl-prop">class</span>=<span class="hl-val">"divide-y divide-dashed divide-sky-800"</span>&gt;
+  &lt;<span class="hl-tag">li</span> <span class="hl-prop">class</span>=<span class="hl-val">"py-3"</span>&gt;Пункт списку&lt;/<span class="hl-tag">li</span>&gt;
+&lt;/<span class="hl-tag">ul</span>&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:8px">divide-y</p>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <div style="padding:12px 16px;border-bottom:1px solid #1e2535;color:#94a3b8;font-size:14px">Елемент 1</div>
+              <div style="padding:12px 16px;border-bottom:1px solid #1e2535;color:#94a3b8;font-size:14px">Елемент 2</div>
+              <div style="padding:12px 16px;color:#94a3b8;font-size:14px">Елемент 3</div>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:8px">divide-x</p>
+            <div style="display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+              <div style="padding:12px 16px;border-right:1px solid #1e2535;color:#94a3b8;font-size:14px;flex:1">Кол 1</div>
+              <div style="padding:12px 16px;border-right:1px solid #1e2535;color:#94a3b8;font-size:14px;flex:1">Кол 2</div>
+              <div style="padding:12px 16px;color:#94a3b8;font-size:14px;flex:1">Кол 3</div>
+            </div>
+          </div>
+          <div style="grid-column:1/-1">
+            <p style="font-size:11px;color:var(--muted);margin-bottom:8px">divide-dashed + divide-sky-800</p>
+            <ul style="list-style:none">
+              <li style="padding:10px 0;border-bottom:1px dashed #0369a1;color:#94a3b8;font-size:14px">Пункт списку 1</li>
+              <li style="padding:10px 0;border-bottom:1px dashed #0369a1;color:#94a3b8;font-size:14px">Пункт списку 2</li>
+              <li style="padding:10px 0;color:#94a3b8;font-size:14px">Пункт списку 3</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ════════════════ TIP 6 ════════════════ -->
+  <article class="tip" id="tip-6">
+    <div class="tip-header">
+      <span class="tip-num">06</span>
+      <h2 class="tip-title">aspect-ratio — збереження пропорцій</h2>
+      <span class="tip-tag tag-layout">layout</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Зберігає пропорції елементу незалежно від ширини. Ідеально для відео, зображень, карток. Замінює старий хак з padding-top.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre><span class="hl-comm">&lt;!-- Вбудовані варіанти --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"aspect-video"</span>&gt;16:9 (відео)&lt;/<span class="hl-tag">div</span>&gt;
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"aspect-square"</span>&gt;1:1 (квадрат)&lt;/<span class="hl-tag">div</span>&gt;
+
+<span class="hl-comm">&lt;!-- Кастомні --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"aspect-[4/3]"</span>&gt;4:3 (фото)&lt;/<span class="hl-tag">div</span>&gt;
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"aspect-[3/4]"</span>&gt;3:4 (портрет)&lt;/<span class="hl-tag">div</span>&gt;
+
+<span class="hl-comm">&lt;!-- Реальний кейс — картка героя --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"aspect-[3/4] overflow-hidden rounded-xl"</span>&gt;
+  &lt;<span class="hl-tag">img</span> <span class="hl-prop">class</span>=<span class="hl-val">"w-full h-full object-cover"</span> <span class="hl-prop">src</span>=<span class="hl-val">"..."</span>&gt;
+&lt;/<span class="hl-tag">div</span>&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo</p>
+        <div class="aspect-demo-grid">
+          <div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:6px">aspect-video (16:9)</p>
+            <div style="aspect-ratio:16/9;background:linear-gradient(135deg,#0ea5e9,#6366f1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:600">16:9</div>
+          </div>
+          <div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:6px">aspect-square (1:1)</p>
+            <div style="aspect-ratio:1/1;background:linear-gradient(135deg,#34d399,#059669);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:600">1:1</div>
+          </div>
+          <div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:6px">aspect-[4/3]</p>
+            <div style="aspect-ratio:4/3;background:linear-gradient(135deg,#a78bfa,#ec4899);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:600">4:3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ════════════════ TIP 7 ════════════════ -->
+  <article class="tip" id="tip-7">
+    <div class="tip-header">
+      <span class="tip-num">07</span>
+      <h2 class="tip-title">scroll-snap — прокрутка з фіксацією</h2>
+      <span class="tip-tag tag-interact">interact</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Браузер автоматично "прилипає" до елементів при скролі. Карусель без бібліотек — тільки CSS класи.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre><span class="hl-comm">&lt;!-- Горизонтальна карусель --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"flex overflow-x-auto gap-4 snap-x snap-mandatory"</span>&gt;
+  &lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"snap-start flex-shrink-0 w-64 h-40 rounded-xl"</span>&gt;
+    Слайд 1
+  &lt;/<span class="hl-tag">div</span>&gt;
+  &lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"snap-start flex-shrink-0 w-64 h-40 rounded-xl"</span>&gt;
+    Слайд 2
+  &lt;/<span class="hl-tag">div</span>&gt;
+&lt;/<span class="hl-tag">div</span>&gt;
+
+<span class="hl-comm">&lt;!-- Full-page vertical scroll --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"h-screen overflow-y-auto snap-y snap-mandatory"</span>&gt;
+  &lt;<span class="hl-tag">section</span> <span class="hl-prop">class</span>=<span class="hl-val">"snap-start h-screen"</span>&gt;Секція 1&lt;/<span class="hl-tag">section</span>&gt;
+  &lt;<span class="hl-tag">section</span> <span class="hl-prop">class</span>=<span class="hl-val">"snap-start h-screen"</span>&gt;Секція 2&lt;/<span class="hl-tag">section</span>&gt;
+&lt;/<span class="hl-tag">div</span>&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo — скролюй горизонтально</p>
+        <div class="snap-demo">
+          <div class="snap-item" style="background:linear-gradient(135deg,#0ea5e9,#6366f1);color:white">Слайд 1</div>
+          <div class="snap-item" style="background:linear-gradient(135deg,#34d399,#059669);color:white">Слайд 2</div>
+          <div class="snap-item" style="background:linear-gradient(135deg,#a78bfa,#ec4899);color:white">Слайд 3</div>
+          <div class="snap-item" style="background:linear-gradient(135deg,#fb923c,#ef4444);color:white">Слайд 4</div>
+          <div class="snap-item" style="background:linear-gradient(135deg,#f472b6,#a78bfa);color:white">Слайд 5</div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ════════════════ TIP 8 ════════════════ -->
+  <article class="tip" id="tip-8">
+    <div class="tip-header">
+      <span class="tip-num">08</span>
+      <h2 class="tip-title">backdrop-filter — glassmorphism ефект</h2>
+      <span class="tip-tag tag-visual">visual</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Розмиває те що знаходиться за елементом. Основа glass-ефекту. Ідеально для navbar, модалок, карток поверх зображень.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre><span class="hl-comm">&lt;!-- Формула glassmorphism --&gt;</span>
+&lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"
+  backdrop-blur-md
+  bg-white/10
+  border border-white/20
+  rounded-2xl p-6
+"</span>&gt;
+  Скляна картка
+&lt;/<span class="hl-tag">div</span>&gt;
+
+<span class="hl-comm">&lt;!-- Navbar з blur --&gt;</span>
+&lt;<span class="hl-tag">nav</span> <span class="hl-prop">class</span>=<span class="hl-val">"fixed top-0 w-full backdrop-blur-lg bg-white/70"</span>&gt;
+  Навігація
+&lt;/<span class="hl-tag">nav</span>&gt;
+
+<span class="hl-comm">&lt;!-- Варіанти blur --&gt;</span>
+<span class="hl-prop">backdrop-blur-sm</span>   <span class="hl-comm">4px</span>
+<span class="hl-prop">backdrop-blur-md</span>   <span class="hl-comm">12px</span>
+<span class="hl-prop">backdrop-blur-xl</span>   <span class="hl-comm">24px</span>
+<span class="hl-prop">backdrop-blur-3xl</span>  <span class="hl-comm">64px</span></pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo</p>
+        <div style="position:relative;height:160px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#6366f1,#ec4899,#f59e0b)">
+          <!-- Circles behind -->
+          <div style="position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.3);top:10px;left:20px"></div>
+          <div style="position:absolute;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.2);bottom:10px;right:40px"></div>
+          <!-- Glass card -->
+          <div style="
+            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+            backdrop-filter:blur(12px);
+            background:rgba(255,255,255,.1);
+            border:1px solid rgba(255,255,255,.25);
+            border-radius:16px;padding:16px 28px;
+            text-align:center;white-space:nowrap;
+          ">
+            <p style="color:white;font-weight:600;font-size:15px">backdrop-blur-md</p>
+            <p style="color:rgba(255,255,255,.7);font-size:12px;margin-top:2px">bg-white/10 border-white/25</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ════════════════ TIP 9 ════════════════ -->
+  <article class="tip" id="tip-9">
+    <div class="tip-header">
+      <span class="tip-num">09</span>
+      <h2 class="tip-title">container + mx-auto — центрування контенту</h2>
+      <span class="tip-tag tag-layout">layout</span>
+    </div>
+    <div class="tip-body">
+      <p class="tip-desc">
+        Стандартний паттерн для обмеження ширини контенту на великих екранах. Фон на всю ширину — контент обмежений.
+      </p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span>HTML</span>
+          <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        </div>
+        <pre><span class="hl-comm">&lt;!-- Кожна секція лендінгу --&gt;</span>
+&lt;<span class="hl-tag">section</span> <span class="hl-prop">class</span>=<span class="hl-val">"py-16 md:py-24 bg-gray-900"</span>&gt;
+  &lt;<span class="hl-tag">div</span> <span class="hl-prop">class</span>=<span class="hl-val">"max-w-7xl mx-auto px-4 md:px-8"</span>&gt;
+    <span class="hl-comm">&lt;!-- контент --&gt;</span>
+  &lt;/<span class="hl-tag">div</span>&gt;
+&lt;/<span class="hl-tag">section</span>&gt;
+
+<span class="hl-comm">&lt;!-- max-width варіанти --&gt;</span>
+<span class="hl-prop">max-w-sm</span>   <span class="hl-comm">384px  — форми</span>
+<span class="hl-prop">max-w-xl</span>   <span class="hl-comm">576px  — статті</span>
+<span class="hl-prop">max-w-3xl</span>  <span class="hl-comm">768px  — блог</span>
+<span class="hl-prop">max-w-5xl</span>  <span class="hl-comm">1024px — контент</span>
+<span class="hl-prop">max-w-7xl</span>  <span class="hl-comm">1280px — лендінги</span></pre>
+      </div>
+      <div class="demo-wrap">
+        <p class="demo-label">Live Demo</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:#0f172a;border-radius:8px;padding:8px">
+            <div style="border:1px dashed #0ea5e9;border-radius:4px;padding:6px;text-align:center;font-family:JetBrains Mono,monospace;font-size:11px;color:#0ea5e9;max-width:100%">max-w-7xl mx-auto — 1280px</div>
+          </div>
+          <div style="background:#0f172a;border-radius:8px;padding:8px">
+            <div style="border:1px dashed #a78bfa;border-radius:4px;padding:6px;text-align:center;font-family:JetBrains Mono,monospace;font-size:11px;color:#a78bfa;max-width:80%;margin:0 auto">max-w-5xl mx-auto — 1024px</div>
+          </div>
+          <div style="background:#0f172a;border-radius:8px;padding:8px">
+            <div style="border:1px dashed #34d399;border-radius:4px;padding:6px;text-align:center;font-family:JetBrains Mono,monospace;font-size:11px;color:#34d399;max-width:55%;margin:0 auto">max-w-3xl — 768px</div>
+          </div>
+          <div style="background:#0f172a;border-radius:8px;padding:8px">
+            <div style="border:1px dashed #fb923c;border-radius:4px;padding:6px;text-align:center;font-family:JetBrains Mono,monospace;font-size:11px;color:#fb923c;max-width:35%;margin:0 auto">max-w-sm — 384px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+</div><!-- /shell -->
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre')
+  const text = pre.innerText
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!'
+    btn.style.color = '#34d399'
+    setTimeout(() => {
+      btn.textContent = 'copy'
+      btn.style.color = ''
+    }, 1500)
+  })
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Лекція №2</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07080f;
+  --surface: #0f1019;
+  --surface2: #161722;
+  --border: #1e2030;
+  --border2: #2a2d44;
+  --v: #a78bfa;    /* violet */
+  --g: #34d399;    /* green */
+  --o: #fb923c;    /* orange */
+  --p: #f472b6;    /* pink */
+  --b: #38bdf8;    /* blue */
+  --y: #fbbf24;    /* yellow */
+  --text: #e2e4f0;
+  --dim: #6b7280;
+  --mono: 'JetBrains Mono', monospace;
+  --display: 'Syne', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-noise {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+.hero-lines {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(167,139,250,0.04) 1px, transparent 1px),
+    linear-gradient(rgba(167,139,250,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.blob-1 { width: 500px; height: 500px; background: rgba(167,139,250,0.12); top: -100px; left: -100px; animation: drift 8s ease-in-out infinite; }
+.blob-2 { width: 400px; height: 400px; background: rgba(52,211,153,0.08); bottom: -100px; right: -100px; animation: drift 10s ease-in-out infinite reverse; }
+@keyframes drift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(40px, 30px) scale(1.05); }
+}
+.hero-inner { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(167,139,250,0.3);
+  background: rgba(167,139,250,0.06);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-family: var(--mono); font-size: 11px;
+  color: var(--v); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 36px;
+  animation: up 0.7s ease both;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 7vw, 4.5rem);
+  font-weight: 800; line-height: 1.05;
+  margin-bottom: 20px;
+  animation: up 0.7s 0.1s ease both;
+}
+.h1-line { display: block; }
+.h1-grad {
+  background: linear-gradient(135deg, var(--v), var(--p), var(--b));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  color: var(--dim); font-size: 1.05rem; max-width: 520px;
+  margin: 0 auto 48px;
+  animation: up 0.7s 0.2s ease both;
+}
+.hero-pills {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  animation: up 0.7s 0.3s ease both;
+}
+.pill {
+  font-family: var(--mono); font-size: 12px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--dim); padding: 7px 18px; border-radius: 100px;
+  text-decoration: none; transition: all 0.2s;
+}
+.pill:hover { color: var(--v); border-color: rgba(167,139,250,0.5); background: rgba(167,139,250,0.08); }
+@keyframes up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 88px 0; border-top: 1px solid var(--border); }
+.sec-num {
+  font-family: var(--mono); font-size: 11px; color: var(--v);
+  letter-spacing: 4px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.sec-num::after { content:''; flex:1; height:1px; background: linear-gradient(to right, rgba(167,139,250,0.4), transparent); }
+.section h2 {
+  font-family: var(--display); font-size: clamp(1.7rem, 4vw, 2.3rem);
+  font-weight: 800; line-height: 1.15; margin-bottom: 18px;
+}
+.intro { color: var(--dim); max-width: 680px; margin-bottom: 48px; line-height: 1.85; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px; margin-bottom: 20px;
+}
+.card-title {
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media(max-width:600px){ .two { grid-template-columns: 1fr; } }
+.three { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+@media(max-width:640px){ .three { grid-template-columns: 1fr; } }
+
+/* ── CODE ── */
+pre.code, .code {
+  background: #060810; border: 1px solid var(--border);
+  border-radius: 12px; padding: 22px;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.9;
+  overflow-x: auto; position: relative;
+}
+.c  { color: #3d4060; }   /* comment */
+.p  { color: #79b8ff; }   /* property */
+.v  { color: #f97583; }   /* value */
+.s  { color: var(--v); }  /* selector */
+.n  { color: var(--o); }  /* number */
+.fn { color: var(--g); }  /* function */
+.k  { color: var(--p); }  /* keyword */
+
+/* ── TIPS ── */
+.tip { background: rgba(167,139,250,0.07); border: 1px solid rgba(167,139,250,0.2); border-left: 3px solid var(--v); border-radius: 10px; padding: 16px 20px; font-size: 14px; color: var(--dim); margin-top: 20px; }
+.tip strong { color: var(--v); }
+.warn { background: rgba(244,114,182,0.06); border: 1px solid rgba(244,114,182,0.2); border-left: 3px solid var(--p); border-radius: 10px; padding: 16px 20px; font-size: 14px; color: var(--dim); margin-top: 20px; }
+.warn strong { color: var(--p); }
+.good { background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.2); border-left: 3px solid var(--g); border-radius: 10px; padding: 16px 20px; font-size: 14px; color: var(--dim); margin-top: 20px; }
+.good strong { color: var(--g); }
+
+/* ── REVEAL ── */
+.r { opacity:0; transform:translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.r.on { opacity:1; transform:translateY(0); }
+
+/* ════════════════════════════════════
+   SEC 1: CSS VARIABLES
+════════════════════════════════════ */
+.var-flow {
+  display: flex; flex-direction: column; gap: 0;
+}
+.var-step {
+  display: flex; gap: 20px; align-items: flex-start;
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.var-step:last-child { border-bottom: none; }
+.var-dot {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  flex-shrink: 0; margin-top: 2px;
+}
+.var-body { flex: 1; }
+.var-label { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.var-desc { font-size: 12px; color: var(--dim); }
+
+/* Theme toggle demo */
+.theme-demo {
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.theme-demo-bar {
+  display: flex; gap: 8px; padding: 12px 16px;
+  background: #0a0b14; border-bottom: 1px solid var(--border);
+}
+.theme-btn {
+  font-family: var(--mono); font-size: 11px;
+  padding: 5px 14px; border-radius: 100px; border: 1px solid var(--border2);
+  cursor: pointer; background: var(--surface2); color: var(--dim);
+  transition: all 0.2s;
+}
+.theme-btn.active { background: rgba(167,139,250,0.15); border-color: rgba(167,139,250,0.5); color: var(--v); }
+.theme-preview {
+  padding: 24px;
+  transition: background 0.4s, color 0.4s;
+}
+.theme-preview.light {
+  background: #f8f8fc; color: #1a1a2e;
+}
+.theme-preview.dark {
+  background: #0d0d1a; color: #e2e4f0;
+}
+.preview-card {
+  border-radius: 10px; padding: 20px;
+  transition: background 0.4s, border-color 0.4s;
+}
+.theme-preview.light .preview-card { background: #fff; border: 1px solid #e2e4f0; }
+.theme-preview.dark  .preview-card { background: #161722; border: 1px solid #2a2d44; }
+.preview-title { font-family: var(--display); font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+.preview-text { font-size: 13px; transition: color 0.4s; }
+.theme-preview.light .preview-text { color: #6b7280; }
+.theme-preview.dark  .preview-text { color: #6b7280; }
+.preview-btn {
+  display: inline-block; margin-top: 14px;
+  padding: 8px 18px; border-radius: 8px;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  transition: background 0.4s, color 0.4s;
+}
+.theme-preview.light .preview-btn { background: #1a1a2e; color: #fff; }
+.theme-preview.dark  .preview-btn { background: var(--v); color: #fff; }
+
+/* ════════════════════════════════════
+   SEC 2: PSEUDO
+════════════════════════════════════ */
+.pseudo-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;
+}
+.pseudo-card {
+  background: #060810; border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+  transition: border-color 0.2s;
+}
+.pseudo-card:hover { border-color: var(--border2); }
+.pseudo-name {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--v); margin-bottom: 8px;
+}
+.pseudo-desc { font-size: 12px; color: var(--dim); line-height: 1.7; margin-bottom: 10px; }
+.pseudo-ex { font-family: var(--mono); font-size: 11px; color: var(--g); }
+
+/* Live pseudo demo */
+.pseudo-live { display: flex; flex-direction: column; gap: 16px; }
+.plive-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.plive-label { font-family: var(--mono); font-size: 11px; color: var(--dim); min-width: 120px; }
+.plive-area { flex: 1; min-width: 200px; }
+
+/* hover demo */
+.demo-hover-btn {
+  background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.3);
+  color: var(--v); font-family: var(--mono); font-size: 12px;
+  padding: 10px 20px; border-radius: 8px; cursor: pointer;
+  transition: all 0.25s;
+}
+.demo-hover-btn:hover {
+  background: rgba(167,139,250,0.25); border-color: var(--v);
+  transform: translateY(-2px); box-shadow: 0 8px 20px rgba(167,139,250,0.2);
+}
+
+/* nth-child demo */
+.nth-list { display: flex; gap: 8px; flex-wrap: wrap; }
+.nth-item {
+  width: 40px; height: 40px; border-radius: 6px; display: flex;
+  align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  color: var(--dim);
+}
+.nth-item:nth-child(odd) { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.3); color: var(--g); }
+
+/* before/after demo */
+.before-demo {
+  position: relative; display: inline-block;
+  font-family: var(--mono); font-size: 14px; font-weight: 700;
+  color: var(--text); padding-bottom: 8px;
+}
+.before-demo::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(to right, var(--v), var(--p));
+  border-radius: 2px;
+  animation: lineGrow 1.5s ease infinite alternate;
+}
+@keyframes lineGrow { from { width: 0; } to { width: 100%; } }
+
+/* focus demo */
+.demo-input {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 16px;
+  font-family: var(--mono); font-size: 13px; color: var(--text);
+  outline: none; width: 200px; transition: all 0.2s;
+}
+.demo-input:focus { border-color: var(--v); box-shadow: 0 0 0 3px rgba(167,139,250,0.2); }
+.demo-input::placeholder { color: var(--dim); }
+
+/* ════════════════════════════════════
+   SEC 3: TRANSITIONS & ANIMATIONS
+════════════════════════════════════ */
+.anim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+
+.anim-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  cursor: pointer;
+}
+.anim-box-label { font-family: var(--mono); font-size: 10px; color: var(--dim); text-align: center; }
+
+/* demo elements */
+.d-el {
+  width: 50px; height: 50px; border-radius: 10px;
+  background: rgba(167,139,250,0.25); border: 1px solid rgba(167,139,250,0.4);
+}
+.anim-box:hover .d-fade { opacity: 0; transition: opacity 0.4s; }
+.anim-box:hover .d-scale { transform: scale(1.5); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+.anim-box:hover .d-rotate { transform: rotate(180deg); transition: transform 0.5s ease; }
+.anim-box:hover .d-slide { transform: translateX(20px); background: rgba(52,211,153,0.25); border-color: rgba(52,211,153,0.4); transition: all 0.35s ease; }
+.anim-box:hover .d-color { background: rgba(244,114,182,0.25); border-color: rgba(244,114,182,0.4); border-radius: 50%; transition: all 0.4s ease; }
+
+.d-spin { animation: spin360 2s linear infinite; }
+@keyframes spin360 { to { transform: rotate(360deg); } }
+
+.d-bounce { animation: bounce 1s cubic-bezier(0.36,0.07,0.19,0.97) infinite; }
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+.d-pulse { animation: pulsate 1.5s ease-in-out infinite; }
+@keyframes pulsate {
+  0%,100% { box-shadow: 0 0 0 0 rgba(167,139,250,0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(167,139,250,0); }
+}
+
+.d-wave { animation: wave 1.2s ease-in-out infinite; }
+@keyframes wave {
+  0%,100% { transform: scaleX(1) scaleY(1); }
+  25% { transform: scaleX(1.2) scaleY(0.8); }
+  75% { transform: scaleX(0.8) scaleY(1.2); }
+}
+
+/* timing functions visual */
+.easing-row { display: flex; flex-direction: column; gap: 12px; }
+.ease-item { display: flex; align-items: center; gap: 14px; }
+.ease-name { font-family: var(--mono); font-size: 11px; color: var(--dim); min-width: 160px; }
+.ease-track { flex:1; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; position: relative; overflow: visible; }
+.ease-dot {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--v); border: 2px solid rgba(167,139,250,0.5);
+  left: 0; animation-duration: 2s; animation-iteration-count: infinite; animation-delay: 0s;
+}
+.e1 .ease-dot { animation-name: easeLinear; animation-timing-function: linear; }
+.e2 .ease-dot { animation-name: easeLinear; animation-timing-function: ease; }
+.e3 .ease-dot { animation-name: easeLinear; animation-timing-function: ease-in; }
+.e4 .ease-dot { animation-name: easeLinear; animation-timing-function: ease-out; }
+.e5 .ease-dot { animation-name: easeLinear; animation-timing-function: cubic-bezier(0.34,1.56,0.64,1); background: var(--p); }
+@keyframes easeLinear {
+  0%,10% { left: 0; }
+  70%,80% { left: calc(100% - 12px); }
+  100% { left: 0; }
+}
+
+/* ════════════════════════════════════
+   SEC 4: TYPOGRAPHY
+════════════════════════════════════ */
+.typo-scale {
+  display: flex; flex-direction: column; gap: 6px;
+  background: #060810; border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px;
+}
+.typo-row {
+  display: flex; align-items: baseline; gap: 20px;
+  padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.typo-row:last-child { border-bottom: none; }
+.typo-meta { font-family: var(--mono); font-size: 10px; color: var(--dim); min-width: 90px; flex-shrink: 0; }
+.t-xs  { font-size: 12px; color: var(--dim); }
+.t-sm  { font-size: 14px; color: var(--text); }
+.t-base{ font-size: 16px; color: var(--text); }
+.t-lg  { font-size: 20px; color: var(--text); }
+.t-xl  { font-size: 24px; font-weight: 600; color: var(--text); }
+.t-2xl { font-size: 32px; font-weight: 700; font-family: var(--display); color: var(--text); }
+.t-3xl { font-size: 42px; font-weight: 800; font-family: var(--display); color: var(--text); line-height:1.1; }
+
+.typo-props { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 20px; }
+.tp-card {
+  background: #060810; border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px;
+}
+.tp-name { font-family: var(--mono); font-size: 11px; color: var(--b); margin-bottom: 8px; }
+.tp-demo { font-size: 14px; margin-bottom: 6px; }
+.tp-code { font-family: var(--mono); font-size: 10px; color: var(--dim); }
+.lh-tight { line-height: 1.2; }
+.lh-base  { line-height: 1.6; }
+.lh-loose { line-height: 2.2; }
+
+/* ════════════════════════════════════
+   SEC 5: COLORS
+════════════════════════════════════ */
+.color-formats { display: flex; flex-direction: column; gap: 12px; }
+.cf-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.cf-swatch { width: 48px; height: 48px; border-radius: 10px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+.cf-code { font-family: var(--mono); font-size: 12px; color: var(--text); flex: 1; }
+.cf-note { font-size: 12px; color: var(--dim); }
+
+/* gradient showcase */
+.grad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.grad-card {
+  border-radius: 12px; height: 100px;
+  display: flex; align-items: flex-end; padding: 12px;
+  font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.7);
+  position: relative; overflow: hidden;
+}
+.g1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+.g2 { background: linear-gradient(to right, #f97316, #ec4899); }
+.g3 { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
+.g4 { background: conic-gradient(from 0deg, #f472b6, #a78bfa, #38bdf8, #34d399, #f472b6); }
+.g5 { background: radial-gradient(ellipse at top, #1e1b4b, #000); }
+.g6 { background: linear-gradient(45deg, #ff9a9e, #fecfef, #fecfef, #a18cd1); }
+
+/* oklch demo */
+.oklch-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.oklch-chip {
+  flex: 1; min-width: 60px; height: 56px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.7); font-weight: 700;
+}
+
+/* ════════════════════════════════════
+   SEC 6: MEDIA QUERIES
+════════════════════════════════════ */
+.mq-visual {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.mq-device {
+  display: flex; align-items: center; gap: 20px;
+  background: #060810; border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; flex-wrap: wrap;
+}
+.mq-icon { flex-shrink: 0; }
+.mq-info { flex: 1; min-width: 200px; }
+.mq-name { font-family: var(--display); font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.mq-range { font-family: var(--mono); font-size: 12px; color: var(--dim); margin-bottom: 8px; }
+.mq-bar-wrap { height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+.mq-bar { height: 100%; border-radius: 3px; }
+
+/* breakpoint table */
+.bp-table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.bp-table th { text-align: left; padding: 10px 14px; color: var(--dim); border-bottom: 1px solid var(--border); font-weight: 600; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+.bp-table td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text); }
+.bp-table tr:last-child td { border-bottom: none; }
+.bp-name { color: var(--v); font-weight: 700; }
+.bp-q { color: var(--g); }
+.bp-var { color: var(--o); }
+
+/* mobile-first flow */
+.mf-flow { display: flex; flex-direction: column; gap: 0; }
+.mf-step { display: flex; gap: 0; }
+.mf-line { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.mf-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--v); flex-shrink: 0; margin-top: 4px; }
+.mf-connector { width: 2px; flex: 1; min-height: 30px; background: linear-gradient(to bottom, var(--v), rgba(167,139,250,0.2)); }
+.mf-body { padding: 0 16px 28px; flex: 1; }
+.mf-title { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--v); margin-bottom: 6px; }
+.mf-desc { font-size: 13px; color: var(--dim); }
+
+/* ════════════════════════════════════
+   SEC 7: CSS FUNCTIONS
+════════════════════════════════════ */
+.fn-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.fn-card {
+  background: #060810; border: 1px solid var(--border); border-radius: 12px; padding: 22px;
+  transition: border-color 0.2s;
+}
+.fn-card:hover { border-color: var(--border2); }
+.fn-name { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--g); margin-bottom: 8px; }
+.fn-sig { font-family: var(--mono); font-size: 11px; color: var(--o); margin-bottom: 10px; }
+.fn-desc { font-size: 12px; color: var(--dim); line-height: 1.7; margin-bottom: 12px; }
+.fn-example { font-family: var(--mono); font-size: 11px; color: var(--text); background: rgba(255,255,255,0.03); border-radius: 6px; padding: 8px 10px; }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; padding: 64px 24px;
+  border-top: 1px solid var(--border);
+  color: var(--dim); font-family: var(--mono); font-size: 11px;
+}
+.footer-title { font-family: var(--display); font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-lines"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">&#9679; CSS Лекція · Частина 2</div>
+    <h1>
+      <span class="h1-line">Змінні, псевдо,</span>
+      <span class="h1-line h1-grad">анімації та більше</span>
+    </h1>
+    <p class="hero-sub">Глибше в CSS — теми, які відрізняють верстальника від розробника</p>
+    <div class="hero-pills">
+      <a class="pill" href="#variables">CSS Variables</a>
+      <a class="pill" href="#pseudo">Pseudo</a>
+      <a class="pill" href="#animations">Анімації</a>
+      <a class="pill" href="#typography">Типографіка</a>
+      <a class="pill" href="#colors">Кольори</a>
+      <a class="pill" href="#media">Media Queries</a>
+      <a class="pill" href="#functions">CSS Functions</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEC 1: CSS CUSTOM PROPERTIES      -->
+<!-- ══════════════════════════════════ -->
+<section id="variables" class="section">
+<div class="wrap">
+  <div class="sec-num">01 — Змінні</div>
+  <h2>CSS Custom Properties</h2>
+  <p class="intro">
+    CSS змінні — це не просто «константи». Вони живі: можуть змінюватися через JS, перевизначатися в дочірніх елементах, залежати від медіазапитів. Це фундамент будь-якої design system.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--v)">Синтаксис і область видимості</div>
+    <pre class="code"><span class="c">/* Оголошення — завжди починається з -- */</span>
+<span class="s">:root</span> {                        <span class="c">/* :root = глобальна область */</span>
+  <span class="p">--color-primary</span>: <span class="v">#a78bfa</span>;
+  <span class="p">--spacing-md</span>: <span class="n">16px</span>;
+  <span class="p">--radius</span>: <span class="n">8px</span>;
+  <span class="p">--shadow</span>: <span class="fn">0 4px 20px rgba</span>(<span class="n">0,0,0,0.2</span>);
+}
+
+<span class="c">/* Використання */</span>
+<span class="s">.button</span> {
+  <span class="p">background</span>: <span class="fn">var</span>(<span class="p">--color-primary</span>);
+  <span class="p">padding</span>: <span class="fn">var</span>(<span class="p">--spacing-md</span>);
+  <span class="p">border-radius</span>: <span class="fn">var</span>(<span class="p">--radius</span>);
+}
+
+<span class="c">/* Fallback — якщо змінна не визначена */</span>
+<span class="s">.card</span> {
+  <span class="p">color</span>: <span class="fn">var</span>(<span class="p">--color-text</span>, <span class="v">#333</span>); <span class="c">/* #333 = дефолт */</span>
+}
+
+<span class="c">/* Локальне перевизначення */</span>
+<span class="s">.card-danger</span> {
+  <span class="p">--color-primary</span>: <span class="v">#f87171</span>;    <span class="c">/* тільки всередині .card-danger */</span>
+}</pre>
+  </div>
+
+  <div class="card r" style="margin-bottom:0">
+    <div class="card-title" style="color:var(--v)">Темна/світла тема — лише через змінні</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre class="code" style="margin:0"><span class="s">:root</span> {
+  <span class="p">--bg</span>: <span class="v">#ffffff</span>;
+  <span class="p">--text</span>: <span class="v">#1a1a2e</span>;
+  <span class="p">--surface</span>: <span class="v">#f4f4f8</span>;
+}
+
+<span class="s">[data-theme="dark"]</span> {
+  <span class="p">--bg</span>: <span class="v">#0d0d1a</span>;
+  <span class="p">--text</span>: <span class="v">#e2e4f0</span>;
+  <span class="p">--surface</span>: <span class="v">#161722</span>;
+}
+
+<span class="c">/* JS: */</span>
+<span class="fn">document</span>.documentElement
+  .setAttribute(<span class="v">'data-theme'</span>, <span class="v">'dark'</span>);</pre>
+      <div>
+        <div class="theme-demo">
+          <div class="theme-demo-bar">
+            <button class="theme-btn active" onclick="setTheme('dark',this)">dark</button>
+            <button class="theme-btn" onclick="setTheme('light',this)">light</button>
+          </div>
+          <div class="theme-preview dark" id="themePreview">
+            <div class="preview-card">
+              <div class="preview-title">Заголовок картки</div>
+              <div class="preview-text">Це текст всередині картки. Змінні CSS дозволяють перемикати теми без зміни жодного класу на самих компонентах.</div>
+              <div class="preview-btn">Кнопка</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tip r"><strong>Головна сила:</strong> змінна змінюється один раз — всі компоненти, що її використовують, оновлюються автоматично. Це і є design token.</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEC 2: PSEUDO-CLASSES & ELEMENTS  -->
+<!-- ══════════════════════════════════ -->
+<section id="pseudo" class="section">
+<div class="wrap">
+  <div class="sec-num">02 — Псевдо</div>
+  <h2>Pseudo-classes & Pseudo-elements</h2>
+  <p class="intro">
+    <strong style="color:var(--v)">Pseudo-class</strong> (<code style="font-family:var(--mono)">:</code>) — стилізує елемент у певному <em>стані</em>. <strong style="color:var(--p)">Pseudo-element</strong> (<code style="font-family:var(--mono)">::</code>) — стилізує або <em>створює</em> частину елемента.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--v)">Найважливіші pseudo-classes</div>
+    <div class="pseudo-grid">
+      <div class="pseudo-card">
+        <div class="pseudo-name">:hover</div>
+        <div class="pseudo-desc">При наведенні мишею</div>
+        <div class="pseudo-ex">button:hover { opacity: 0.8 }</div>
+      </div>
+      <div class="pseudo-card">
+        <div class="pseudo-name">:focus</div>
+        <div class="pseudo-desc">Коли елемент отримав фокус (tab / click)</div>
+        <div class="pseudo-ex">input:focus { border-color: blue }</div>
+      </div>
+      <div class="pseudo-card">
+        <div class="pseudo-name">:active</div>
+        <div class="pseudo-desc">Момент кліку (натиснена кнопка)</div>
+        <div class="pseudo-ex">button:active { transform: scale(0.97) }</div>
+      </div>
+      <div class="pseudo-card">
+        <div class="pseudo-name">:nth-child(n)</div>
+        <div class="pseudo-desc">Кожен N-й дочірній елемент</div>
+        <div class="pseudo-ex">li:nth-child(odd) { background: #f5f5f5 }</div>
+      </div>
+      <div class="pseudo-card">
+        <div class="pseudo-name">:first-child / :last-child</div>
+        <div class="pseudo-desc">Перший або останній серед сусідів</div>
+        <div class="pseudo-ex">li:first-child { margin-top: 0 }</div>
+      </div>
+      <div class="pseudo-card">
+        <div class="pseudo-name">:not(selector)</div>
+        <div class="pseudo-desc">Всі крім вказаних</div>
+        <div class="pseudo-ex">li:not(:last-child) { border-bottom: 1px solid }</div>
+      </div>
+      <div class="pseudo-card">
+        <div class="pseudo-name">:is() / :where()</div>
+        <div class="pseudo-desc">Групування без повтору. :where() не додає специфічності</div>
+        <div class="pseudo-ex">:is(h1,h2,h3) { font-family: sans-serif }</div>
+      </div>
+      <div class="pseudo-card">
+        <div class="pseudo-name">:checked / :disabled</div>
+        <div class="pseudo-desc">Стан форм-елементів</div>
+        <div class="pseudo-ex">input:checked + label { color: green }</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--p)">::before і ::after — найпотужніші pseudo-elements</div>
+    <div class="two">
+      <pre class="code"><span class="c">/* Декоративна лінія під заголовком */</span>
+<span class="s">h2</span> {
+  <span class="p">position</span>: <span class="v">relative</span>;
+  <span class="p">padding-bottom</span>: <span class="n">12px</span>;
+}
+<span class="s">h2::after</span> {
+  <span class="p">content</span>: <span class="v">""</span>;      <span class="c">/* обов'язково! */</span>
+  <span class="p">position</span>: <span class="v">absolute</span>;
+  <span class="p">bottom</span>: <span class="n">0</span>; <span class="p">left</span>: <span class="n">0</span>;
+  <span class="p">width</span>: <span class="n">48px</span>;
+  <span class="p">height</span>: <span class="n">3px</span>;
+  <span class="p">background</span>: <span class="fn">linear-gradient</span>(
+    <span class="v">to right</span>, <span class="v">var(--v)</span>, <span class="v">var(--p)</span>
+  );
+}</pre>
+      <div style="display:flex;flex-direction:column;gap:20px;justify-content:center;">
+        <div>
+          <div style="font-size:11px;color:var(--dim);font-family:var(--mono);margin-bottom:14px;">Живе демо:</div>
+          <div class="before-demo">Заголовок з лінією</div>
+        </div>
+        <pre class="code" style="margin:0;font-size:11px;"><span class="c">/* ::before — ПЕРЕД вмістом */</span>
+<span class="c">/* ::after  — ПІСЛЯ вмісту  */</span>
+<span class="c">/* content: "" — обов'язково */</span>
+<span class="c">/* position: absolute — часто */</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--g)">Живі демо: hover, nth-child, focus</div>
+    <div class="pseudo-live">
+      <div class="plive-row">
+        <div class="plive-label">:hover</div>
+        <div class="plive-area"><button class="demo-hover-btn">Наведи на мене</button></div>
+      </div>
+      <div class="plive-row">
+        <div class="plive-label">:nth-child(odd)</div>
+        <div class="plive-area">
+          <div class="nth-list">
+            <div class="nth-item">1</div><div class="nth-item">2</div>
+            <div class="nth-item">3</div><div class="nth-item">4</div>
+            <div class="nth-item">5</div><div class="nth-item">6</div>
+            <div class="nth-item">7</div><div class="nth-item">8</div>
+          </div>
+        </div>
+      </div>
+      <div class="plive-row">
+        <div class="plive-label">:focus</div>
+        <div class="plive-area">
+          <input class="demo-input" placeholder="Клікни сюди…">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEC 3: TRANSITIONS & ANIMATIONS   -->
+<!-- ══════════════════════════════════ -->
+<section id="animations" class="section">
+<div class="wrap">
+  <div class="sec-num">03 — Рух</div>
+  <h2>Transitions & Animations</h2>
+  <p class="intro">
+    <strong style="color:var(--v)">transition</strong> — плавна зміна між двома станами (hover on/off). <strong style="color:var(--p)">animation</strong> — незалежна послідовність ключових кадрів, що крутиться сама по собі.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--v)">transition — наведи, щоб побачити</div>
+    <div class="anim-grid">
+      <div class="anim-box">
+        <div class="d-el d-fade"></div>
+        <div class="anim-box-label">opacity<br>:hover → 0</div>
+      </div>
+      <div class="anim-box">
+        <div class="d-el d-scale"></div>
+        <div class="anim-box-label">transform: scale<br>cubic-bezier bounce</div>
+      </div>
+      <div class="anim-box">
+        <div class="d-el d-rotate"></div>
+        <div class="anim-box-label">transform: rotate<br>180deg</div>
+      </div>
+      <div class="anim-box">
+        <div class="d-el d-slide"></div>
+        <div class="anim-box-label">transform: translateX<br>+ color</div>
+      </div>
+      <div class="anim-box">
+        <div class="d-el d-color"></div>
+        <div class="anim-box-label">background<br>+ border-radius</div>
+      </div>
+    </div>
+    <pre class="code" style="margin-top:16px"><span class="c">/* Формат transition */</span>
+<span class="s">.el</span> {
+  <span class="p">transition</span>: <span class="v">властивість тривалість функція затримка</span>;
+  <span class="p">transition</span>: <span class="v">transform</span> <span class="n">0.3s</span> <span class="fn">ease</span> <span class="n">0s</span>;
+
+  <span class="c">/* Кілька властивостей */</span>
+  <span class="p">transition</span>: <span class="v">transform</span> <span class="n">0.3s</span> <span class="fn">ease</span>,
+              <span class="v">opacity</span> <span class="n">0.2s</span> <span class="fn">ease</span>;
+
+  <span class="c">/* НІКОЛИ не роби transition: all — це дорого */</span>
+  <span class="c">/* Вказуй конкретні властивості */</span>
+}</pre>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--p)">@keyframes animation — живе без hover</div>
+    <div class="anim-grid">
+      <div class="anim-box" style="cursor:default">
+        <div class="d-el d-spin"></div>
+        <div class="anim-box-label">spin<br>linear infinite</div>
+      </div>
+      <div class="anim-box" style="cursor:default">
+        <div class="d-el d-bounce"></div>
+        <div class="anim-box-label">bounce<br>cubic-bezier</div>
+      </div>
+      <div class="anim-box" style="cursor:default">
+        <div class="d-el d-pulse"></div>
+        <div class="anim-box-label">pulse<br>box-shadow</div>
+      </div>
+      <div class="anim-box" style="cursor:default">
+        <div class="d-el d-wave"></div>
+        <div class="anim-box-label">wave<br>scaleX/Y</div>
+      </div>
+    </div>
+    <pre class="code" style="margin-top:16px"><span class="s">@keyframes</span> <span class="fn">spin</span> {
+  <span class="v">to</span> { <span class="p">transform</span>: <span class="fn">rotate</span>(<span class="n">360deg</span>); }
+}
+
+<span class="s">.spinner</span> {
+  <span class="p">animation</span>: <span class="fn">spin</span> <span class="n">1s</span> <span class="v">linear infinite</span>;
+  <span class="c">/*         name  dur timing  count  */</span>
+}
+
+<span class="c">/* Затримка для stagger-ефекту */</span>
+<span class="s">.card:nth-child(1)</span> { <span class="p">animation-delay</span>: <span class="n">0s</span>;   }
+<span class="s">.card:nth-child(2)</span> { <span class="p">animation-delay</span>: <span class="n">0.1s</span>; }
+<span class="s">.card:nth-child(3)</span> { <span class="p">animation-delay</span>: <span class="n">0.2s</span>; }</pre>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--g)">Timing functions — швидкість руху</div>
+    <div class="easing-row">
+      <div class="ease-item e1">
+        <div class="ease-name">linear</div>
+        <div class="ease-track"><div class="ease-dot"></div></div>
+      </div>
+      <div class="ease-item e2">
+        <div class="ease-name">ease (default)</div>
+        <div class="ease-track"><div class="ease-dot"></div></div>
+      </div>
+      <div class="ease-item e3">
+        <div class="ease-name">ease-in</div>
+        <div class="ease-track"><div class="ease-dot"></div></div>
+      </div>
+      <div class="ease-item e4">
+        <div class="ease-name">ease-out</div>
+        <div class="ease-track"><div class="ease-dot"></div></div>
+      </div>
+      <div class="ease-item e5">
+        <div class="ease-name">cubic-bezier(bounce)</div>
+        <div class="ease-track"><div class="ease-dot" style="background:var(--p)"></div></div>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:16px"><strong>Правило:</strong> hover → <code style="font-family:var(--mono)">ease-out</code> (швидкий старт, плавна зупинка). Appear → <code style="font-family:var(--mono)">ease</code>. Механічні речі → <code style="font-family:var(--mono)">linear</code>.</div>
+  </div>
+
+  <div class="warn r"><strong>GPU-friendly властивості</strong> — анімуй тільки <code style="font-family:var(--mono)">transform</code> і <code style="font-family:var(--mono)">opacity</code>. Вони не викликають reflow і перераховуються на GPU. Анімація <code style="font-family:var(--mono)">width</code>, <code style="font-family:var(--mono)">margin</code>, <code style="font-family:var(--mono)">top/left</code> — дорога операція, яка ламає 60fps.</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEC 4: TYPOGRAPHY                 -->
+<!-- ══════════════════════════════════ -->
+<section id="typography" class="section">
+<div class="wrap">
+  <div class="sec-num">04 — Текст</div>
+  <h2>Типографіка</h2>
+  <p class="intro">
+    90% вебсторінки — це текст. Хороша типографіка = читабельність + ієрархія + характер. Погана — коли «текст є, але щось не так».
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--b)">Типова шкала розмірів</div>
+    <div class="typo-scale">
+      <div class="typo-row"><div class="typo-meta">12px / xs</div><div class="t-xs">Підписи, мітки, caption</div></div>
+      <div class="typo-row"><div class="typo-meta">14px / sm</div><div class="t-sm">Допоміжний текст, metadata</div></div>
+      <div class="typo-row"><div class="typo-meta">16px / base</div><div class="t-base">Основний текст — ніколи менше</div></div>
+      <div class="typo-row"><div class="typo-meta">20px / lg</div><div class="t-lg">Підзаголовки секцій</div></div>
+      <div class="typo-row"><div class="typo-meta">24px / xl</div><div class="t-xl">Заголовки карток</div></div>
+      <div class="typo-row"><div class="typo-meta">32px / 2xl</div><div class="t-2xl">Заголовки сторінки</div></div>
+      <div class="typo-row"><div class="typo-meta">42px / 3xl</div><div class="t-3xl">Hero</div></div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--b)">Критичні властивості</div>
+    <div class="typo-props">
+      <div class="tp-card">
+        <div class="tp-name">line-height</div>
+        <div class="tp-demo lh-tight">Заголовок з<br>tight spacing 1.2</div>
+        <div class="tp-demo lh-base" style="margin-top:10px;font-size:13px;color:var(--dim)">Текст для читання має line-height 1.6 — це оптимально для сприйняття довгих абзаців.</div>
+        <div class="tp-code">/* текст: 1.5–1.8 / заголовки: 1.1–1.3 */</div>
+      </div>
+      <div class="tp-card">
+        <div class="tp-name">font-weight</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+          <div style="font-weight:300;font-size:14px">300 — Light</div>
+          <div style="font-weight:400;font-size:14px">400 — Regular</div>
+          <div style="font-weight:500;font-size:14px">500 — Medium</div>
+          <div style="font-weight:600;font-size:14px">600 — SemiBold</div>
+          <div style="font-weight:700;font-size:14px">700 — Bold</div>
+          <div style="font-weight:800;font-size:14px">800 — ExtraBold</div>
+        </div>
+        <div class="tp-code">/* заголовки: 700-800 / текст: 400 */</div>
+      </div>
+      <div class="tp-card">
+        <div class="tp-name">letter-spacing</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;font-size:13px">
+          <div style="letter-spacing:-0.05em">Щільно: -0.05em</div>
+          <div>Нормально: 0em</div>
+          <div style="letter-spacing:0.05em;color:var(--dim)">Розріджено: 0.05em</div>
+          <div style="letter-spacing:0.2em;font-size:10px;color:var(--dim);text-transform:uppercase">CAPS: 0.2em</div>
+        </div>
+        <div class="tp-code">/* uppercase мітки: 0.1–0.2em */</div>
+      </div>
+      <div class="tp-card">
+        <div class="tp-name">max-width для тексту</div>
+        <div class="tp-demo" style="font-size:12px;color:var(--dim);max-width:55ch;margin-bottom:10px">Цей абзац обмежений 55ch — приблизно 55 символів у рядку. Дослідження читабельності показують що оптимум: 50–75 символів на рядок.</div>
+        <div class="tp-code">p { max-width: 65ch; }</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--b)">Google Fonts — правильне підключення</div>
+    <pre class="code"><span class="c">&lt;!-- В &lt;head&gt; — display=swap важливо! --&gt;</span>
+<span class="k">&lt;link</span> <span class="p">rel</span>=<span class="v">"preconnect"</span> <span class="p">href</span>=<span class="v">"https://fonts.googleapis.com"</span><span class="k">&gt;</span>
+<span class="k">&lt;link</span> <span class="p">href</span>=<span class="v">"https://fonts.googleapis.com/css2?
+  family=Inter:wght@400;500;600;700
+  &amp;display=swap"</span> <span class="p">rel</span>=<span class="v">"stylesheet"</span><span class="k">&gt;</span>
+
+<span class="c">/* У CSS */</span>
+<span class="s">body</span> {
+  <span class="p">font-family</span>: <span class="v">'Inter'</span>, <span class="v">sans-serif</span>; <span class="c">/* fallback обов'язковий */</span>
+}
+
+<span class="c">/* Система без зовнішніх шрифтів (найшвидша) */</span>
+<span class="s">body</span> {
+  <span class="p">font-family</span>: <span class="v">-apple-system</span>, <span class="v">BlinkMacSystemFont</span>,
+               <span class="v">'Segoe UI'</span>, <span class="v">Roboto</span>, <span class="v">sans-serif</span>;
+}</pre>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEC 5: COLORS                     -->
+<!-- ══════════════════════════════════ -->
+<section id="colors" class="section">
+<div class="wrap">
+  <div class="sec-num">05 — Колір</div>
+  <h2>Кольори в CSS</h2>
+  <p class="intro">
+    CSS підтримує десятки форматів кольору. Знати різницю між hex, rgb, hsl і oklch — не академізм, а практична необхідність.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--o)">Формати кольорів</div>
+    <div class="color-formats">
+      <div class="cf-row">
+        <div class="cf-swatch" style="background:#a78bfa"></div>
+        <div class="cf-code">#a78bfa</div>
+        <div class="cf-note">HEX — найпоширеніший. Не можна змінити прозорість.</div>
+      </div>
+      <div class="cf-row">
+        <div class="cf-swatch" style="background:rgba(167,139,250,0.5)"></div>
+        <div class="cf-code">rgba(167, 139, 250, 0.5)</div>
+        <div class="cf-note">RGB + Alpha — є прозорість. Незручно редагувати.</div>
+      </div>
+      <div class="cf-row">
+        <div class="cf-swatch" style="background:hsl(258,89%,76%)"></div>
+        <div class="cf-code">hsl(258, 89%, 76%)</div>
+        <div class="cf-note">HSL — зрозуміло для людини. Легко робити варіації.</div>
+      </div>
+      <div class="cf-row">
+        <div class="cf-swatch" style="background:hsl(258 89% 76% / 0.4)"></div>
+        <div class="cf-code">hsl(258 89% 76% / 0.4)</div>
+        <div class="cf-note">Сучасний синтаксис — без ком, slash для alpha.</div>
+      </div>
+      <div class="cf-row">
+        <div class="cf-swatch" style="background:oklch(72% 0.15 295)"></div>
+        <div class="cf-code">oklch(72% 0.15 295)</div>
+        <div class="cf-note">oklch — майбутнє CSS. Перцептуально рівномірний.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--o)">HSL — найзручніший для дизайнера</div>
+    <div class="two">
+      <pre class="code"><span class="c">/* HSL = Hue Saturation Lightness */</span>
+<span class="c">/*        відтінок насич. яскрав. */</span>
+
+<span class="c">/* Один відтінок — різна яскравість */</span>
+<span class="p">--blue-100</span>: <span class="fn">hsl</span>(<span class="n">220</span> <span class="n">90%</span> <span class="n">95%</span>);
+<span class="p">--blue-500</span>: <span class="fn">hsl</span>(<span class="n">220</span> <span class="n">90%</span> <span class="n">55%</span>);
+<span class="p">--blue-900</span>: <span class="fn">hsl</span>(<span class="n">220</span> <span class="n">90%</span> <span class="n">15%</span>);
+
+<span class="c">/* Зміна лише яскравості = палітра! */</span></pre>
+      <div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="height:32px;border-radius:6px;background:hsl(258 89% 95%);display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:10px;color:#333">95% — дуже світлий</div>
+          <div style="height:32px;border-radius:6px;background:hsl(258 89% 80%);display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:10px;color:#333">80%</div>
+          <div style="height:32px;border-radius:6px;background:hsl(258 89% 65%);display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:10px;color:#fff">65%</div>
+          <div style="height:32px;border-radius:6px;background:hsl(258 89% 50%);display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:10px;color:#fff">50% — базовий</div>
+          <div style="height:32px;border-radius:6px;background:hsl(258 89% 35%);display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:10px;color:#fff">35%</div>
+          <div style="height:32px;border-radius:6px;background:hsl(258 89% 20%);display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:10px;color:#fff">20% — темний</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--o)">Градієнти</div>
+    <div class="grad-grid">
+      <div class="grad-card g1">linear<br>135deg</div>
+      <div class="grad-card g2">linear<br>to right</div>
+      <div class="grad-card g3">linear<br>3 кольори</div>
+      <div class="grad-card g4">conic<br>from 0deg</div>
+      <div class="grad-card g5">radial<br>ellipse</div>
+      <div class="grad-card g6">linear<br>пастельний</div>
+    </div>
+    <pre class="code" style="margin-top:14px"><span class="p">background</span>: <span class="fn">linear-gradient</span>(<span class="n">135deg</span>, <span class="v">#667eea</span>, <span class="v">#764ba2</span>);
+<span class="p">background</span>: <span class="fn">radial-gradient</span>(<span class="v">ellipse at top</span>, <span class="v">#1e1b4b</span>, <span class="v">#000</span>);
+<span class="p">background</span>: <span class="fn">conic-gradient</span>(<span class="v">from 0deg</span>, <span class="v">red</span>, <span class="v">blue</span>, <span class="v">green</span>, <span class="v">red</span>);</pre>
+  </div>
+
+  <div class="tip r"><strong>oklch</strong> — новий стандарт. На відміну від HSL, де два кольори з однаковою "яскравістю" виглядають по-різному яскраво, oklch перцептуально рівномірний. Підтримується у всіх сучасних браузерах з 2023.</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEC 6: MEDIA QUERIES              -->
+<!-- ══════════════════════════════════ -->
+<section id="media" class="section">
+<div class="wrap">
+  <div class="sec-num">06 — Адаптивність</div>
+  <h2>Media Queries</h2>
+  <p class="intro">
+    Media queries дозволяють застосовувати різні стилі залежно від характеристик пристрою: ширини екрана, орієнтації, теми системи. Основа responsive design.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--g)">Стандартні breakpoints (Tailwind-стиль)</div>
+    <table class="bp-table">
+      <tr><th>Назва</th><th>Media Query</th><th>CSS змінна / застосування</th></tr>
+      <tr><td class="bp-name">sm</td><td class="bp-q">@media (min-width: 640px)</td><td class="bp-var">Великий телефон, починаємо розширювати</td></tr>
+      <tr><td class="bp-name">md</td><td class="bp-q">@media (min-width: 768px)</td><td class="bp-var">Планшет, 2 колонки</td></tr>
+      <tr><td class="bp-name">lg</td><td class="bp-q">@media (min-width: 1024px)</td><td class="bp-var">Ноутбук, sidebar з'являється</td></tr>
+      <tr><td class="bp-name">xl</td><td class="bp-q">@media (min-width: 1280px)</td><td class="bp-var">Десктоп, повна ширина контенту</td></tr>
+      <tr><td class="bp-name">2xl</td><td class="bp-q">@media (min-width: 1536px)</td><td class="bp-var">Широкий монітор</td></tr>
+    </table>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--g)">Mobile-first vs Desktop-first</div>
+    <div class="two">
+      <div>
+        <div style="color:var(--g);font-family:var(--mono);font-size:12px;font-weight:700;margin-bottom:12px;">✅ Mobile-first (правильно)</div>
+        <pre class="code" style="margin:0;font-size:11px"><span class="c">/* За замовч — мобільний */</span>
+<span class="s">.grid</span> {
+  <span class="p">grid-template-columns</span>: <span class="n">1fr</span>;
+}
+
+<span class="c">/* Розширюємо для більших */</span>
+<span class="s">@media</span> (<span class="p">min-width</span>: <span class="n">768px</span>) {
+  <span class="s">.grid</span> {
+    <span class="p">grid-template-columns</span>: <span class="n">1fr 1fr</span>;
+  }
+}
+<span class="s">@media</span> (<span class="p">min-width</span>: <span class="n">1024px</span>) {
+  <span class="s">.grid</span> {
+    <span class="p">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="n">3</span>, <span class="n">1fr</span>);
+  }
+}</pre>
+      </div>
+      <div>
+        <div style="color:var(--p);font-family:var(--mono);font-size:12px;font-weight:700;margin-bottom:12px;">❌ Desktop-first (застаріло)</div>
+        <pre class="code" style="margin:0;font-size:11px"><span class="c">/* За замовч — десктоп */</span>
+<span class="s">.grid</span> {
+  <span class="p">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="n">3</span>, <span class="n">1fr</span>);
+}
+
+<span class="c">/* Зменшуємо для малих */</span>
+<span class="s">@media</span> (<span class="p">max-width</span>: <span class="n">1024px</span>) {
+  <span class="s">.grid</span> {
+    <span class="p">grid-template-columns</span>: <span class="n">1fr 1fr</span>;
+  }
+}
+<span class="s">@media</span> (<span class="p">max-width</span>: <span class="n">768px</span>) {
+  <span class="s">.grid</span> { <span class="p">grid-template-columns</span>: <span class="n">1fr</span>; }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--g)">Нестандартні media features</div>
+    <pre class="code"><span class="c">/* Темна тема операційної системи */</span>
+<span class="s">@media</span> (<span class="p">prefers-color-scheme</span>: <span class="v">dark</span>) {
+  <span class="s">:root</span> { <span class="p">--bg</span>: <span class="v">#0d0d1a</span>; <span class="p">--text</span>: <span class="v">#e2e4f0</span>; }
+}
+
+<span class="c">/* Вимкнути анімації (accessibility) */</span>
+<span class="s">@media</span> (<span class="p">prefers-reduced-motion</span>: <span class="v">reduce</span>) {
+  <span class="s">*</span> { <span class="p">animation-duration</span>: <span class="n">0.01ms</span> <span class="v">!important</span>; }
+}
+
+<span class="c">/* Орієнтація пристрою */</span>
+<span class="s">@media</span> (<span class="p">orientation</span>: <span class="v">landscape</span>) {
+  <span class="s">.hero</span> { <span class="p">min-height</span>: <span class="n">50vh</span>; }
+}
+
+<span class="c">/* Тільки екран (не принтер) */</span>
+<span class="s">@media</span> <span class="v">screen</span> { ... }
+<span class="s">@media</span> <span class="v">print</span>  { <span class="s">.sidebar</span> { <span class="p">display</span>: <span class="v">none</span>; } }</pre>
+  </div>
+
+  <div class="good r"><strong>Сучасна альтернатива:</strong> замість media queries для сіток часто достатньо <code style="font-family:var(--mono)">grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))</code> — адаптується автоматично без єдиного breakpoint.</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SEC 7: CSS FUNCTIONS              -->
+<!-- ══════════════════════════════════ -->
+<section id="functions" class="section">
+<div class="wrap">
+  <div class="sec-num">07 — Функції</div>
+  <h2>CSS Functions</h2>
+  <p class="intro">
+    CSS — не просто декларації. Вбудовані функції дозволяють обраховувати значення, адаптувати розміри і створювати складні ефекти без жодного рядка JavaScript.
+  </p>
+
+  <div class="fn-cards r">
+    <div class="fn-card">
+      <div class="fn-name">calc()</div>
+      <div class="fn-sig">calc(вираз)</div>
+      <div class="fn-desc">Математика зі змішаними одиницями. Одна з найстаріших і найважливіших.</div>
+      <div class="fn-example">width: calc(100% - 64px);
+padding: calc(var(--spacing) * 2);
+height: calc(100vh - 80px);</div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-name">clamp()</div>
+      <div class="fn-sig">clamp(min, ideal, max)</div>
+      <div class="fn-desc">Значення плавно масштабується між мінімумом і максимумом. Замінює media queries для типографіки.</div>
+      <div class="fn-example">font-size: clamp(1rem, 4vw, 2rem);
+padding: clamp(16px, 5vw, 48px);</div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-name">min() / max()</div>
+      <div class="fn-sig">min(a, b) / max(a, b)</div>
+      <div class="fn-desc">Повертає менше або більше з двох значень. Елегантна альтернатива media queries для ширини.</div>
+      <div class="fn-example">width: min(100%, 600px);
+/* = max-width: 600px, але коротше */
+font-size: max(14px, 1.5vw);</div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-name">var()</div>
+      <div class="fn-sig">var(--name, fallback)</div>
+      <div class="fn-desc">Читає CSS custom property. Другий аргумент — fallback якщо змінна не визначена.</div>
+      <div class="fn-example">color: var(--color-text, #333);
+margin: var(--spacing-md, 16px);</div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-name">rgb() / hsl()</div>
+      <div class="fn-sig">hsl(hue sat% light% / alpha)</div>
+      <div class="fn-desc">Кольорові функції з опціональним alpha каналом в сучасному синтаксисі.</div>
+      <div class="fn-example">color: hsl(220 90% 60% / 0.8);
+background: rgb(167 139 250 / 0.1);</div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-name">linear-gradient()</div>
+      <div class="fn-sig">linear-gradient(dir, ...colors)</div>
+      <div class="fn-desc">Градієнт як значення background. Можна накладати кілька через кому.</div>
+      <div class="fn-example">background:
+  linear-gradient(rgba(0,0,0,0.4), transparent),
+  url('hero.jpg') center/cover;</div>
+    </div>
+  </div>
+
+  <div class="card r" style="margin-top:20px">
+    <div class="card-title" style="color:var(--g)">Практичні комбінації</div>
+    <pre class="code"><span class="c">/* Адаптивний padding без media queries */</span>
+<span class="s">.section</span> {
+  <span class="p">padding</span>: <span class="fn">clamp</span>(<span class="n">40px</span>, <span class="n">8vw</span>, <span class="n">120px</span>);
+}
+
+<span class="c">/* Контейнер з відступами */</span>
+<span class="s">.container</span> {
+  <span class="p">width</span>: <span class="fn">min</span>(<span class="n">100%</span> - <span class="n">48px</span>, <span class="n">1200px</span>);
+  <span class="p">margin-inline</span>: <span class="v">auto</span>;
+}
+
+<span class="c">/* Динамічна висота з вирахуванням navbar */</span>
+<span class="s">.page</span> {
+  <span class="p">min-height</span>: <span class="fn">calc</span>(<span class="n">100vh</span> - <span class="fn">var</span>(<span class="p">--navbar-height</span>));
+}
+
+<span class="c">/* Fluid typography — адаптивна шкала */</span>
+<span class="s">:root</span> {
+  <span class="p">--text-sm</span>:  <span class="fn">clamp</span>(<span class="n">0.8rem</span>,  <span class="n">1.5vw</span>,  <span class="n">0.9rem</span>);
+  <span class="p">--text-md</span>:  <span class="fn">clamp</span>(<span class="n">1rem</span>,    <span class="n">2vw</span>,    <span class="n">1.1rem</span>);
+  <span class="p">--text-lg</span>:  <span class="fn">clamp</span>(<span class="n">1.2rem</span>,  <span class="n">3vw</span>,    <span class="n">1.5rem</span>);
+  <span class="p">--text-xl</span>:  <span class="fn">clamp</span>(<span class="n">1.5rem</span>,  <span class="n">4vw</span>,    <span class="n">2.5rem</span>);
+  <span class="p">--text-2xl</span>: <span class="fn">clamp</span>(<span class="n">2rem</span>,    <span class="n">6vw</span>,    <span class="n">4rem</span>);
+}</pre>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-title">CSS — це <span style="background:linear-gradient(135deg,var(--v),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">мова дизайну</span></div>
+  <div style="margin-bottom:8px;">Variables · Pseudo · Animations · Typography · Colors · Media · Functions</div>
+  <div style="color:rgba(107,114,128,0.5)">Частина 2 · Продовження слідує</div>
+</footer>
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+// Theme switcher
+function setTheme(theme, btn) {
+  const preview = document.getElementById('themePreview');
+  preview.className = 'theme-preview ' + theme;
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

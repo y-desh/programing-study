@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 · Box Model</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav"><a class="cnav-logo" href="index.html">CSS · EdRow</a><div class="cnav-links"><a class="cnav-link" href="index.html">Огляд</a><a class="cnav-link" href="01-selectors.html">01</a><a class="cnav-link" href="02-fonts.html">02</a><a class="cnav-link" href="03-colors.html">03</a><a class="cnav-link cur" href="04-box-model.html">04</a><a class="cnav-link" href="05-flexbox.html">05</a><a class="cnav-link" href="06-forms.html">06</a><a class="cnav-link" href="07-images.html">07</a><a class="cnav-link" href="08-grid.html">08</a><a class="cnav-link" href="09-positioning.html">09</a><a class="cnav-link" href="10-responsive.html">10</a></div></nav>
+<div class="lesson-hero">
+  <div class="lh-num">Лекція 04 · 04 · App 1 · Video Section</div>
+  <h1>Box <em>Все є коробкою</em></h1>
+  <p class="ldesc">Margin vs padding — найважливіша різниця. border, box-sizing: border-box, box-shadow. Кожен HTML елемент — прямокутна коробка.</p>
+</div>
+<div class="w">
+
+<section class="sec">
+<div class="sec-label">01 — Концепція</div>
+<h2>Кожен елемент — коробка</h2>
+<p class="intro">EdRow: <strong>"Треба думати про будь-який HTML елемент як про коробку."</strong> Ця коробка складається з чотирьох шарів: content → padding → border → margin. Розуміння цього вирішує 90% проблем з layout.</p>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Діаграма Box Model</div>
+<div style="background:#070a0f;border:1px solid var(--bd);border-radius:8px;padding:32px;display:flex;align-items:center;justify-content:center;">
+  <div style="background:rgba(247,201,72,.1);border:2px dashed rgba(247,201,72,.4);padding:24px;border-radius:4px;text-align:center;position:relative">
+    <div style="font-family:var(--mono);font-size:10px;color:var(--acc);position:absolute;top:4px;left:8px">margin</div>
+    <div style="background:rgba(110,231,183,.1);border:2px dashed rgba(110,231,183,.4);padding:20px;border-radius:3px;position:relative">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--acc3);position:absolute;top:4px;left:8px">border</div>
+      <div style="background:rgba(79,193,255,.1);border:2px solid rgba(79,193,255,.4);padding:16px;border-radius:2px;position:relative">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--acc2);position:absolute;top:4px;left:8px">padding</div>
+        <div style="background:rgba(192,132,252,.2);border:1px solid rgba(192,132,252,.5);padding:16px 32px;border-radius:2px;font-family:var(--mono);font-size:12px;color:var(--acc5);font-weight:700">content</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Padding vs Margin — найважливіша різниця</div>
+<pre class="code">
+<span class="cm">/* PADDING — простір ВСЕРЕДИНІ елемента
+   між вмістом і кордоном */</span>
+<span class="cs">.video</span> {
+  <span class="cp">padding</span>: <span class="cn">100px</span>;          <span class="cm">/* з усіх боків */</span>
+  <span class="cp">padding</span>: <span class="cn">30px 0</span>;        <span class="cm">/* зверху/знизу ліво/право */</span>
+  <span class="cp">padding</span>: <span class="cn">10px 20px 30px 40px</span>; <span class="cm">/* top right bottom left */</span>
+}
+
+<span class="cm">/* MARGIN — простір ЗОВНІ елемента
+   між ним і сусідніми елементами */</span>
+<span class="cs">.video__description</span> {
+  <span class="cp">margin-top</span>: <span class="cn">10px</span>;
+  <span class="cp">margin-bottom</span>: <span class="cn">10px</span>;
+}
+
+<span class="cm">/* КЛЮЧОВА РІЗНИЦЯ:
+   padding = частина коробки (всередині)
+   margin = простір між коробками (зовні)
+
+   EdRow: "padding — коли хочеш простір в середині,
+   margin — коли хочеш простір між двома різними коробками" */</span></pre>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">02 — Border і border-box</div>
+<h2>Border і box-sizing</h2>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">border — рамка елемента</div>
+<pre class="code">
+<span class="cm">/* Скорочений запис: розмір стиль колір */</span>
+<span class="cs">.video__button</span> {
+  <span class="cp">border</span>: <span class="cn">2px</span> <span class="cv">solid</span> <span class="cv">#55bb471</span>;
+
+  <span class="cm">/* Стилі рамки: */</span>
+  <span class="cp">border</span>: <span class="cn">2px</span> <span class="cv">solid</span>  <span class="cv">#333</span>; <span class="cm">/* суцільна */</span>
+  <span class="cp">border</span>: <span class="cn">2px</span> <span class="cv">dashed</span> <span class="cv">#333</span>; <span class="cm">/* пунктирна */</span>
+  <span class="cp">border</span>: <span class="cn">2px</span> <span class="cv">dotted</span> <span class="cv">#333</span>; <span class="cm">/* точки */</span>
+
+  <span class="cp">border-radius</span>: <span class="cn">4px</span>;   <span class="cm">/* заокруглені кути */</span>
+  <span class="cp">border-radius</span>: <span class="cn">50%</span>;   <span class="cm">/* коло */</span>
+  <span class="cp">border-radius</span>: <span class="cn">100px</span>; <span class="cm">/* pill форма */</span>
+}</pre>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+  <div style="padding:10px 20px;border:2px solid var(--acc);border-radius:4px;font-family:var(--mono);font-size:12px">solid 4px</div>
+  <div style="padding:10px 20px;border:2px dashed var(--acc);border-radius:4px;font-family:var(--mono);font-size:12px">dashed</div>
+  <div style="padding:10px 20px;border:2px dotted var(--acc);border-radius:4px;font-family:var(--mono);font-size:12px">dotted</div>
+  <div style="padding:10px 20px;border:2px solid var(--acc);border-radius:50px;font-family:var(--mono);font-size:12px">pill</div>
+  <div style="padding:10px 10px;border:2px solid var(--acc);border-radius:50%;width:50px;height:50px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px">50%</div>
+</div>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">box-sizing: border-box — обов'язково!</div>
+<pre class="code">
+<span class="cm">/* ПРОБЛЕМА за замовчуванням (content-box): */</span>
+<span class="cs">.box</span> {
+  <span class="cp">width</span>: <span class="cn">300px</span>;
+  <span class="cp">padding</span>: <span class="cn">20px</span>;
+  <span class="cm">/* Реальна ширина = 300 + 20 + 20 = 340px! */</span>
+}
+
+<span class="cm">/* РІШЕННЯ — border-box: */</span>
+<span class="cs">*</span> { <span class="cp">box-sizing</span>: <span class="cv">border-box</span>; }
+<span class="cm">/* Тепер: */</span>
+<span class="cs">.box</span> {
+  <span class="cp">width</span>: <span class="cn">300px</span>;
+  <span class="cp">padding</span>: <span class="cn">20px</span>;
+  <span class="cm">/* Реальна ширина = РІВНО 300px
+     padding включено в ширину ✅ */</span>
+}
+
+<span class="cm">/* EdRow завжди ставить це в * {} на початку:
+   * { padding: 0; margin: 0; box-sizing: border-box; } */</span></pre>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">03 — box-shadow</div>
+<h2>Тінь елемента</h2>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">box-shadow — синтаксис і приклади</div>
+<pre class="code">
+<span class="cm">/* box-shadow: горизонталь вертикаль blur spread колір */</span>
+<span class="cs">.video__container</span> {
+  <span class="cp">box-shadow</span>: <span class="cn">0 4px 8px 0 rgba(0,0,0,0.2)</span>;
+}
+
+<span class="cm">/* horizontal — зміщення тіні вліво/вправо */</span>
+<span class="cm">/* vertical   — зміщення вверх/вниз */</span>
+<span class="cm">/* blur       — розмиття (більше = м'якша) */</span>
+<span class="cm">/* spread     — розмір тіні (0 або мале = непомітне) */</span>
+<span class="cm">/* color      — rgba для м'якшої тіні */</span>
+
+<span class="cm">/* EdRow рекомендує онлайн-інструменти:
+   search "CSS box shadow generator" */</span></pre>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:16px;margin-top:16px;padding:20px;background:var(--s2);border-radius:8px">
+  <div style="background:white;height:70px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:#333;box-shadow:0 1px 3px rgba(0,0,0,0.1)">subtle</div>
+  <div style="background:white;height:70px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:#333;box-shadow:0 4px 12px rgba(0,0,0,0.15)">small</div>
+  <div style="background:white;height:70px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:#333;box-shadow:0 8px 24px rgba(0,0,0,0.2)">medium</div>
+  <div style="background:white;height:70px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:#333;box-shadow:0 16px 48px rgba(0,0,0,0.25)">large</div>
+</div>
+</div>
+
+<div class="exercise r">
+<div class="ex-title">🎯 Практика</div>
+<div class="ex-task">
+  1. На початок styles.css додай: * { padding: 0; margin: 0; box-sizing: border-box; }<br>
+  2. Зроби картку: padding 20px, border: 1px solid #ddd, border-radius: 8px<br>
+  3. Додай box-shadow на hover картки<br>
+  4. Поексперементуй з різними значеннями padding і margin — побач різницю через Pesticide
+</div>
+</div>
+</section>
+
+</div>
+<div class="lesson-footer">
+  <a href="03-colors.html" class="fp">← 03 · Кольори</a>
+  <div class="fc">Лекція 04 / 10 · Box Model</div>
+  <a href="05-flexbox.html" class="fn">05 · Flexbox →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

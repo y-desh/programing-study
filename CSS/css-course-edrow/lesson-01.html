@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 01 · Setup & Selectors — CSS курс Ed Row</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav">
+  <a class="cnav-brand" href="index.html">CSS · Ed Row</a>
+  <div class="cnav-links">
+    <a class="cnav-link" href="index.html">Огляд</a>
+    <a class="cnav-link active" href="lesson-01.html">01</a>
+    <a class="cnav-link" href="lesson-02.html">02</a>
+    <a class="cnav-link" href="lesson-03.html">03</a>
+    <a class="cnav-link" href="lesson-04.html">04</a>
+    <a class="cnav-link" href="lesson-05.html">05</a>
+    <a class="cnav-link" href="lesson-06.html">06</a>
+    <a class="cnav-link" href="lesson-07.html">07</a>
+    <a class="cnav-link" href="lesson-08.html">08</a>
+    <a class="cnav-link" href="lesson-09.html">09</a>
+    <a class="cnav-link" href="lesson-10.html">10</a>
+  </div>
+</nav>
+
+<div class="lesson-hero">
+  <div class="lnum">Лекція 01 · Проєкт 1 — Лендінг</div>
+  <h1><b>Setup</b><br><i>& Selectors</i></h1>
+  <p class="lead">
+    VS Code, Live Server, структура файлів. Як HTML і CSS з'єднані. Чотири типи CSS селекторів, батьківсько-дочірні відносини і успадкування — основа всього що далі.
+  </p>
+</div>
+
+<div class="w">
+
+<!-- ═══════════════════════════════════════════════
+     01 · ЩО МИ БУДУЄМО
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="sec-label">01 — Про курс</div>
+  <h2>Що ми будуємо і навіщо це все</h2>
+  <p class="lead-text">
+    Ed Row бачить що початківці витрачають надто багато часу на механічне запам'ятовування CSS властивостей, застрягають на крайніх випадках і не переходять до реального будування. Мета цього курсу — <strong>пропустити весь цей шум</strong> і зосередитись на тому CSS що справді потрібен.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Два проєкти — весь необхідний CSS</div>
+    <div class="two" style="gap:20px">
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:20px">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--acc);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">ПРОЄКТ 1 — Лекції 01–07</div>
+        <div style="font-weight:700;font-size:1rem;margin-bottom:8px">Освітній лендінг</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.75">
+          Простий і елегантний. Ти вивчаєш: селектори, типографіку, кольори, box model, flexbox, форми, фонові зображення — базу яка покриває 80% реальних задач.
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:20px">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--acc2);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">ПРОЄКТ 2 — Лекції 08–10</div>
+        <div style="font-weight:700;font-size:1rem;margin-bottom:8px">Новинний сайт</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.75">
+          Складні layouts. Коли flex, коли grid, коли position. Grid template areas, overlay через ::before/::after, адаптивний дизайн через media queries.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="edrow-says r">
+    <p>«My goal is to make sure you skip all that noise and focus on the most essential aspects of CSS — get you to a point where you can actually start building applications.»</p>
+    <cite>— ED ROW</cite>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     02 · SETUP
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="sec-label">02 — Налаштування</div>
+  <h2>VS Code, Live Server, Prettier</h2>
+  <p class="lead-text">
+    Перш ніж писати код — налаштовуємо середовище. Ed Row використовує три інструменти.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Три інструменти для роботи</div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num" style="color:var(--acc);border-color:rgba(232,184,75,.3);background:rgba(232,184,75,.06)">1</div>
+          <div class="step-line" style="background:var(--bd)"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Visual Studio Code — редактор коду</div>
+          <div class="step-desc">
+            Найпопулярніший редактор для веб-розробки. Скачай на <strong>code.visualstudio.com</strong> для свого OS. Безкоштовний.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num" style="color:var(--acc2);border-color:rgba(110,231,183,.3);background:rgba(110,231,183,.06)">2</div>
+          <div class="step-line" style="background:var(--bd)"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Live Server — автооновлення браузера</div>
+          <div class="step-desc">
+            Розширення VS Code. Extensions (Ctrl+Shift+X) → шукай "Live Server" → Install. З'явиться кнопка <strong>"Go Live"</strong> в правому нижньому куті. Натисни — відкриє сайт на <code style="font-family:var(--mono)">localhost:5500</code> і автоматично оновлюватиметься при кожному збереженні файлу.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num" style="color:var(--acc3);border-color:rgba(147,197,253,.3);background:rgba(147,197,253,.06)">3</div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Prettier — форматування коду (опціонально)</div>
+          <div class="step-desc">
+            Extensions → "Prettier - Code formatter" → Install. Автоматично форматує код при Ctrl+S. Ed Row бачиш це у відео — код сам вирівнюється при збереженні.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Структура файлів проєкту</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <div>
+        <div class="code-file"><div class="cf-dot" style="background:#f87171"></div>Структура папки project/</div>
+        <pre>
+<span class="cm">project/
+├── index.html       ← HTML структура
+├── styles.css       ← всі стилі
+└── images/          ← зображення
+    ├── hero.jpeg
+    ├── features.jpeg
+    └── video.jpeg</span></pre>
+      </div>
+      <div>
+        <div class="code-file"><div class="cf-dot" style="background:#86efac"></div>index.html — підключення CSS</div>
+        <pre>
+<span class="ht">&lt;!DOCTYPE html&gt;</span>
+<span class="ht">&lt;html&gt;</span>
+<span class="ht">&lt;head&gt;</span>
+  <span class="ht">&lt;meta</span> <span class="ha">charset</span>=<span class="hv">"UTF-8"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;title&gt;</span>Мій сайт<span class="ht">&lt;/title&gt;</span>
+
+  <span class="cm">&lt;!-- Підключення Google Fonts --&gt;</span>
+  <span class="ht">&lt;link</span> <span class="ha">href</span>=<span class="hv">"[Google Fonts URL]"</span>
+        <span class="ha">rel</span>=<span class="hv">"stylesheet"</span><span class="ht">&gt;</span>
+
+  <span class="cm">&lt;!-- Підключення нашого CSS --&gt;</span>
+  <span class="ht">&lt;link</span> <span class="ha">rel</span>=<span class="hv">"stylesheet"</span>
+        <span class="ha">href</span>=<span class="hv">"styles.css"</span><span class="ht">&gt;</span>
+<span class="ht">&lt;/head&gt;</span>
+<span class="ht">&lt;body&gt;</span>
+  <span class="cm">&lt;!-- весь HTML тут --&gt;</span>
+<span class="ht">&lt;/body&gt;</span>
+<span class="ht">&lt;/html&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     03 · CSS АНАТОМІЯ
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="sec-label">03 — Анатомія CSS</div>
+  <h2>Як читати CSS правило</h2>
+  <p class="lead-text">
+    Ed Row пояснює: HTML — це структура будинку (стіни, кімнати). CSS — фарба, меблі, декор. Разом вони створюють завершений і функціональний будинок. CSS вибирає HTML елементи через <strong>селектори</strong>.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Анатомія CSS правила</div>
+    <pre>
+<span class="cm">/*  СЕЛЕКТОР    ВЛАСТИВІСТЬ      ЗНАЧЕННЯ   */</span>
+    <span class="cs">.hero</span>      {   <span class="cp">color</span>        :   <span class="cv">red</span>         ;   }
+<span class="cm">/*             ↑                             ↑
+           відкриває блок               крапка з комою
+           декларацій                   завершує кожну
+                                        декларацію      */</span>
+
+<span class="cm">/* Кілька декларацій в одному правилі */</span>
+<span class="cs">.hero</span> {
+  <span class="cp">color</span>: <span class="cv">white</span>;
+  <span class="cp">background-color</span>: <span class="cv">#333</span>;
+  <span class="cp">padding</span>: <span class="cn">100px</span>;
+  <span class="cm">/* коментар — браузер ігнорує */</span>
+}</pre>
+    <div class="box box-gold" style="margin-top:16px">
+      <strong>Крапка з комою обов'язкова</strong>
+      Кожна декларація завершується крапкою з комою. Без неї браузер може не розпізнати наступну властивість. Звичка ставити її завжди врятує від дивних багів.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     04 · СЕЛЕКТОРИ
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="sec-label">04 — Selectors</div>
+  <h2>Чотири типи селекторів</h2>
+  <p class="lead-text">
+    Ed Row: <strong>"There are four main types of selectors. If you know these, you know the majority of selectors."</strong> Решта — опціонально, вивчиш по ходу.
+  </p>
+
+  <!-- Universal -->
+  <div class="card r">
+    <div class="card-title" style="color:var(--t3)">1 · Universal Selector — всі елементи одразу</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre>
+<span class="cm">/* * вибирає АБСОЛЮТНО ВСЕ на сторінці */</span>
+<span class="cs">*</span> {
+  <span class="cp">padding</span>: <span class="cn">0</span>;
+  <span class="cp">margin</span>: <span class="cn">0</span>;
+  <span class="cp">box-sizing</span>: <span class="cv">border-box</span>;
+}
+
+<span class="cm">/* Це перший рядок кожного CSS файлу.
+   Скидає браузерні дефолти.
+   Використовується ОДИН РАЗ.          */</span>
+
+<span class="cm">/* Також: */</span>
+<span class="cs">*</span> {
+  <span class="cp">background-color</span>: <span class="cv">yellow</span>; <span class="cm">/* все жовте */</span>
+}
+<span class="cm">/* але зазвичай тільки reset */</span></pre>
+      <div>
+        <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:12px">
+          <div style="font-size:13px;color:var(--t2);line-height:1.75">
+            <strong style="color:var(--t1);display:block;margin-bottom:6px">Навіщо скидати margin і padding?</strong>
+            Кожен браузер (Chrome, Firefox, Safari) додає свої відступи за замовчуванням. Вони <em>різні</em>. Universal reset робить однакову базу в усіх браузерах.
+          </div>
+        </div>
+        <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:16px">
+          <div style="font-size:13px;color:var(--t2);line-height:1.75">
+            <strong style="color:var(--t1);display:block;margin-bottom:6px">box-sizing: border-box</strong>
+            Без цього — padding збільшує реальний розмір елемента. З border-box — padding включається в width. Детально в лекції Box Model.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Element -->
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc3)">2 · Element Selector — по HTML тегу</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre>
+<span class="cm">/* Вибирає ВСІ елементи цього тегу */</span>
+<span class="cs">body</span> {
+  <span class="cp">background-color</span>: <span class="cv">#f7f7f7</span>;
+  <span class="cp">color</span>: <span class="cv">#333</span>;
+  <span class="cm">/* font-family успадкується на все */</span>
+  <span class="cp">font-family</span>: <span class="cv">Poppins, Times, serif</span>;
+}
+
+<span class="cs">div</span>  { <span class="cp">color</span>: <span class="cv">blue</span>; }   <span class="cm">/* всі div */</span>
+<span class="cs">h1</span>   { <span class="cp">font-size</span>: <span class="cn">2rem</span>; }
+<span class="cs">p</span>    { <span class="cp">line-height</span>: <span class="cn">1.6</span>; }
+<span class="cs">header</span> { <span class="cp">background</span>: <span class="cv">#111</span>; }</pre>
+      <div>
+        <div class="box box-blue">
+          <strong>Де використовувати</strong>
+          body — глобальний шрифт і базовий колір. h1–h6 — базові розміри. a — колір посилань. Загальні базові стилі що застосовуються до ВСІХ елементів типу.
+        </div>
+        <div class="box box-red" style="margin-top:8px">
+          <strong>Небезпека</strong>
+          Якщо є 50 div на сторінці — всі отримають blue. Якщо хочеш стилізувати конкретні div — використовуй class.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Class -->
+  <div class="card r" style="border-color:rgba(110,231,183,.3)">
+    <div class="card-title" style="color:var(--acc2)">3 · Class Selector — 90% твого CSS ★</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <div>
+        <div class="code-file"><div class="cf-dot" style="background:#f87171"></div>index.html</div>
+        <pre>
+<span class="cm">&lt;!-- class="..." — атрибут HTML --&gt;</span>
+<span class="ht">&lt;header</span> <span class="ha">class</span>=<span class="hv">"hero"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;h1</span> <span class="ha">class</span>=<span class="hv">"hero__title"</span><span class="ht">&gt;</span>
+    Empower Young Minds
+  <span class="ht">&lt;/h1&gt;</span>
+  <span class="ht">&lt;p</span> <span class="ha">class</span>=<span class="hv">"hero__description"</span><span class="ht">&gt;</span>
+    <span class="ht">&lt;span</span> <span class="ha">class</span>=<span class="hv">"hero__highlight"</span><span class="ht">&gt;</span>
+      Innovative
+    <span class="ht">&lt;/span&gt;</span>
+    educational platform
+  <span class="ht">&lt;/p&gt;</span>
+<span class="ht">&lt;/header&gt;</span>
+
+<span class="cm">&lt;!-- Кілька класів на одному елементі --&gt;</span>
+<span class="ht">&lt;h2</span> <span class="ha">class</span>=<span class="hv">"feature__title
+           feature__title--selected"</span><span class="ht">&gt;</span>
+  Empower Student Learning
+<span class="ht">&lt;/h2&gt;</span></pre>
+      </div>
+      <div>
+        <div class="code-file"><div class="cf-dot" style="background:#86efac"></div>styles.css</div>
+        <pre>
+<span class="cm">/* . (крапка) перед назвою */</span>
+
+<span class="cs">.hero</span> {
+  <span class="cp">padding</span>: <span class="cn">100px</span>;
+}
+
+<span class="cs">.hero__title</span> {
+  <span class="cp">color</span>: <span class="cv">black</span>;
+  <span class="cp">font-size</span>: <span class="cn">2.2rem</span>;
+}
+
+<span class="cs">.hero__description</span> {
+  <span class="cp">color</span>: <span class="cv">#81da76</span>; <span class="cm">/* жовтуватий */</span>
+}
+
+<span class="cs">.hero__highlight</span> {
+  <span class="cp">color</span>: <span class="cv">#eee</span>; <span class="cm">/* майже білий */</span>
+}
+
+<span class="cm">/* Другий клас — додатковий стиль */</span>
+<span class="cs">.feature__title--selected</span> {
+  <span class="cp">text-decoration</span>: <span class="cv">underline</span>;
+}</pre>
+      </div>
+    </div>
+    <div class="box box-green" style="margin-top:16px">
+      <strong>Чому НЕ ID?</strong>
+      ID може бути лише один на сторінці. Class можна використати скільки завгодно разів. Коли захочеш застосувати однаковий стиль до кількох елементів — з ID не вийде, доведеться переробляти. Ed Row: "I generally see no problems with just using classes everywhere."
+    </div>
+  </div>
+
+  <!-- ID -->
+  <div class="card r">
+    <div class="card-title" style="color:var(--t3)">4 · ID Selector — майже не використовується</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <div>
+        <div class="code-file"><div class="cf-dot" style="background:#f87171"></div>index.html</div>
+        <pre>
+<span class="cm">&lt;!-- id="..." — унікальний для сторінки --&gt;</span>
+<span class="ht">&lt;span</span> <span class="ha">id</span>=<span class="hv">"hero-highlight"</span><span class="ht">&gt;</span>
+  Innovative
+<span class="ht">&lt;/span&gt;</span></pre>
+      </div>
+      <div>
+        <div class="code-file"><div class="cf-dot" style="background:#86efac"></div>styles.css</div>
+        <pre>
+<span class="cm">/* # (решітка) перед назвою */</span>
+<span class="cs">#hero-highlight</span> {
+  <span class="cp">color</span>: <span class="cv">white</span>;
+}
+<span class="cm">/* Якщо хочеш ще раз цей стиль —
+   доведеться рефакторити в class */</span></pre>
+      </div>
+    </div>
+    <div class="box box-red" style="margin-top:16px">
+      <strong>Де ID справді використовується</strong>
+      Переважно в JavaScript: <code style="font-family:var(--mono)">document.getElementById('hero-highlight')</code>. Для CSS — застарілий підхід. Також ID має вищу специфічність ніж class, що може спричинити несподівані переваги стилів.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     05 · БАТЬКО І ДИТИНА
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="sec-label">05 — Успадкування</div>
+  <h2>Батьківсько-дочірні відносини</h2>
+  <p class="lead-text">
+    Це <strong>фундаментальна концепція CSS</strong>. Ed Row акцентує: "This is a very important relationship to really understand." Елементи вкладені один в одний утворюють дерево. Деякі CSS властивості передаються від батька до всіх дітей автоматично.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Приклад з проєкту — feature секція</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre>
+<span class="ht">&lt;section</span> <span class="ha">class</span>=<span class="hv">"feature"</span><span class="ht">&gt;</span>         <span class="cm">← батько</span>
+  <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"feature__container"</span><span class="ht">&gt;</span>  <span class="cm">← дитина</span>
+    <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"feature__item"</span><span class="ht">&gt;</span>     <span class="cm">← онук</span>
+      <span class="ht">&lt;h2</span> <span class="ha">class</span>=<span class="hv">"feature__title"</span><span class="ht">&gt;</span>
+        Empower Students
+      <span class="ht">&lt;/h2&gt;</span>
+      <span class="ht">&lt;p</span> <span class="ha">class</span>=<span class="hv">"feature__description"</span><span class="ht">&gt;</span>
+        Опис...
+      <span class="ht">&lt;/p&gt;</span>
+    <span class="ht">&lt;/div&gt;</span>
+  <span class="ht">&lt;/div&gt;</span>
+<span class="ht">&lt;/section&gt;</span></pre>
+      <div>
+        <pre>
+<span class="cm">/* Якщо встановити колір на батькові: */</span>
+<span class="cs">.feature</span> {
+  <span class="cp">color</span>: <span class="cv">blue-violet</span>;
+  <span class="cm">/* ↓ успадковується на:</span>
+<span class="cm">     feature__container,</span>
+<span class="cm">     feature__item,</span>
+<span class="cm">     feature__title,</span>
+<span class="cm">     feature__description —</span>
+<span class="cm">     всі стануть blue-violet!  */</span>
+}
+
+<span class="cm">/* Але padding/margin НЕ успадковуються */</span>
+<span class="cs">.feature</span> {
+  <span class="cp">padding</span>: <span class="cn">100px</span>;
+  <span class="cm">/* тільки .feature має 100px padding,</span>
+<span class="cm">     дочірні елементи — ні             */</span>
+}</pre>
+        <div class="box box-gold" style="margin-top:12px">
+          <strong>Що успадковується</strong>
+          color, font-family, font-size, font-weight, line-height, letter-spacing, text-align — текстові властивості. Решта (padding, margin, border, background) — ні.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Практична демонстрація</div>
+    <div style="background:#f7f7f7;border-radius:8px;padding:24px;color:#333;font-family:system-ui">
+      <div id="parent-demo" style="border:2px dashed #bbb;border-radius:6px;padding:16px;transition:color .3s">
+        <div style="font-size:11px;color:#999;font-family:monospace;margin-bottom:8px">section.feature (батько)</div>
+        <div style="border:2px dashed #ddd;border-radius:4px;padding:12px;margin-bottom:8px">
+          <div style="font-size:10px;color:#bbb;font-family:monospace;margin-bottom:6px">div.feature__container (дитина)</div>
+          <div style="border:2px dashed #eee;border-radius:3px;padding:10px">
+            <div style="font-size:10px;color:#ccc;font-family:monospace;margin-bottom:6px">div.feature__item (онук)</div>
+            <div id="inherit-title" style="font-size:18px;font-weight:700;margin-bottom:4px;transition:color .3s">Empower Students</div>
+            <div id="inherit-desc" style="font-size:13px;transition:color .3s">Опис особливостей платформи</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button onclick="setInherit('purple')" style="background:#7c3aed;color:white;border:none;padding:7px 14px;border-radius:4px;cursor:pointer;font-size:12px">color: purple на батькові</button>
+        <button onclick="setInherit('tomato')" style="background:#e53e3e;color:white;border:none;padding:7px 14px;border-radius:4px;cursor:pointer;font-size:12px">color: tomato</button>
+        <button onclick="setInherit('#333')" style="background:#eee;color:#333;border:none;padding:7px 14px;border-radius:4px;cursor:pointer;font-size:12px">Скинути</button>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:13px;color:var(--t2);line-height:1.75">↑ Натисни кнопку — колір змінюється на батькові (.feature), але успадковується всіма дочірніми елементами автоматично. Саме тому <code style="font-family:var(--mono)">font-family</code> ставлять на <code style="font-family:var(--mono)">body</code> — весь сайт отримує шрифт.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     06 · ПЕРШИЙ КОД
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="sec-label">06 — Старт проєкту</div>
+  <h2>Перші рядки CSS для лендінгу</h2>
+  <p class="lead-text">Ed Row починає з конкретного коду. Ось що він пише першим для Проєкту 1.</p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Перший CSS файл — styles.css</div>
+    <div class="code-file"><div class="cf-dot" style="background:#86efac"></div>styles.css</div>
+    <pre>
+<span class="cm">/* ── SECTION: Selectors ────────────────────────── */</span>
+
+<span class="cm">/* Universal reset — завжди перше */</span>
+<span class="cs">*</span> {
+  <span class="cp">padding</span>: <span class="cn">0</span>;
+  <span class="cp">margin</span>: <span class="cn">0</span>;
+  <span class="cp">box-sizing</span>: <span class="cv">border-box</span>;
+}
+
+<span class="cm">/* Body — глобальні базові стилі */</span>
+<span class="cs">body</span> {
+  <span class="cp">background-color</span>: <span class="cv">#f7f7f7</span>; <span class="cm">/* трохи сірий, не чистий білий */</span>
+  <span class="cp">color</span>: <span class="cv">#333</span>;
+}
+
+<span class="cm">/* Hero section */</span>
+<span class="cs">.hero</span> {
+  <span class="cp">padding</span>: <span class="cn">100px</span>;
+}
+
+<span class="cm">/* Перший текст */</span>
+<span class="cs">.hero__title</span> {
+  <span class="cp">color</span>: <span class="cv">black</span>;
+}
+
+<span class="cs">.hero__description</span> {
+  <span class="cp">color</span>: <span class="cv">#81da76</span>; <span class="cm">/* жовто-зелений */</span>
+}
+
+<span class="cs">.hero__highlight</span> {
+  <span class="cp">color</span>: <span class="cv">white</span>; <span class="cm">/* Innovative — білий на темному */</span>
+}</pre>
+    <div class="box box-gold" style="margin-top:16px">
+      <strong>Чому #f7f7f7 а не white?</strong>
+      Ed Row: "Generally for any website you generally don't want to use straight white because it's a little jarring. You generally want to use a slightly off color." Трохи темніший за білий — приємніший для очей.
+    </div>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-head">🎯 Завдання — Лекція 01</div>
+    <div class="ex-body">
+      <strong>1. Структура:</strong> Створи папку project/ з index.html і styles.css в одній директорії<br>
+      <strong>2. HTML:</strong> В index.html зроби &lt;header class="hero"&gt; з &lt;h1 class="hero__title"&gt;Empower Young Minds&lt;/h1&gt;<br>
+      <strong>3. CSS reset:</strong> Напиши universal reset (* padding:0, margin:0, box-sizing:border-box) і base body стилі<br>
+      <strong>4. Класи:</strong> Застосуй .hero { padding: 100px } і .hero__title { color: black }<br>
+      <strong>5. Перевір:</strong> Запусти Live Server, переконайся що все відображається<br>
+      <strong>6. Поекспериментуй:</strong> Поміняй color у .hero — подивись чи успадковується h1<br>
+    </div>
+    <div class="ex-hint">Підказка: якщо не бачиш padding — можливо body/html мають дефолтний margin. Universal reset вирішує це.</div>
+  </div>
+</section>
+
+</div>
+
+<div class="foot-nav">
+  <a href="index.html" class="foot-link">← Огляд курсу</a>
+  <div class="foot-meta">Лекція 01 / 10 · Setup & Selectors</div>
+  <a href="lesson-02.html" class="foot-link">02 · Fonts & Typography →</a>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  const p = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('prog').style.width = p + '%';
+});
+const obs = new IntersectionObserver(
+  es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }),
+  { threshold: 0.06 }
+);
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+function setInherit(color) {
+  document.getElementById('parent-demo').style.color = color;
+}
+</script>
+</body>
+</html>

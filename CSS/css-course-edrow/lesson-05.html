@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 05 · Flexbox — CSS курс Ed Row</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav">
+  <a class="cnav-brand" href="index.html">CSS · Ed Row</a>
+  <div class="cnav-links"><a class="cnav-link" href="index.html">Огляд</a>
+    <a class="cnav-link" href="lesson-01.html">01</a>
+    <a class="cnav-link" href="lesson-02.html">02</a>
+    <a class="cnav-link" href="lesson-03.html">03</a>
+    <a class="cnav-link" href="lesson-04.html">04</a>
+    <a class="cnav-link active" href="lesson-05.html">05</a>
+    <a class="cnav-link" href="lesson-06.html">06</a>
+    <a class="cnav-link" href="lesson-07.html">07</a>
+    <a class="cnav-link" href="lesson-08.html">08</a>
+    <a class="cnav-link" href="lesson-09.html">09</a>
+    <a class="cnav-link" href="lesson-10.html">10</a></div>
+</nav>
+<div class="lesson-hero">
+  <div class="lnum">Лекція 05 · Проєкт 1 — Лендінг</div>
+  <h1><b>Flexbox</b><br><i>Одновимірний layout</i></h1>
+  <p class="lead">display: flex, justify-content (space-between, center), align-items, flex-direction, gap, flex-basis, flex: 1. Навбар і три колонки.</p>
+</div>
+<div class="w">
+<section class="section">
+  <div class="sec-label">01 — Що таке Flex</div>
+  <h2>display: flex — одновимірний layout</h2>
+  <p class="lead-text">
+    Ed Row: <strong>"Flexbox is a nice way to lay out a lot of elements. The most common flex example: display flex on the parent and then you can set justify-content space-between."</strong>
+  </p>
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Базова концепція Flex</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre>
+<span class="cm">/* display: flex ставиться на БАТЬКА */</span>
+<span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"programs"</span><span class="ht">&gt;</span>          <span class="cm">← батько</span>
+  <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"programs__card"</span><span class="ht">&gt;</span><span class="ht">&lt;/div&gt;</span>
+  <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"programs__card"</span><span class="ht">&gt;</span><span class="ht">&lt;/div&gt;</span>
+  <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"programs__card"</span><span class="ht">&gt;</span><span class="ht">&lt;/div&gt;</span>
+<span class="ht">&lt;/div&gt;</span>
+
+<span class="cs">.programs</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;              <span class="cm">← батько</span>
+  <span class="cp">justify-content</span>: <span class="cv">space-between</span>;
+  <span class="cp">gap</span>: <span class="cn">20px</span>;
+}
+
+<span class="cs">.programs__card</span> {           <span class="cm">← дитина</span>
+  <span class="cp">flex-basis</span>: <span class="cn">30%</span>;
+  <span class="cp">height</span>: <span class="cn">400px</span>;
+  <span class="cp">background</span>: <span class="cv">#b5b5b5</span>;
+  <span class="cp">padding</span>: <span class="cn">30px</span>;
+}</pre>
+      <div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--t3);margin-bottom:10px">БЕЗ flex (block):</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:14px">
+          <div style="background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.3);border-radius:4px;padding:8px 12px;font-size:11px;font-family:var(--mono);color:var(--acc)">Card 1 — займає всю ширину</div>
+          <div style="background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.3);border-radius:4px;padding:8px 12px;font-size:11px;font-family:var(--mono);color:var(--acc)">Card 2 — займає всю ширину</div>
+          <div style="background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.3);border-radius:4px;padding:8px 12px;font-size:11px;font-family:var(--mono);color:var(--acc)">Card 3 — займає всю ширину</div>
+        </div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--acc2);margin-bottom:10px">З display: flex — поряд!</div>
+        <div style="display:flex;gap:4px">
+          <div style="background:rgba(110,231,183,.15);border:1px solid rgba(110,231,183,.3);border-radius:4px;padding:8px;flex:1;text-align:center;font-size:11px;font-family:var(--mono);color:var(--acc2)">1</div>
+          <div style="background:rgba(110,231,183,.15);border:1px solid rgba(110,231,183,.3);border-radius:4px;padding:8px;flex:1;text-align:center;font-size:11px;font-family:var(--mono);color:var(--acc2)">2</div>
+          <div style="background:rgba(110,231,183,.15);border:1px solid rgba(110,231,183,.3);border-radius:4px;padding:8px;flex:1;text-align:center;font-size:11px;font-family:var(--mono);color:var(--acc2)">3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">02 — justify-content</div>
+  <h2>Розміщення по основній осі</h2>
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Всі значення justify-content</div>
+    <pre>
+<span class="cs">.programs</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">justify-content</span>: <span class="cv">space-between</span>; <span class="cm">← найчастіший</span>
+}
+
+<span class="cm">/* Значення justify-content: */</span>
+<span class="cv">flex-start</span>    <span class="cm">/* всі зліва (default) */</span>
+<span class="cv">flex-end</span>      <span class="cm">/* всі справа          */</span>
+<span class="cv">center</span>        <span class="cm">/* всі по центру       */</span>
+<span class="cv">space-between</span> <span class="cm">/* перший зліва, останній справа, решта рівномірно */</span>
+<span class="cv">space-around</span>  <span class="cm">/* рівні відступи навколо кожного */</span>
+<span class="cv">space-evenly</span>  <span class="cm">/* рівні відступи між всіма       */</span></pre>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+      <div>
+        <div style="font-size:11px;font-family:var(--mono);color:var(--t3);margin-bottom:4px">space-between:</div>
+        <div style="display:flex;justify-content:space-between;background:#080806;border:1px solid var(--bd);border-radius:6px;padding:10px">
+          <div style="width:50px;height:30px;background:rgba(232,184,75,.2);border:1px solid rgba(232,184,75,.4);border-radius:3px"></div>
+          <div style="width:50px;height:30px;background:rgba(232,184,75,.2);border:1px solid rgba(232,184,75,.4);border-radius:3px"></div>
+          <div style="width:50px;height:30px;background:rgba(232,184,75,.2);border:1px solid rgba(232,184,75,.4);border-radius:3px"></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-family:var(--mono);color:var(--t3);margin-bottom:4px">center:</div>
+        <div style="display:flex;justify-content:center;gap:8px;background:#080806;border:1px solid var(--bd);border-radius:6px;padding:10px">
+          <div style="width:50px;height:30px;background:rgba(110,231,183,.2);border:1px solid rgba(110,231,183,.4);border-radius:3px"></div>
+          <div style="width:50px;height:30px;background:rgba(110,231,183,.2);border:1px solid rgba(110,231,183,.4);border-radius:3px"></div>
+          <div style="width:50px;height:30px;background:rgba(110,231,183,.2);border:1px solid rgba(110,231,183,.4);border-radius:3px"></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-family:var(--mono);color:var(--t3);margin-bottom:4px">flex-start:</div>
+        <div style="display:flex;justify-content:flex-start;gap:8px;background:#080806;border:1px solid var(--bd);border-radius:6px;padding:10px">
+          <div style="width:50px;height:30px;background:rgba(147,197,253,.2);border:1px solid rgba(147,197,253,.4);border-radius:3px"></div>
+          <div style="width:50px;height:30px;background:rgba(147,197,253,.2);border:1px solid rgba(147,197,253,.4);border-radius:3px"></div>
+          <div style="width:50px;height:30px;background:rgba(147,197,253,.2);border:1px solid rgba(147,197,253,.4);border-radius:3px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px">Інтерактивне демо:</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="demo-btn ghost" onclick="setJC('space-between')">space-between</button>
+        <button class="demo-btn ghost" onclick="setJC('center')">center</button>
+        <button class="demo-btn ghost" onclick="setJC('flex-start')">flex-start</button>
+        <button class="demo-btn ghost" onclick="setJC('flex-end')">flex-end</button>
+        <button class="demo-btn ghost" onclick="setJC('space-around')">space-around</button>
+      </div>
+      <div id="jc-demo" style="display:flex;justify-content:space-between;background:#080806;border:1px solid var(--bd);border-radius:8px;padding:14px;min-height:60px;align-items:center;transition:all .3s">
+        <div style="width:60px;height:40px;background:rgba(232,184,75,.2);border:1px solid rgba(232,184,75,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--acc)">A</div>
+        <div style="width:60px;height:40px;background:rgba(232,184,75,.2);border:1px solid rgba(232,184,75,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--acc)">B</div>
+        <div style="width:60px;height:40px;background:rgba(232,184,75,.2);border:1px solid rgba(232,184,75,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--acc)">C</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--t3);margin-top:6px">justify-content: <span id="jc-label" style="color:var(--acc)">space-between</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">03 — align-items</div>
+  <h2>Вирівнювання по поперечній осі</h2>
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">align-items — вертикальне центрування</div>
+    <pre>
+<span class="cs">.programs</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">justify-content</span>: <span class="cv">space-between</span>;
+  <span class="cm">/* align-items Centre — вирівнює по вертикалі */</span>
+  <span class="cp">align-items</span>: <span class="cv">center</span>;
+  <span class="cm">/* Якщо height батька: 700px —</span>
+<span class="cm">     елементи будуть по центру HEIGHT */</span>
+}
+
+<span class="cm">/* Значення align-items: */</span>
+<span class="cv">flex-start</span>  <span class="cm">/* верх */</span>
+<span class="cv">center</span>      <span class="cm">/* центр ← найчастіший */</span>
+<span class="cv">flex-end</span>    <span class="cm">/* низ  */</span>
+<span class="cv">stretch</span>     <span class="cm">/* розтягнути до висоти батька (default) */</span>
+<span class="cv">baseline</span>    <span class="cm">/* по базовій лінії тексту */</span></pre>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;margin-bottom:10px">
+      <button class="demo-btn ghost" onclick="setAI('flex-start')">flex-start</button>
+      <button class="demo-btn ghost" onclick="setAI('center')">center</button>
+      <button class="demo-btn ghost" onclick="setAI('flex-end')">flex-end</button>
+      <button class="demo-btn ghost" onclick="setAI('stretch')">stretch</button>
+    </div>
+    <div id="ai-demo" style="display:flex;justify-content:space-around;align-items:flex-start;background:#080806;border:1px solid var(--bd);border-radius:8px;padding:14px;height:100px;transition:all .3s">
+      <div style="width:60px;height:30px;background:rgba(110,231,183,.2);border:1px solid rgba(110,231,183,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--acc2)">A</div>
+      <div style="width:60px;height:50px;background:rgba(110,231,183,.2);border:1px solid rgba(110,231,183,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--acc2)">B</div>
+      <div style="width:60px;height:40px;background:rgba(110,231,183,.2);border:1px solid rgba(110,231,183,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--acc2)">C</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--t3);margin-top:6px">align-items: <span id="ai-label" style="color:var(--acc2)">flex-start</span></div>
+
+    <div class="box box-gold" style="margin-top:14px">
+      <strong>Найпоширеніший патерн у Flexbox</strong>
+      <code style="font-family:var(--mono)">justify-content: space-between</code> + <code style="font-family:var(--mono)">align-items: center</code> — Ed Row використовує це скрізь. Навбар, три колонки, будь-який горизонтальний layout.
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">04 — flex-direction і flex: 1</div>
+  <h2>Напрям і розміщення</h2>
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">flex-direction — горизонталь чи вертикаль</div>
+    <pre>
+<span class="cm">/* flex-direction: row (default) — ліво направо */</span>
+<span class="cs">.programs</span> { <span class="cp">flex-direction</span>: <span class="cv">row</span>; }
+
+<span class="cm">/* flex-direction: column — зверху вниз */</span>
+<span class="cs">.element__form</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">flex-direction</span>: <span class="cv">column</span>;
+  <span class="cm">/* Тепер gap між input полями вертикальний */</span>
+  <span class="cp">gap</span>: <span class="cn">20px</span>;
+}
+
+<span class="cm">/* flex: 1 — займає всю доступну ширину */</span>
+<span class="cs">.element__left</span>  { <span class="cp">flex</span>: <span class="cn">1</span>; }
+<span class="cs">.element__right</span> { <span class="cp">flex</span>: <span class="cn">1</span>; }
+<span class="cm">/* Обидва займуть по 50% (одна одиниця кожен) */</span>
+
+<span class="cm">/* flex-basis: 30% — ширина елемента у flex */</span>
+<span class="cs">.programs__card</span> { <span class="cp">flex-basis</span>: <span class="cn">30%</span>; }
+<span class="cm">/* Аналогічно width: 30% але "правильніше" в flex */</span>
+
+<span class="cm">/* float — ЗАСТАРІЛО! Ed Row: "Never use float." */</span>
+<span class="cm">/* float: left — не використовуй, це 2010 рік   */</span></pre>
+    <div class="box box-red" style="margin-top:14px">
+      <strong>Float — застаріло</strong>
+      Ed Row прямо каже: "Float used to be the old way of positioning things. It was a huge pain. Nowadays — never use float. It is something I would consider deprecated."
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Форма секції — flex column з gap</div>
+    <pre>
+<span class="cm">/* Дві колонки поряд */</span>
+<span class="cs">.element</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">justify-content</span>: <span class="cv">space-between</span>;
+  <span class="cp">gap</span>: <span class="cn">60px</span>;
+  <span class="cp">padding</span>: <span class="cn">100px</span>;
+}
+<span class="cs">.element__left</span>  { <span class="cp">flex</span>: <span class="cn">1</span>; } <span class="cm">← 50%</span>
+<span class="cs">.element__right</span> { <span class="cp">flex</span>: <span class="cn">1</span>; } <span class="cm">← 50%</span>
+
+<span class="cm">/* Форма — вертикальний flex */</span>
+<span class="cs">.element__form</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">flex-direction</span>: <span class="cv">column</span>;
+  <span class="cp">gap</span>: <span class="cn">20px</span>;
+}
+
+<span class="cm">/* Форм-група (label + input) */</span>
+<span class="cs">.element__form-group</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">flex-direction</span>: <span class="cv">column</span>;
+  <span class="cp">gap</span>: <span class="cn">8px</span>;
+}</pre>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-head">🎯 Завдання — Лекція 05</div>
+    <div class="ex-body">
+      <strong>1.</strong> Для .programs: display flex, justify-content space-between, gap 20px<br>
+      <strong>2.</strong> Для .programs__card: flex-basis 30%, height 400px, background #b5b5b5<br>
+      <strong>3.</strong> Для .element: display flex, gap 60px. Для .element__left і .element__right: flex 1<br>
+      <strong>4.</strong> Поекспериментуй з justify-content — space-between, center, flex-end<br>
+      <strong>5.</strong> Поекспериментуй з align-items — помітиш різницю тільки якщо у батька задана height
+    </div>
+  </div>
+</section>
+</div>
+<div class="foot-nav">
+  <a href="lesson-04.html" class="foot-link">← 04 · Box Model</a>
+  <div class="foot-meta">Лекція 05 / 10</div>
+  <a href="lesson-06.html" class="foot-link">06 · Forms →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+function setJC(v){const d=document.getElementById('jc-demo');d.style.justifyContent=v;document.getElementById('jc-label').textContent=v;}
+function setAI(v){const d=document.getElementById('ai-demo');d.style.alignItems=v;if(v==='stretch'){const items=d.querySelectorAll('div');items.forEach(i=>i.style.height='auto');}else{const h=['30px','50px','40px'];const items=d.querySelectorAll('div');items.forEach((i,idx)=>i.style.height=h[idx]);}document.getElementById('ai-label').textContent=v;}
+
+</script></body></html>

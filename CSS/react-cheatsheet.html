@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>React Cheat Sheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0d10;
+      --bg-card: #13141a;
+      --bg-card-hover: #1a1b22;
+      --border: rgba(255,255,255,0.07);
+      --border-accent: rgba(97,218,251,0.3);
+      --text: #e2e4eb;
+      --text-secondary: #7c8099;
+      --text-muted: #4a4d63;
+      --primary: #61dafb;
+      --primary-dim: rgba(97,218,251,0.12);
+      --accent-jsx: #f7df1e;
+      --accent-green: #4ade80;
+      --accent-amber: #fbbf24;
+      --accent-red: #f87171;
+      --accent-purple: #a78bfa;
+      --accent-orange: #fb923c;
+      --code-bg: #090a0e;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 24px 80px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 56px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-dim);
+      border: 1px solid var(--border-accent);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #61dafb 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle { color: var(--text-secondary); font-size: 15px; }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .toc a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      transition: all 0.15s;
+    }
+
+    .toc a:hover {
+      color: var(--text);
+      border-color: var(--border-accent);
+      background: var(--primary-dim);
+    }
+
+    section { margin-bottom: 52px; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-dim);
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .card + .card { margin-top: 12px; }
+
+    .card-header {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+
+    pre {
+      padding: 16px;
+      background: var(--code-bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.75;
+      overflow-x: auto;
+      color: #abb2bf;
+    }
+
+    .kw { color: #c678dd; }
+    .fn { color: #61afef; }
+    .str { color: #98c379; }
+    .cmt { color: #5c6370; font-style: italic; }
+    .jsx { color: #e06c75; }
+    .prop { color: #e5c07b; }
+    .num { color: #d19a66; }
+    .op { color: #56b6c2; }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 7px;
+      color: var(--primary);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.015); }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .badge-blue { background: rgba(97,218,251,0.12); color: var(--primary); }
+    .badge-green { background: rgba(74,222,128,0.1); color: var(--accent-green); }
+    .badge-amber { background: rgba(251,191,36,0.1); color: var(--accent-amber); }
+    .badge-red { background: rgba(248,113,113,0.1); color: var(--accent-red); }
+    .badge-purple { background: rgba(167,139,250,0.1); color: var(--accent-purple); }
+    .badge-orange { background: rgba(251,146,60,0.1); color: var(--accent-orange); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .rule-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .rule-block .label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    .rule-block .value {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    .tip {
+      display: flex;
+      gap: 10px;
+      padding: 12px 16px;
+      background: rgba(251,191,36,0.06);
+      border: 1px solid rgba(251,191,36,0.15);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: #d4a848;
+      margin-top: 12px;
+    }
+
+    .tip::before { content: '⚠'; flex-shrink: 0; }
+
+    .info {
+      display: flex;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--primary-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--primary);
+      margin-top: 12px;
+    }
+
+    .info::before { content: 'ℹ'; flex-shrink: 0; }
+
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .do-block, .dont-block { border-radius: var(--radius); overflow: hidden; }
+
+    .do-header {
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(74,222,128,0.1);
+      color: var(--accent-green);
+    }
+
+    .dont-header {
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(248,113,113,0.1);
+      color: var(--accent-red);
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.75;
+      color: #abb2bf;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 44px 0;
+    }
+
+    .hook-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 8px;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .hook-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    .hook-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .hook-example {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .flow-step {
+      display: flex;
+      gap: 16px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+
+    .flow-step:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+    .flow-step:last-child { border-bottom: none; border-radius: 0 0 var(--radius) var(--radius); }
+    .flow-step:hover { background: var(--bg-card-hover); }
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--primary-dim);
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-content { font-size: 13.5px; }
+    .step-title { font-weight: 500; margin-bottom: 3px; }
+    .step-desc { color: var(--text-secondary); font-size: 12.5px; line-height: 1.6; }
+
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .pattern-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .pattern-header {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pattern-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .grid-2, .do-dont, .grid-3, .pattern-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 26px; }
+      body { padding: 24px 16px 60px; }
+      .hook-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Шпаргалка</div>
+  <h1>React Cheat Sheet</h1>
+  <p class="subtitle">Основи, хуки, патерни і кращі практики. Vite + React + JavaScript.</p>
+  <nav class="toc">
+    <a href="#basics">Основи</a>
+    <a href="#jsx">JSX</a>
+    <a href="#components">Компоненти</a>
+    <a href="#hooks">Хуки</a>
+    <a href="#state">State</a>
+    <a href="#effects">Effects</a>
+    <a href="#lists">Списки</a>
+    <a href="#events">Events</a>
+    <a href="#patterns">Патерни</a>
+    <a href="#structure">Структура</a>
+    <a href="#mistakes">Помилки</a>
+  </nav>
+</header>
+
+<!-- ОСНОВИ -->
+<section id="basics">
+  <div class="section-header">
+    <div class="section-icon">⚛</div>
+    <h2>Основні концепції</h2>
+  </div>
+
+  <div class="grid-3">
+    <div class="rule-block">
+      <div class="label">Компонент</div>
+      <div class="value">Функція яка повертає JSX. Це і є React. Ім'я з великої літери.</div>
+    </div>
+    <div class="rule-block">
+      <div class="label">Props</div>
+      <div class="value">Дані що передаються в компонент ззовні. Тільки читання — не змінюй props.</div>
+    </div>
+    <div class="rule-block">
+      <div class="label">State</div>
+      <div class="value">Внутрішні дані компонента. При зміні — React перерендерює компонент.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 12px;">
+    <div class="card-header"><div class="dot"></div> Мінімальний компонент</div>
+    <pre><span class="cmt">// MyComponent.jsx</span>
+<span class="kw">export default function</span> <span class="fn">MyComponent</span>({ <span class="prop">title</span>, <span class="prop">count</span> }) {
+  <span class="kw">return</span> (
+    <span class="jsx">&lt;div&gt;</span>
+      <span class="jsx">&lt;h1&gt;</span>{title}<span class="jsx">&lt;/h1&gt;</span>
+      <span class="jsx">&lt;p&gt;</span>Count: {count}<span class="jsx">&lt;/p&gt;</span>
+    <span class="jsx">&lt;/div&gt;</span>
+  )
+}</pre>
+  </div>
+
+  <div class="info">React — це UI бібліотека, не фреймворк. Відповідає тільки за рендеринг. Routing, state management, fetching — окремі бібліотеки.</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- JSX -->
+<section id="jsx">
+  <div class="section-header">
+    <div class="section-icon">✦</div>
+    <h2>JSX — правила і нюанси</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Ключові правила JSX</div>
+    <table>
+      <thead>
+        <tr><th>Правило</th><th>❌ Неправильно</th><th>✓ Правильно</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Один кореневий елемент</td>
+          <td><code>&lt;h1/&gt;&lt;p/&gt;</code></td>
+          <td><code>&lt;&gt;&lt;h1/&gt;&lt;p/&gt;&lt;/&gt;</code></td>
+        </tr>
+        <tr>
+          <td>class → className</td>
+          <td><code>class="btn"</code></td>
+          <td><code>className="btn"</code></td>
+        </tr>
+        <tr>
+          <td>for → htmlFor</td>
+          <td><code>for="email"</code></td>
+          <td><code>htmlFor="email"</code></td>
+        </tr>
+        <tr>
+          <td>Самозакривний тег</td>
+          <td><code>&lt;img&gt;</code></td>
+          <td><code>&lt;img /&gt;</code></td>
+        </tr>
+        <tr>
+          <td>camelCase атрибути</td>
+          <td><code>onclick, tabindex</code></td>
+          <td><code>onClick, tabIndex</code></td>
+        </tr>
+        <tr>
+          <td>Інлайн стилі — об'єкт</td>
+          <td><code>style="color: red"</code></td>
+          <td><code>style={{ color: 'red' }}</code></td>
+        </tr>
+        <tr>
+          <td>JS у фігурних дужках</td>
+          <td><code>"Hello " + name</code></td>
+          <td><code>{"Hello " + name}</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Fragment — коли не потрібен зайвий div</div>
+    <pre><span class="cmt">// Обидва варіанти однакові</span>
+<span class="kw">return</span> <span class="jsx">&lt;React.Fragment&gt;</span>...content...<span class="jsx">&lt;/React.Fragment&gt;</span>
+<span class="kw">return</span> <span class="jsx">&lt;&gt;</span>...content...<span class="jsx">&lt;/&gt;</span>  <span class="cmt">// коротший синтаксис</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Template literals у JSX</div>
+    <pre><span class="cmt">// ❌ Неправильно</span>
+<span class="jsx">&lt;div</span> <span class="prop">className</span>=<span class="str">"btn {isActive ? 'active' : ''}"</span><span class="jsx">&gt;</span>
+
+<span class="cmt">// ✓ Правильно — template literal у фігурних дужках</span>
+<span class="jsx">&lt;div</span> <span class="prop">className</span>={<span class="str">`btn <span class="jsx">${isActive ? 'active' : ''}</span>`</span>}<span class="jsx">&gt;</span></pre>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- КОМПОНЕНТИ -->
+<section id="components">
+  <div class="section-header">
+    <div class="section-icon">🧩</div>
+    <h2>Компоненти і Props</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Props — передача даних</div>
+    <pre><span class="cmt">// Батьківський компонент</span>
+<span class="kw">function</span> <span class="fn">App</span>() {
+  <span class="kw">return</span> <span class="jsx">&lt;Button</span> <span class="prop">label</span>=<span class="str">"Click me"</span> <span class="prop">disabled</span>={<span class="kw">false</span>} <span class="prop">onClick</span>={<span class="fn">handleClick</span>} <span class="jsx">/&gt;</span>
+}
+
+<span class="cmt">// Дочірній компонент — деструктуризація props</span>
+<span class="kw">function</span> <span class="fn">Button</span>({ <span class="prop">label</span>, <span class="prop">disabled</span> = <span class="kw">false</span>, <span class="prop">onClick</span> }) {
+  <span class="kw">return</span> <span class="jsx">&lt;button</span> <span class="prop">disabled</span>={disabled} <span class="prop">onClick</span>={onClick}<span class="jsx">&gt;</span>{label}<span class="jsx">&lt;/button&gt;</span>
+}
+
+<span class="cmt">// Props зі spread оператором</span>
+<span class="kw">const</span> btnProps = { label: <span class="str">'Save'</span>, disabled: <span class="kw">true</span> }
+<span class="kw">return</span> <span class="jsx">&lt;Button</span> {...btnProps} <span class="jsx">/&gt;</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> children — вміст між тегами</div>
+    <pre><span class="kw">function</span> <span class="fn">Card</span>({ <span class="prop">children</span>, <span class="prop">title</span> }) {
+  <span class="kw">return</span> (
+    <span class="jsx">&lt;div</span> <span class="prop">className</span>=<span class="str">"card"</span><span class="jsx">&gt;</span>
+      <span class="jsx">&lt;h2&gt;</span>{title}<span class="jsx">&lt;/h2&gt;</span>
+      {children}  <span class="cmt">// все що між &lt;Card&gt; ... &lt;/Card&gt;</span>
+    <span class="jsx">&lt;/div&gt;</span>
+  )
+}
+
+<span class="cmt">// Використання</span>
+<span class="jsx">&lt;Card</span> <span class="prop">title</span>=<span class="str">"Profile"</span><span class="jsx">&gt;</span>
+  <span class="jsx">&lt;p&gt;</span>Будь-який JSX тут стане children<span class="jsx">&lt;/p&gt;</span>
+<span class="jsx">&lt;/Card&gt;</span></pre>
+  </div>
+
+  <div class="tip">Props передаються тільки вниз (від батька до дитини). Для зворотної передачі даних — передавай функцію як prop.</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ХУКИ -->
+<section id="hooks">
+  <div class="section-header">
+    <div class="section-icon">🪝</div>
+    <h2>Хуки — повний огляд</h2>
+  </div>
+
+  <div class="hook-card">
+    <div>
+      <div class="hook-name">useState</div>
+      <div class="hook-example">const [val, setVal] = useState(0)</div>
+    </div>
+    <div>
+      <div class="hook-desc">Локальний стан компонента. При виклику setter — компонент перерендерюється.</div>
+      <pre style="margin-top:8px; border-radius:6px; font-size:11.5px;"><span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>)
+<span class="kw">const</span> [user, setUser] = <span class="fn">useState</span>(<span class="kw">null</span>)
+<span class="kw">const</span> [items, setItems] = <span class="fn">useState</span>([])</pre>
+    </div>
+  </div>
+
+  <div class="hook-card">
+    <div>
+      <div class="hook-name">useEffect</div>
+      <div class="hook-example">useEffect(() => {}, [deps])</div>
+    </div>
+    <div>
+      <div class="hook-desc">Побічні ефекти: fetch, підписки, маніпуляції DOM. Залежності у масиві контролюють коли запускається.</div>
+      <pre style="margin-top:8px; border-radius:6px; font-size:11.5px;"><span class="fn">useEffect</span>(() => { <span class="cmt">/* запуск при mount і кожному render */</span> })
+<span class="fn">useEffect</span>(() => { <span class="cmt">/* тільки при mount */</span> }, [])
+<span class="fn">useEffect</span>(() => { <span class="cmt">/* при зміні id */</span> }, [id])
+<span class="fn">useEffect</span>(() => { <span class="kw">return</span> () => { <span class="cmt">/* cleanup при unmount */</span> } }, [])</pre>
+    </div>
+  </div>
+
+  <div class="hook-card">
+    <div>
+      <div class="hook-name">useRef</div>
+      <div class="hook-example">const ref = useRef(null)</div>
+    </div>
+    <div>
+      <div class="hook-desc">Доступ до DOM елементу або зберігання значення без ре-рендеру. ref.current — завжди актуальне значення.</div>
+      <pre style="margin-top:8px; border-radius:6px; font-size:11.5px;"><span class="kw">const</span> inputRef = <span class="fn">useRef</span>(<span class="kw">null</span>)
+<span class="jsx">&lt;input</span> <span class="prop">ref</span>={inputRef} <span class="jsx">/&gt;</span>
+inputRef.current.<span class="fn">focus</span>()  <span class="cmt">// прямий доступ до DOM</span></pre>
+    </div>
+  </div>
+
+  <div class="hook-card">
+    <div>
+      <div class="hook-name">useMemo</div>
+      <div class="hook-example">useMemo(() => val, [deps])</div>
+    </div>
+    <div>
+      <div class="hook-desc">Кешує результат важкого обчислення. Перераховується тільки коли змінились залежності.</div>
+      <pre style="margin-top:8px; border-radius:6px; font-size:11.5px;"><span class="kw">const</span> sorted = <span class="fn">useMemo</span>(() =>
+  [...items].<span class="fn">sort</span>((a, b) => a.name - b.name),
+  [items]  <span class="cmt">// перераховує тільки при зміні items</span>
+)</pre>
+    </div>
+  </div>
+
+  <div class="hook-card">
+    <div>
+      <div class="hook-name">useCallback</div>
+      <div class="hook-example">useCallback(fn, [deps])</div>
+    </div>
+    <div>
+      <div class="hook-desc">Кешує функцію між рендерами. Потрібен коли передаєш функцію у мемоізований дочірній компонент.</div>
+      <pre style="margin-top:8px; border-radius:6px; font-size:11.5px;"><span class="kw">const</span> handleClick = <span class="fn">useCallback</span>(() => {
+  <span class="fn">doSomething</span>(id)
+}, [id])  <span class="cmt">// нова функція тільки при зміні id</span></pre>
+    </div>
+  </div>
+
+  <div class="hook-card">
+    <div>
+      <div class="hook-name">useContext</div>
+      <div class="hook-example">useContext(MyContext)</div>
+    </div>
+    <div>
+      <div class="hook-desc">Читає значення з Context без prop drilling. Компонент підписується на зміни контексту.</div>
+      <pre style="margin-top:8px; border-radius:6px; font-size:11.5px;"><span class="kw">const</span> ThemeContext = <span class="fn">createContext</span>(<span class="str">'light'</span>)
+<span class="kw">const</span> theme = <span class="fn">useContext</span>(ThemeContext)</pre>
+    </div>
+  </div>
+
+  <div class="hook-card">
+    <div>
+      <div class="hook-name">useReducer</div>
+      <div class="hook-example">useReducer(reducer, init)</div>
+    </div>
+    <div>
+      <div class="hook-desc">Альтернатива useState для складного стану з кількома пов'язаними значеннями.</div>
+      <pre style="margin-top:8px; border-radius:6px; font-size:11.5px;"><span class="kw">const</span> [state, dispatch] = <span class="fn">useReducer</span>(reducer, { count: <span class="num">0</span> })
+<span class="fn">dispatch</span>({ type: <span class="str">'increment'</span> })</pre>
+    </div>
+  </div>
+
+  <div class="tip">Хуки — тільки всередині функціонального компонента або кастомного хука. Ніколи в умовах, циклах або вкладених функціях.</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- STATE -->
+<section id="state">
+  <div class="section-header">
+    <div class="section-icon">🔄</div>
+    <h2>State — правила роботи</h2>
+  </div>
+
+  <div class="do-dont">
+    <div class="do-block">
+      <div class="do-header">✓ Правильно — новий об'єкт</div>
+      <div class="code-block"><span class="cmt">// Масив — завжди новий масив</span>
+setItems([...items, newItem])
+setItems(items.<span class="fn">filter</span>(i => i.id !== id))
+setItems(items.<span class="fn">map</span>(i =>
+  i.id === id ? {...i, done: <span class="kw">true</span>} : i
+))
+
+<span class="cmt">// Об'єкт — spread для копії</span>
+setUser({...user, name: <span class="str">'Новий'</span>})
+
+<span class="cmt">// Функціональне оновлення</span>
+setCount(prev => prev + <span class="num">1</span>)</div>
+    </div>
+    <div class="dont-block">
+      <div class="dont-header">❌ Неправильно — мутація</div>
+      <div class="code-block"><span class="cmt">// Пряма мутація масиву</span>
+items.<span class="fn">push</span>(newItem)
+setItems(items)  <span class="cmt">// не перерендерить!</span>
+
+<span class="cmt">// Пряма мутація об'єкту</span>
+user.name = <span class="str">'Новий'</span>
+setUser(user)  <span class="cmt">// та сама референція!</span>
+
+<span class="cmt">// Без функціонального оновлення</span>
+setCount(count + <span class="num">1</span>)  <span class="cmt">// stale closure</span>
+setCount(count + <span class="num">1</span>)  <span class="cmt">// +1 замість +2</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 12px;">
+    <div class="card-header"><div class="dot"></div> State batching — React групує оновлення</div>
+    <pre><span class="cmt">// React оновить DOM тільки один раз після обох setstate</span>
+<span class="kw">function</span> <span class="fn">handleClick</span>() {
+  <span class="fn">setCount</span>(c => c + <span class="num">1</span>)
+  <span class="fn">setName</span>(<span class="str">'новий'</span>)
+  <span class="cmt">// один ре-рендер, не два</span>
+}</pre>
+  </div>
+
+  <div class="tip">State оновлюється асинхронно. Одразу після setState новий стан недоступний — він буде при наступному рендері.</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EFFECTS -->
+<section id="effects">
+  <div class="section-header">
+    <div class="section-icon">💫</div>
+    <h2>useEffect — fetch і підписки</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Fetch даних — правильний патерн</div>
+    <pre><span class="kw">function</span> <span class="fn">UserProfile</span>({ <span class="prop">userId</span> }) {
+  <span class="kw">const</span> [user, setUser] = <span class="fn">useState</span>(<span class="kw">null</span>)
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
+  <span class="kw">const</span> [error, setError] = <span class="fn">useState</span>(<span class="kw">null</span>)
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">let</span> cancelled = <span class="kw">false</span>  <span class="cmt">// захист від race condition</span>
+
+    <span class="fn">setLoading</span>(<span class="kw">true</span>)
+    <span class="fn">fetch</span>(<span class="str">`/api/users/<span class="jsx">${userId}</span>`</span>)
+      .<span class="fn">then</span>(r => r.<span class="fn">json</span>())
+      .<span class="fn">then</span>(data => { <span class="kw">if</span> (!cancelled) <span class="fn">setUser</span>(data) })
+      .<span class="fn">catch</span>(err => { <span class="kw">if</span> (!cancelled) <span class="fn">setError</span>(err) })
+      .<span class="fn">finally</span>(() => { <span class="kw">if</span> (!cancelled) <span class="fn">setLoading</span>(<span class="kw">false</span>) })
+
+    <span class="kw">return</span> () => { cancelled = <span class="kw">true</span> }  <span class="cmt">// cleanup</span>
+  }, [userId])  <span class="cmt">// перезапуск при зміні userId</span>
+
+  <span class="kw">if</span> (loading) <span class="kw">return</span> <span class="jsx">&lt;p&gt;</span>Loading...<span class="jsx">&lt;/p&gt;</span>
+  <span class="kw">if</span> (error) <span class="kw">return</span> <span class="jsx">&lt;p&gt;</span>Error: {error.message}<span class="jsx">&lt;/p&gt;</span>
+  <span class="kw">return</span> <span class="jsx">&lt;div&gt;</span>{user.name}<span class="jsx">&lt;/div&gt;</span>
+}</pre>
+  </div>
+
+  <div class="tip">Нескінченний цикл — якщо у залежностях об'єкт або масив що створюється при рендері. Він завжди "новий" навіть з тими самими даними.</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- СПИСКИ -->
+<section id="lists">
+  <div class="section-header">
+    <div class="section-icon">📋</div>
+    <h2>Списки і умовний рендеринг</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Рендеринг списку — завжди key</div>
+    <pre><span class="cmt">// ✓ key — унікальний і стабільний ідентифікатор</span>
+{items.<span class="fn">map</span>(item => (
+  <span class="jsx">&lt;Card</span> <span class="prop">key</span>={item.id} <span class="prop">title</span>={item.title} <span class="jsx">/&gt;</span>
+))}
+
+<span class="cmt">// ❌ Не використовуй index як key (якщо список змінюється)</span>
+{items.<span class="fn">map</span>((item, <span class="prop">index</span>) => (
+  <span class="jsx">&lt;Card</span> <span class="prop">key</span>={index} <span class="jsx">/&gt;</span>  <span class="cmt">// баги при сортуванні/видаленні</span>
+))}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Умовний рендеринг — три способи</div>
+    <pre><span class="cmt">// 1. Тернарний оператор</span>
+{isLoggedIn ? <span class="jsx">&lt;Dashboard /&gt;</span> : <span class="jsx">&lt;Login /&gt;</span>}
+
+<span class="cmt">// 2. && оператор (тільки коли показати або нічого)</span>
+{isAdmin <span class="op">&amp;&amp;</span> <span class="jsx">&lt;AdminPanel /&gt;</span>}
+
+<span class="cmt">// ⚠ Небезпека з &&: якщо count=0, відрендериться "0"</span>
+{count <span class="op">&amp;&amp;</span> <span class="jsx">&lt;Badge /&gt;</span>}       <span class="cmt">// ❌ виведе 0</span>
+{count > <span class="num">0</span> <span class="op">&amp;&amp;</span> <span class="jsx">&lt;Badge /&gt;</span>}  <span class="cmt">// ✓ правильно</span>
+
+<span class="cmt">// 3. Ранній return</span>
+<span class="kw">if</span> (!data) <span class="kw">return</span> <span class="jsx">&lt;Spinner /&gt;</span>
+<span class="kw">return</span> <span class="jsx">&lt;Content</span> <span class="prop">data</span>={data} <span class="jsx">/&gt;</span></pre>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="section-header">
+    <div class="section-icon">👆</div>
+    <h2>Events — обробка подій</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Основні патерни</div>
+    <pre><span class="cmt">// ✓ Передача функції (не виклик)</span>
+<span class="jsx">&lt;button</span> <span class="prop">onClick</span>={handleClick}<span class="jsx">&gt;</span>     <span class="cmt">// правильно</span>
+<span class="jsx">&lt;button</span> <span class="prop">onClick</span>={<span class="fn">handleClick</span>()}<span class="jsx">&gt;</span>   <span class="cmt">// ❌ викличеться одразу</span>
+
+<span class="cmt">// Передача аргументу — через arrow function</span>
+<span class="jsx">&lt;button</span> <span class="prop">onClick</span>={() => <span class="fn">handleDelete</span>(item.id)}<span class="jsx">&gt;</span>
+
+<span class="cmt">// Доступ до event об'єкта</span>
+<span class="jsx">&lt;input</span> <span class="prop">onChange</span>={e => <span class="fn">setValue</span>(e.target.value)}<span class="jsx">&gt;</span>
+
+<span class="cmt">// preventDefault</span>
+<span class="kw">function</span> <span class="fn">handleSubmit</span>(e) {
+  e.<span class="fn">preventDefault</span>()
+  <span class="cmt">// обробка форми</span>
+}
+<span class="jsx">&lt;form</span> <span class="prop">onSubmit</span>={handleSubmit}<span class="jsx">&gt;</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Контрольований input</div>
+    <pre><span class="kw">const</span> [value, setValue] = <span class="fn">useState</span>(<span class="str">''</span>)
+
+<span class="jsx">&lt;input</span>
+  <span class="prop">value</span>={value}
+  <span class="prop">onChange</span>={e => <span class="fn">setValue</span>(e.target.value)}
+<span class="jsx">/&gt;</span>
+
+<span class="cmt">// ⚠ Без onChange React покаже warning і input буде readonly</span></pre>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ПАТЕРНИ -->
+<section id="patterns">
+  <div class="section-header">
+    <div class="section-icon">🏗</div>
+    <h2>Поширені патерни</h2>
+  </div>
+
+  <div class="pattern-grid">
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-title">Custom Hook</div>
+        <span class="badge badge-blue">Reusability</span>
+      </div>
+      <pre style="font-size:11.5px;"><span class="cmt">// useFetch.js</span>
+<span class="kw">function</span> <span class="fn">useFetch</span>(url) {
+  <span class="kw">const</span> [data, setData] = <span class="fn">useState</span>(<span class="kw">null</span>)
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">fetch</span>(url)
+      .<span class="fn">then</span>(r => r.<span class="fn">json</span>())
+      .<span class="fn">then</span>(setData)
+      .<span class="fn">finally</span>(() => <span class="fn">setLoading</span>(<span class="kw">false</span>))
+  }, [url])
+
+  <span class="kw">return</span> { data, loading }
+}
+
+<span class="cmt">// Використання</span>
+<span class="kw">const</span> { data, loading } = <span class="fn">useFetch</span>(<span class="str">'/api/users'</span>)</pre>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-title">Context + Provider</div>
+        <span class="badge badge-purple">Global State</span>
+      </div>
+      <pre style="font-size:11.5px;"><span class="kw">const</span> ThemeContext = <span class="fn">createContext</span>()
+
+<span class="kw">function</span> <span class="fn">ThemeProvider</span>({ <span class="prop">children</span> }) {
+  <span class="kw">const</span> [theme, setTheme] = <span class="fn">useState</span>(<span class="str">'light'</span>)
+
+  <span class="kw">return</span> (
+    <span class="jsx">&lt;ThemeContext.Provider</span> <span class="prop">value</span>={{ theme, setTheme }}<span class="jsx">&gt;</span>
+      {children}
+    <span class="jsx">&lt;/ThemeContext.Provider&gt;</span>
+  )
+}
+
+<span class="cmt">// Читання у будь-якому дочірньому</span>
+<span class="kw">const</span> { theme } = <span class="fn">useContext</span>(ThemeContext)</pre>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-title">Compound Components</div>
+        <span class="badge badge-green">Composition</span>
+      </div>
+      <pre style="font-size:11.5px;"><span class="cmt">// Компоненти що працюють разом</span>
+<span class="jsx">&lt;Select</span> <span class="prop">value</span>={val} <span class="prop">onChange</span>={setVal}<span class="jsx">&gt;</span>
+  <span class="jsx">&lt;Select.Option</span> <span class="prop">value</span>=<span class="str">"a"</span><span class="jsx">&gt;</span>Option A<span class="jsx">&lt;/Select.Option&gt;</span>
+  <span class="jsx">&lt;Select.Option</span> <span class="prop">value</span>=<span class="str">"b"</span><span class="jsx">&gt;</span>Option B<span class="jsx">&lt;/Select.Option&gt;</span>
+<span class="jsx">&lt;/Select&gt;</span>
+
+<span class="cmt">// Реалізація через static methods</span>
+<span class="fn">Select</span>.Option = <span class="kw">function</span>({ value, children }) {
+  <span class="kw">return</span> <span class="jsx">&lt;option</span> <span class="prop">value</span>={value}<span class="jsx">&gt;</span>{children}<span class="jsx">&lt;/option&gt;</span>
+}</pre>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-header">
+        <div class="pattern-title">Lifting State Up</div>
+        <span class="badge badge-amber">State Sharing</span>
+      </div>
+      <pre style="font-size:11.5px;"><span class="cmt">// Коли двом компонентам потрібен один стан</span>
+<span class="cmt">// — виноси state у спільного батька</span>
+<span class="kw">function</span> <span class="fn">Parent</span>() {
+  <span class="kw">const</span> [value, setValue] = <span class="fn">useState</span>(<span class="str">''</span>)
+
+  <span class="kw">return</span> (
+    <span class="jsx">&lt;&gt;</span>
+      <span class="jsx">&lt;Input</span> <span class="prop">value</span>={value} <span class="prop">onChange</span>={setValue} <span class="jsx">/&gt;</span>
+      <span class="jsx">&lt;Preview</span> <span class="prop">value</span>={value} <span class="jsx">/&gt;</span>
+    <span class="jsx">&lt;/&gt;</span>
+  )
+}</pre>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 12px;">
+    <div class="card-header"><div class="dot"></div> Lazy loading — код-сплітинг</div>
+    <pre><span class="kw">import</span> { lazy, Suspense } <span class="kw">from</span> <span class="str">'react'</span>
+
+<span class="cmt">// Завантажується тільки коли потрібен</span>
+<span class="kw">const</span> Dashboard = <span class="fn">lazy</span>(() => <span class="kw">import</span>(<span class="str">'./pages/Dashboard'</span>))
+
+<span class="kw">function</span> <span class="fn">App</span>() {
+  <span class="kw">return</span> (
+    <span class="jsx">&lt;Suspense</span> <span class="prop">fallback</span>={<span class="jsx">&lt;Spinner /&gt;</span>}<span class="jsx">&gt;</span>
+      <span class="jsx">&lt;Dashboard /&gt;</span>
+    <span class="jsx">&lt;/Suspense&gt;</span>
+  )
+}</pre>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- СТРУКТУРА -->
+<section id="structure">
+  <div class="section-header">
+    <div class="section-icon">📁</div>
+    <h2>Структура файлів</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Рекомендована структура для лендінгу / малого проєкту</div>
+    <pre><span class="prop">src/</span>
+  <span class="prop">components/</span>        <span class="cmt">← повторювані UI компоненти</span>
+    <span class="fn">Button.jsx</span>
+    <span class="fn">Card.jsx</span>
+    <span class="fn">Navbar.jsx</span>
+  <span class="prop">pages/</span>             <span class="cmt">← сторінки (якщо є routing)</span>
+    <span class="fn">Home.jsx</span>
+    <span class="fn">About.jsx</span>
+  <span class="prop">hooks/</span>             <span class="cmt">← кастомні хуки</span>
+    <span class="fn">useFetch.js</span>
+    <span class="fn">useLocalStorage.js</span>
+  <span class="prop">context/</span>           <span class="cmt">← React Context</span>
+    <span class="fn">ThemeContext.jsx</span>
+  <span class="prop">assets/</span>            <span class="cmt">← зображення, іконки</span>
+  <span class="fn">App.jsx</span>            <span class="cmt">← кореневий компонент</span>
+  <span class="fn">main.jsx</span>           <span class="cmt">← точка входу</span>
+  <span class="fn">index.css</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="dot"></div> Іменування</div>
+    <table>
+      <thead>
+        <tr><th>Що</th><th>Стиль</th><th>Приклад</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Компонент (файл і функція)</td><td>PascalCase</td><td><code>UserCard.jsx</code></td></tr>
+        <tr><td>Кастомний хук</td><td>camelCase + use</td><td><code>useFetch.js</code></td></tr>
+        <tr><td>Утиліти, хелпери</td><td>camelCase</td><td><code>formatDate.js</code></td></tr>
+        <tr><td>Context</td><td>PascalCase + Context</td><td><code>ThemeContext.jsx</code></td></tr>
+        <tr><td>Обробники подій</td><td>handle + дія</td><td><code>handleClick</code></td></tr>
+        <tr><td>Boolean props</td><td>is/has/can</td><td><code>isLoading, hasError</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ПОМИЛКИ -->
+<section id="mistakes">
+  <div class="section-header">
+    <div class="section-icon">⚡</div>
+    <h2>Типові помилки початківців</h2>
+  </div>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="step-num">!</div>
+      <div class="step-content">
+        <div class="step-title">Нескінченний useEffect</div>
+        <div class="step-desc">Об'єкт або масив у залежностях створюється при кожному рендері — нова референція = нескінченний цикл. Рішення: <code>useMemo</code> або винести за межі компонента.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">!</div>
+      <div class="step-content">
+        <div class="step-title">Мутація state напряму</div>
+        <div class="step-desc"><code>items.push(x)</code> або <code>user.name = 'new'</code> — React не побачить зміни і не перерендерить. Завжди створюй новий об'єкт/масив.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">!</div>
+      <div class="step-content">
+        <div class="step-title">Виклик хука з умовою</div>
+        <div class="step-desc"><code>if (x) { useState() }</code> — порушення Rules of Hooks. Хуки завжди викликаються в одному і тому самому порядку.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">!</div>
+      <div class="step-content">
+        <div class="step-title">Stale closure у useEffect</div>
+        <div class="step-desc">Читаєш state всередині useEffect але не додав його у залежності — отримуєш старе значення. Додавай всі змінні що використовуєш у масив залежностей.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">!</div>
+      <div class="step-content">
+        <div class="step-title">Key як index при динамічному списку</div>
+        <div class="step-desc"><code>key={index}</code> при сортуванні або видаленні призводить до багів з анімаціями і state. Завжди використовуй унікальний id елементу.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">!</div>
+      <div class="step-content">
+        <div class="step-title">Занадто великі компоненти</div>
+        <div class="step-desc">Якщо компонент більше 150 рядків — розбий на менші. Один компонент = одна відповідальність.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">!</div>
+      <div class="step-content">
+        <div class="step-title">Забутий cleanup у useEffect</div>
+        <div class="step-desc">Підписки, таймери, fetch запити потребують cleanup функції — інакше memory leak або update на unmounted компонент.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 20px;">
+    <div class="card-header"><div class="dot"></div> Швидкий чекліст перед пушем</div>
+    <table>
+      <tbody>
+        <tr><td><span class="badge badge-green">✓</span></td><td>Всі хуки на верхньому рівні компонента</td></tr>
+        <tr><td><span class="badge badge-green">✓</span></td><td>useEffect має всі залежності у масиві</td></tr>
+        <tr><td><span class="badge badge-green">✓</span></td><td>State не мутується напряму</td></tr>
+        <tr><td><span class="badge badge-green">✓</span></td><td>Списки мають key з id, не index</td></tr>
+        <tr><td><span class="badge badge-green">✓</span></td><td>Обробники — функції, не виклики</td></tr>
+        <tr><td><span class="badge badge-green">✓</span></td><td>Контрольовані inputs мають onChange</td></tr>
+        <tr><td><span class="badge badge-green">✓</span></td><td>Компоненти з великої літери</td></tr>
+        <tr><td><span class="badge badge-green">✓</span></td><td>Props не змінюються всередині компонента</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  React Cheat Sheet · Vite + React + JavaScript · Hooks & Best Practices
+</footer>
+
+</body>
+</html>

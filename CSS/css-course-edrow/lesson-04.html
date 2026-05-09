@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 04 · Box Model — CSS курс Ed Row</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav">
+  <a class="cnav-brand" href="index.html">CSS · Ed Row</a>
+  <div class="cnav-links"><a class="cnav-link" href="index.html">Огляд</a>
+    <a class="cnav-link" href="lesson-01.html">01</a>
+    <a class="cnav-link" href="lesson-02.html">02</a>
+    <a class="cnav-link" href="lesson-03.html">03</a>
+    <a class="cnav-link active" href="lesson-04.html">04</a>
+    <a class="cnav-link" href="lesson-05.html">05</a>
+    <a class="cnav-link" href="lesson-06.html">06</a>
+    <a class="cnav-link" href="lesson-07.html">07</a>
+    <a class="cnav-link" href="lesson-08.html">08</a>
+    <a class="cnav-link" href="lesson-09.html">09</a>
+    <a class="cnav-link" href="lesson-10.html">10</a></div>
+</nav>
+<div class="lesson-hero">
+  <div class="lnum">Лекція 04 · Проєкт 1 — Лендінг</div>
+  <h1><b>Box</b><br><i>Model</i></h1>
+  <p class="lead">Кожен елемент — коробка. Margin, border, padding, content. box-sizing: border-box, width 100%, height. Ed Row: "Everything is a box."</p>
+</div>
+<div class="w">
+<section class="section">
+  <div class="sec-label">01 — Модель коробки</div>
+  <h2>Кожен елемент — це коробка</h2>
+  <p class="lead-text">
+    Ed Row: <strong>"Everything is a box. Every element has this box layout — it's important to understand."</strong> Margin, border, padding, content — чотири шари навколо кожного HTML елемента. Це фундамент для розуміння будь-якого layout.
+  </p>
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Чотири шари Box Model</div>
+    <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap">
+      <div class="bm-demo" style="flex:1;min-width:260px">
+        <div class="bm-margin">
+          <div class="bm-label" style="color:rgba(248,113,113,.7)">MARGIN</div>
+          <div class="bm-border">
+            <div class="bm-label" style="color:rgba(232,184,75,.7)">BORDER</div>
+            <div class="bm-padding">
+              <div class="bm-label" style="color:rgba(110,231,183,.7)">PADDING</div>
+              <div class="bm-content">CONTENT<br><span style="font-size:9px;opacity:.7">text, image...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="width:14px;height:14px;border:2px dashed rgba(248,113,113,.7);border-radius:2px;flex-shrink:0"></div>
+          <div style="font-size:13px"><strong style="color:var(--acc4)">margin</strong> — зовнішній відступ між елементами</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="width:14px;height:14px;border:2px solid rgba(232,184,75,.7);border-radius:2px;flex-shrink:0"></div>
+          <div style="font-size:13px"><strong style="color:var(--acc)">border</strong> — рамка навколо елемента</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="width:14px;height:14px;border:2px dashed rgba(110,231,183,.5);border-radius:2px;flex-shrink:0;background:rgba(110,231,183,.1)"></div>
+          <div style="font-size:13px"><strong style="color:var(--acc2)">padding</strong> — внутрішній відступ від border до вмісту</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="width:14px;height:14px;background:rgba(147,197,253,.3);border:1px solid rgba(147,197,253,.5);border-radius:2px;flex-shrink:0"></div>
+          <div style="font-size:13px"><strong style="color:var(--acc3)">content</strong> — сам вміст (текст, зображення)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">02 — margin vs padding</div>
+  <h2>Найважливіша різниця</h2>
+  <p class="lead-text">
+    Ed Row пояснює: "Padding is within the box element, whereas margin is outside." Це принципово важливо — не плутай.
+  </p>
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Порівняння на коді відео</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre>
+<span class="cm">/* PADDING — всередині елемента */</span>
+<span class="cs">.video</span> {
+  <span class="cp">padding</span>: <span class="cn">100px</span>;
+  <span class="cm">/* рівномірно з усіх боків */</span>
+}
+
+<span class="cs">.feature__item</span> {
+  <span class="cm">/* shorthand: вертикаль | горизонталь */</span>
+  <span class="cp">padding</span>: <span class="cn">30px 0</span>;
+  <span class="cm">/* 30px зверху/знизу, 0 ліво/право */</span>
+}
+
+<span class="cm">/* 4 сторони: top | right | bottom | left */</span>
+<span class="cp">padding</span>: <span class="cn">10px 20px 5px 15px</span>;
+
+<span class="cm">/* MARGIN — зовні елемента */</span>
+<span class="cs">.feature__title</span> {
+  <span class="cp">margin-bottom</span>: <span class="cn">10px</span>;
+  <span class="cm">/* відступ між title і description */</span>
+}
+
+<span class="cs">.video__description</span> {
+  <span class="cp">margin-top</span>: <span class="cn">10px</span>;
+  <span class="cm">/* 10px зверху від попереднього */</span>
+}</pre>
+      <div>
+        <div style="background:#f7f7f7;border-radius:8px;padding:20px;color:#333">
+          <div style="border:2px dashed #bbb;padding:20px;border-radius:4px;position:relative">
+            <div style="position:absolute;top:-10px;left:10px;background:#f7f7f7;padding:0 4px;font-size:10px;font-family:monospace;color:#999">padding: 20px</div>
+            <div style="background:#e0e7ff;border:1px solid #818cf8;border-radius:3px;padding:12px;text-align:center;font-size:13px">Content</div>
+          </div>
+          <div style="height:20px;border-left:3px solid #f87171;margin:0 20px;position:relative">
+            <div style="position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:10px;font-family:monospace;color:#f87171">margin-bottom: 20px</div>
+          </div>
+          <div style="border:2px dashed #bbb;padding:10px;border-radius:4px">
+            <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:3px;padding:8px;text-align:center;font-size:13px">Наступний елемент</div>
+          </div>
+        </div>
+        <div class="box box-gold" style="margin-top:12px">
+          <strong>Правило Ed Row:</strong>
+          padding — коли хочеш простір ВСЕРЕДИНІ. margin — коли хочеш простір МІЖ елементами.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">03 — border і box-shadow</div>
+  <h2>Рамки і тіні</h2>
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">border shorthand</div>
+    <pre>
+<span class="cm">/* border: розмір стиль колір */</span>
+<span class="cs">.video__button</span> {
+  <span class="cp">border</span>: <span class="cn">1px</span> <span class="cv">solid #55bb47</span>;  <span class="cm">← суцільна рамка</span>
+}
+
+<span class="cm">/* Інші стилі рамки: */</span>
+<span class="cp">border</span>: <span class="cn">2px</span> <span class="cv">dashed #999</span>;  <span class="cm">/* пунктир */</span>
+<span class="cp">border</span>: <span class="cn">3px</span> <span class="cv">dotted #333</span>;  <span class="cm">/* крапки  */</span>
+<span class="cp">border</span>: <span class="cv">none</span>;              <span class="cm">/* без рамки — для reset кнопок */</span>
+
+<span class="cm">/* border-radius — закруглення кутів */</span>
+<span class="cs">.card</span> {
+  <span class="cp">border-radius</span>: <span class="cn">4px</span>;    <span class="cm">/* легке скруглення */</span>
+  <span class="cp">border-radius</span>: <span class="cn">200px</span>;  <span class="cm">/* сильне — "pill" форма */</span>
+  <span class="cp">border-radius</span>: <span class="cn">50%</span>;    <span class="cm">/* коло — для квадратних елементів */</span>
+}</pre>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:14px">
+      <div style="background:white;border:1px solid #55bb47;padding:12px;text-align:center;font-size:12px;color:#333;font-family:system-ui">solid 1px</div>
+      <div style="background:white;border:2px dashed #999;border-radius:8px;padding:12px;text-align:center;font-size:12px;color:#333;font-family:system-ui">dashed + radius</div>
+      <div style="background:white;border:3px dotted #f00;border-radius:50%;width:70px;height:70px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#333;margin:0 auto">circle<br>50%</div>
+      <div style="background:white;border:none;border-radius:200px;padding:12px;text-align:center;font-size:12px;color:#333;box-shadow:0 2px 8px rgba(0,0,0,.15)">pill + shadow</div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">box-shadow — тінь елемента</div>
+    <pre>
+<span class="cm">/* box-shadow: x y blur spread color */</span>
+<span class="cs">.video__container</span> {
+  <span class="cp">box-shadow</span>: <span class="cn">0</span> <span class="cn">4px</span> <span class="cn">12px</span> <span class="cn">0</span> <span class="cf">rgba</span>(<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0.1</span>);
+  <span class="cm">/*            ↑   ↑    ↑   ↑   ↑
+              x   y  blur spread color
+              
+  x: горизонтальне зміщення
+  y: вертикальне зміщення
+  blur: розмиття (більше = м'якше)
+  spread: розмір (0 = нормальний)
+  color: колір тіні                  */</span>
+}
+
+<span class="cm">/* Типові варіації: */</span>
+<span class="cp">box-shadow</span>: <span class="cn">0</span> <span class="cn">1px</span> <span class="cn">3px</span> <span class="cf">rgba</span>(<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0.12</span>);   <span class="cm">/* легка */</span>
+<span class="cp">box-shadow</span>: <span class="cn">0</span> <span class="cn">4px</span> <span class="cn">20px</span> <span class="cf">rgba</span>(<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0.15</span>);  <span class="cm">/* середня */</span>
+<span class="cp">box-shadow</span>: <span class="cn">0</span> <span class="cn">10px</span> <span class="cn">40px</span> <span class="cf">rgba</span>(<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0.25</span>); <span class="cm">/* глибока */</span></pre>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px;margin-top:14px">
+      <div style="background:white;border-radius:6px;padding:16px;text-align:center;font-size:12px;color:#333;box-shadow:0 1px 3px rgba(0,0,0,.12)">subtle</div>
+      <div style="background:white;border-radius:6px;padding:16px;text-align:center;font-size:12px;color:#333;box-shadow:0 4px 12px rgba(0,0,0,.15)">medium</div>
+      <div style="background:white;border-radius:6px;padding:16px;text-align:center;font-size:12px;color:#333;box-shadow:0 10px 40px rgba(0,0,0,.25)">deep</div>
+      <div style="background:white;border-radius:6px;padding:16px;text-align:center;font-size:12px;color:#333;box-shadow:0 0 20px rgba(85,187,71,.4)">glow</div>
+    </div>
+    <div class="box box-blue" style="margin-top:12px">
+      <strong>Підказка</strong>
+      Ed Row використовує онлайн box-shadow generators щоб не підбирати значення вручну. Просто погугли "css box shadow generator" — є зручні інструменти з preview.
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">04 — box-sizing</div>
+  <h2>box-sizing: border-box — завжди перше</h2>
+  <p class="lead-text">
+    Це критично важлива властивість яку встановлюють перед всім іншим. Ed Row включає її в universal reset на самому початку.
+  </p>
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Чому border-box рятує від плутанини</div>
+    <div class="two" style="gap:20px">
+      <div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--acc4);margin-bottom:8px">❌ content-box (дефолт)</div>
+        <pre>
+<span class="cs">.box</span> {
+  <span class="cp">width</span>: <span class="cn">300px</span>;
+  <span class="cp">padding</span>: <span class="cn">20px</span>;
+  <span class="cp">border</span>: <span class="cn">5px solid</span>;
+}
+<span class="cm">/* РЕАЛЬНА ширина:
+   300 + 20+20 + 5+5 = 350px!
+   ← Не те що очікував!      */</span></pre>
+        <div style="background:#f0f0f0;padding:14px;border-radius:6px;margin-top:10px">
+          <div style="background:#ffd0d0;border:5px solid #f87171;padding:10px;width:100%;font-size:11px;font-family:monospace;text-align:center;color:#666">width:300 + padding + border = 350px 🤯</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--acc2);margin-bottom:8px">✅ border-box (встанови завжди)</div>
+        <pre>
+<span class="cs">*</span> {
+  <span class="cp">box-sizing</span>: <span class="cv">border-box</span>;
+}
+<span class="cs">.box</span> {
+  <span class="cp">width</span>: <span class="cn">300px</span>;
+  <span class="cp">padding</span>: <span class="cn">20px</span>;
+  <span class="cp">border</span>: <span class="cn">5px solid</span>;
+}
+<span class="cm">/* РЕАЛЬНА ширина: рівно 300px ✅
+   padding і border включені    */</span></pre>
+        <div style="background:#f0f0f0;padding:14px;border-radius:6px;margin-top:10px">
+          <div style="background:#d0ffd8;border:5px solid #6ee7b7;padding:10px;width:100%;font-size:11px;font-family:monospace;text-align:center;color:#666">width: рівно 300px ✅</div>
+        </div>
+      </div>
+    </div>
+    <div class="box box-gold" style="margin-top:16px">
+      <strong>Перший рядок будь-якого CSS</strong>
+      Завжди починай з <code style="font-family:var(--mono)">* &#123; box-sizing: border-box; &#125;</code>. Ed Row та всі сучасні CSS фреймворки (Tailwind, Bootstrap) теж роблять це.
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">width і height — width: 100% і батько</div>
+    <pre>
+<span class="cm">/* width: 100% = 100% від БАТЬКА (не від сторінки) */</span>
+<span class="cs">.video__container</span> {
+  <span class="cp">width</span>: <span class="cn">100%</span>;
+  <span class="cp">height</span>: <span class="cn">500px</span>;
+  <span class="cp">background-color</span>: <span class="cv">#ccc</span>;
+}
+
+<span class="cm">/* Батько .video має padding: 100px      </span>
+<span class="cm">   Тому .video__container займе          </span>
+<span class="cm">   ширину батька МІНУС padding.          </span>
+<span class="cm">   НЕ ширину всього екрана!              </span>
+<span class="cm">                                         </span>
+<span class="cm">   Це знову батько-дитина відносини.     */</span>
+
+<span class="cm">/* viewport одиниця — vh */</span>
+<span class="cs">.hero</span> {
+  <span class="cp">height</span>: <span class="cn">50vh</span>; <span class="cm">/* 50% висоти вікна браузера */</span>
+  <span class="cm">/* НЕ 50% батька — а 50% вікна! */</span>
+}</pre>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-head">🎯 Завдання — Лекція 04</div>
+    <div class="ex-body">
+      <strong>1.</strong> Переконайся що * &#123; box-sizing: border-box &#125; є першим у твоєму CSS<br>
+      <strong>2.</strong> Для .video секції: text-align center, padding 100px, font-weight 500<br>
+      <strong>3.</strong> Для .video__title: font-size 32px (або 2rem)<br>
+      <strong>4.</strong> Для .video__description: margin-top 10px, color #6e6e6e<br>
+      <strong>5.</strong> Для .video__container: width 100%, height 500px, background #ccc, box-shadow<br>
+      <strong>6.</strong> Поекспериментуй: додай padding 100px до батька і подивись як 100% ширина дитини адаптується
+    </div>
+  </div>
+</section>
+</div>
+<div class="foot-nav">
+  <a href="lesson-03.html" class="foot-link">← 03 · Colors</a>
+  <div class="foot-meta">Лекція 04 / 10</div>
+  <a href="lesson-05.html" class="foot-link">05 · Flexbox →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+</script></body></html>

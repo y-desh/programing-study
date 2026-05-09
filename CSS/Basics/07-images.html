@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07 · Зображення і Фони</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav"><a class="cnav-logo" href="index.html">CSS · EdRow</a><div class="cnav-links"><a class="cnav-link" href="index.html">Огляд</a><a class="cnav-link" href="01-selectors.html">01</a><a class="cnav-link" href="02-fonts.html">02</a><a class="cnav-link" href="03-colors.html">03</a><a class="cnav-link" href="04-box-model.html">04</a><a class="cnav-link" href="05-flexbox.html">05</a><a class="cnav-link" href="06-forms.html">06</a><a class="cnav-link cur" href="07-images.html">07</a><a class="cnav-link" href="08-grid.html">08</a><a class="cnav-link" href="09-positioning.html">09</a><a class="cnav-link" href="10-responsive.html">10</a></div></nav>
+<div class="lesson-hero">
+  <div class="lh-num">Лекція 07 · 07 · App 1 · Завершення</div>
+  <h1>Зображення <em>background-image · object-fit</em></h1>
+  <p class="ldesc">background-image, background-size: cover, background-position, background-blend-mode. object-fit для img тегів. vh vs % для висоти.</p>
+</div>
+<div class="w">
+
+<section class="sec">
+<div class="sec-label">01 — background-image</div>
+<h2>Фонове зображення для секції</h2>
+<p class="intro">EdRow використовує <code style="font-family:var(--mono)">background-image</code> для hero секції. Це не тег &lt;img&gt; — це CSS властивість яка додає зображення як фон.</p>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">hero з фоновим зображенням</div>
+<pre class="code">
+<span class="cs">.hero</span> {
+  <span class="cp">height</span>: <span class="cn">50vh</span>;              <span class="cm">/* 50% висоти вікна */</span>
+  <span class="cm">/* vh = viewport height, незалежно від батька */</span>
+  <span class="cm">/* % = від батька (body → залежить від контенту) */</span>
+
+  <span class="cp">background-image</span>: <span class="cv">url('images/hero.jpeg')</span>;
+  <span class="cp">background-size</span>: <span class="cv">cover</span>;    <span class="cm">/* заповнити, обрізати */</span>
+  <span class="cp">background-position</span>: <span class="cv">center</span>; <span class="cm">/* центрувати */</span>
+
+  <span class="cm">/* Затемнення через rgba overlay */</span>
+  <span class="cp">background-color</span>: <span class="cv">rgba(0, 0, 0, 0.55)</span>;
+  <span class="cp">background-blend-mode</span>: <span class="cv">overlay</span>;
+  <span class="cm">/* blend-mode змішує колір і зображення */</span>
+
+  <span class="cp">text-align</span>: <span class="cv">center</span>;
+  <span class="cp">align-content</span>: <span class="cv">center</span>;    <span class="cm">/* вертикально центрує */</span>
+}
+
+<span class="cm">/* Після затемнення — текст треба зробити білим */</span>
+<span class="cs">.hero__title</span> {
+  <span class="cp">color</span>: <span class="cv">#f5f5f5</span>;   <span class="cm">/* майже білий на темному фоні */</span>
+}</pre>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">background-size: cover vs contain</div>
+<div class="two" style="gap:16px">
+<div style="border:1px solid var(--bd);border-radius:6px;overflow:hidden">
+  <div style="height:120px;background:linear-gradient(135deg,#667eea,#764ba2);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:white;font-family:var(--mono);font-size:12px">cover</div>
+  <div style="padding:10px;font-size:11px;color:var(--dim2)">Заповнює весь контейнер, може обрізати зображення. Для hero секцій.</div>
+</div>
+<div style="border:1px solid var(--bd);border-radius:6px;overflow:hidden">
+  <div style="height:120px;background:linear-gradient(135deg,#f093fb,#f5576c);background-size:contain;background-position:center;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center;color:white;font-family:var(--mono);font-size:12px">contain</div>
+  <div style="padding:10px;font-size:11px;color:var(--dim2)">Вписується повністю, можуть бути порожні краї. Для логотипів.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">02 — &lt;img&gt; і object-fit</div>
+<h2>Зображення в HTML через img тег</h2>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">object-fit — як img заповнює контейнер</div>
+<pre class="code">
+<span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"feature__image-container"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;img</span> <span class="ha">class</span>=<span class="hv">"feature__image"</span>
+       <span class="ha">src</span>=<span class="hv">"images/features.jpeg"</span>
+       <span class="ha">alt</span>=<span class="hv">"опис для незрячих"</span><span class="ht">&gt;</span>
+<span class="ht">&lt;/div&gt;</span>
+
+<span class="cm">/* CSS */</span>
+<span class="cs">.feature__image</span> {
+  <span class="cp">width</span>: <span class="cn">100%</span>;
+  <span class="cp">height</span>: <span class="cn">100%</span>;
+  <span class="cp">object-fit</span>: <span class="cv">cover</span>;  <span class="cm">/* не спотворювати! */</span>
+}
+
+<span class="cm">/* object-fit: cover — заповнює, обрізає якщо треба
+   object-fit: contain — вписується повністю
+   object-fit: fill — розтягує (спотворює!) */</span>
+
+<span class="cm">/* Flex для розміщення поряд: */</span>
+<span class="cs">.feature</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">justify-content</span>: <span class="cv">space-between</span>;
+  <span class="cp">gap</span>: <span class="cn">20px</span>;
+}
+<span class="cs">.feature__container</span> { <span class="cp">flex-basis</span>: <span class="cn">50%</span>; }
+<span class="cs">.feature__image-container</span> { <span class="cp">flex-basis</span>: <span class="cn">50%</span>; }</pre>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">03 — vh vs %</div>
+<h2>Viewport одиниці vs відсотки</h2>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Різниця vh і %</div>
+<pre class="code">
+<span class="cm">/* % — відносно БАТЬКА */</span>
+<span class="cs">.hero</span> {
+  <span class="cp">height</span>: <span class="cn">50%</span>;
+  <span class="cm">/* 50% від батька (body)
+     body без height — контентна висота
+     50% від нічого = нічого! */</span>
+}
+
+<span class="cm">/* vh — відносно VIEWPORT (вікна браузера) */</span>
+<span class="cs">.hero</span> {
+  <span class="cp">height</span>: <span class="cn">50vh</span>;
+  <span class="cm">/* Завжди 50% від висоти вікна
+     Незалежно від батьків
+     50vh = половина екрана */</span>
+}
+
+<span class="cm">/* 100vh = весь екран
+   50vh = половина екрана
+   vw = аналогічно, але ширина */</span>
+
+<span class="cm">/* dvh (dynamic viewport height) — сучасніше:
+   враховує мобільний browser bar */</span>
+<span class="cs">.hero</span> { <span class="cp">height</span>: <span class="cn">100dvh</span>; }</pre>
+</div>
+
+<div class="exercise r">
+<div class="ex-title">🎯 Практика</div>
+<div class="ex-task">
+  1. Зроби hero секцію height: 60vh з background-image (або gradient як placeholder)<br>
+  2. Додай background-color: rgba(0,0,0,0.5) і background-blend-mode: overlay<br>
+  3. Текст героя зроби білим, text-align: center, align-content: center<br>
+  4. Додай картку з img тегом — встанови width:100%, height:200px, object-fit:cover
+</div>
+</div>
+</section>
+
+</div>
+<div class="lesson-footer">
+  <a href="06-forms.html" class="fp">← 06 · Форми</a>
+  <div class="fc">Лекція 07 / 10 · Зображення і Фони</div>
+  <a href="08-grid.html" class="fn">08 · Grid →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

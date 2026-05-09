@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Частина 1 — Функції</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-code: #0d1117;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #7c6af7;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+    --comment: #6e7681;
+    --keyword: #ff7b72;
+    --string: #a5d6ff;
+    --func: #d2a8ff;
+    --number: #79c0ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 3rem 1.5rem;
+  }
+
+  .container { max-width: 760px; margin: 0 auto; }
+
+  .nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 3rem;
+    font-size: 13px;
+  }
+
+  .nav a {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .nav a.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .nav a:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .header { margin-bottom: 3rem; }
+
+  .part-label {
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .intro {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 560px;
+  }
+
+  .section { margin-bottom: 3rem; }
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .num {
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  p { color: var(--muted); margin-bottom: 1rem; font-size: 15px; }
+
+  .analogy {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .analogy strong { color: var(--accent); }
+
+  pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+
+  .cm { color: var(--comment); }
+  .kw { color: var(--keyword); }
+  .fn { color: var(--func); }
+  .st { color: var(--string); }
+  .nm { color: var(--number); }
+  .tx { color: var(--text); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0; }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .card.good { border-color: var(--green); }
+  .card.bad { border-color: var(--red); }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .card.good .card-label { color: var(--green); }
+  .card.bad .card-label { color: var(--red); }
+
+  .card pre { margin: 0; background: transparent; border: none; padding: 0; font-size: 13px; }
+
+  .tip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .tip-text { color: var(--muted); }
+  .tip-text strong { color: var(--text); }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 1rem 0;
+  }
+
+  th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--bg-card);
+    color: var(--muted);
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="nav">
+    <a href="lecture-1-functions.html" class="active">1 — Основи функцій</a>
+    <a href="lecture-2-callbacks.html">2 — Колбеки та стрілки</a>
+    <a href="lecture-3-js-vs-csharp.html">3 — JS vs C#</a>
+  </nav>
+
+  <div class="header">
+    <p class="part-label">Частина 1 з 3</p>
+    <h1>Функції в JavaScript</h1>
+    <p class="intro">Що таке функції, як їх оголошувати, викликати, передавати параметри і повертати результат.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">1</span> Що таке функція</h2>
+    <p>Функція — це коробка з кодом. Ти пишеш код один раз, а викликаєш скільки завгодно разів з різними даними.</p>
+
+    <div class="analogy">
+      <strong>Аналогія:</strong> Уяви рецепт приготування кави. Рецепт написаний один раз, але ти можеш приготувати каву будь-коли — вранці, вдень, для друга. Функція — це рецепт. Виклик функції — це приготування кави.
+    </div>
+
+    <pre><span class="cm">// Оголошення функції — пишемо рецепт</span>
+<span class="kw">function</span> <span class="fn">greet</span>() {
+  console.log(<span class="st">'Привіт!'</span>)
+}
+
+<span class="cm">// Виклик функції — готуємо каву</span>
+<span class="fn">greet</span>()  <span class="cm">// → Привіт!</span>
+<span class="fn">greet</span>()  <span class="cm">// → Привіт!</span>
+<span class="fn">greet</span>()  <span class="cm">// → Привіт! (можна скільки завгодно)</span></pre>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">2</span> Параметри та аргументи</h2>
+    <p>Параметри — це вхідні слоти функції. Аргументи — це конкретні значення які ти передаєш при виклику.</p>
+
+    <pre><span class="cm">// name — параметр (змінна-слот)</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name) {
+  console.log(<span class="st">'Привіт, '</span> + name + <span class="st">'!'</span>)
+}
+
+<span class="cm">// 'Антон' і 'Марія' — аргументи (конкретні значення)</span>
+<span class="fn">greet</span>(<span class="st">'Антон'</span>)  <span class="cm">// → Привіт, Антон!</span>
+<span class="fn">greet</span>(<span class="st">'Марія'</span>)  <span class="cm">// → Привіт, Марія!</span></pre>
+
+    <p>Функція може приймати кілька параметрів:</p>
+
+    <pre><span class="kw">function</span> <span class="fn">add</span>(a, b) {
+  console.log(a + b)
+}
+
+<span class="fn">add</span>(<span class="nm">2</span>, <span class="nm">3</span>)   <span class="cm">// → 5</span>
+<span class="fn">add</span>(<span class="nm">10</span>, <span class="nm">20</span>)  <span class="cm">// → 30</span></pre>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">3</span> Return — що повертає функція</h2>
+    <p><code>return</code> зупиняє функцію і повертає значення назовні. Без <code>return</code> функція повертає <code>undefined</code>.</p>
+
+    <div class="grid">
+      <div class="card bad">
+        <p class="card-label">Без return</p>
+        <pre><span class="kw">function</span> <span class="fn">add</span>(a, b) {
+  a + b
+  <span class="cm">// нічого не повертає</span>
+}
+
+<span class="kw">const</span> result = <span class="fn">add</span>(<span class="nm">2</span>, <span class="nm">3</span>)
+<span class="cm">// result = undefined</span></pre>
+      </div>
+      <div class="card good">
+        <p class="card-label">З return</p>
+        <pre><span class="kw">function</span> <span class="fn">add</span>(a, b) {
+  <span class="kw">return</span> a + b
+  <span class="cm">// повертає суму</span>
+}
+
+<span class="kw">const</span> result = <span class="fn">add</span>(<span class="nm">2</span>, <span class="nm">3</span>)
+<span class="cm">// result = 5</span></pre>
+      </div>
+    </div>
+
+    <div class="analogy">
+      <strong>Аналогія:</strong> Ти попросив друга підрахувати суму. Без <code>return</code> — друг порахував, але не сказав тобі відповідь. З <code>return</code> — порахував і повідомив результат.
+    </div>
+
+    <p><code>return</code> також зупиняє виконання функції — код після нього не виконується:</p>
+
+    <pre><span class="kw">function</span> <span class="fn">check</span>(age) {
+  <span class="kw">if</span> (age < <span class="nm">18</span>) {
+    <span class="kw">return</span> <span class="st">'Неповнолітній'</span>  <span class="cm">// ← зупинились тут</span>
+  }
+  <span class="kw">return</span> <span class="st">'Повнолітній'</span>      <span class="cm">// ← сюди не дійшли якщо age < 18</span>
+}
+
+<span class="fn">check</span>(<span class="nm">15</span>)  <span class="cm">// → 'Неповнолітній'</span>
+<span class="fn">check</span>(<span class="nm">25</span>)  <span class="cm">// → 'Повнолітній'</span></pre>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">4</span> Виклик vs передача — найважливіше</h2>
+    <p>Дужки <code>()</code> означають: <strong>виконай прямо зараз</strong>. Без дужок — це посилання на функцію, яку можна викликати пізніше.</p>
+
+    <pre><span class="kw">function</span> <span class="fn">sayHi</span>() {
+  console.log(<span class="st">'Hi!'</span>)
+}
+
+<span class="fn">sayHi</span>    <span class="cm">// це сама функція (рецепт на папері)</span>
+<span class="fn">sayHi</span>()  <span class="cm">// це виклик (приготування кави прямо зараз)</span></pre>
+
+    <p>Чому це важливо? В React передаєш функцію в <code>onClick</code> — вона має виконатись при кліку, а не одразу:</p>
+
+    <div class="grid">
+      <div class="card bad">
+        <p class="card-label">❌ Виконується одразу</p>
+        <pre><span class="cm">// Викликає при рендері!</span>
+onClick={<span class="fn">deleteAll</span>()}</pre>
+      </div>
+      <div class="card good">
+        <p class="card-label">✅ Виконується при кліку</p>
+        <pre><span class="cm">// Передає функцію</span>
+onClick={<span class="fn">deleteAll</span>}</pre>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">💡</span>
+      <p class="tip-text"><strong>Правило:</strong> якщо треба передати аргумент — потрібна стрілочна функція: <code>onClick={() => deleteItem(id)}</code>. Інакше <code>deleteItem(id)</code> виконається одразу.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">5</span> Дефолтні параметри</h2>
+    <p>Якщо аргумент не передали — можна задати значення за замовчуванням:</p>
+
+    <pre><span class="kw">function</span> <span class="fn">greet</span>(name = <span class="st">'Гість'</span>) {
+  console.log(<span class="st">'Привіт, '</span> + name)
+}
+
+<span class="fn">greet</span>(<span class="st">'Антон'</span>)  <span class="cm">// → Привіт, Антон</span>
+<span class="fn">greet</span>()        <span class="cm">// → Привіт, Гість (дефолт)</span></pre>
+
+    <p>В React це використовується для props:</p>
+
+    <pre><span class="kw">function</span> <span class="fn">Button</span>({ variant = <span class="st">'primary'</span>, size = <span class="st">'md'</span> }) {
+  <span class="cm">// якщо variant не передали — буде 'primary'</span>
+}</pre>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">6</span> Скоуп — де живе змінна</h2>
+    <p>Змінна оголошена всередині функції — існує тільки всередині неї:</p>
+
+    <pre><span class="kw">function</span> <span class="fn">calculate</span>() {
+  <span class="kw">const</span> result = <span class="nm">42</span>  <span class="cm">// живе тільки тут</span>
+  console.log(result)  <span class="cm">// → 42</span>
+}
+
+<span class="fn">calculate</span>()
+console.log(result)  <span class="cm">// → ReferenceError! result не існує тут</span></pre>
+
+    <p>Але функція бачить змінні з зовнішнього скоупу:</p>
+
+    <pre><span class="kw">const</span> name = <span class="st">'Антон'</span>  <span class="cm">// зовнішня змінна</span>
+
+<span class="kw">function</span> <span class="fn">greet</span>() {
+  console.log(name)  <span class="cm">// → 'Антон' (бачить зовнішню)</span>
+}</pre>
+
+    <div class="analogy">
+      <strong>Аналогія:</strong> Ти живеш в кімнаті в будинку. Ти бачиш що є в будинку (зовнішній скоуп). Але гості будинку не бачать що у тебе в кімнаті (внутрішній скоуп).
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">7</span> Підсумок</h2>
+
+    <table>
+      <tr>
+        <th>Концепція</th>
+        <th>Що це</th>
+        <th>Приклад</th>
+      </tr>
+      <tr>
+        <td>Оголошення</td>
+        <td style="font-family:Inter;color:var(--muted);font-size:13px">Створюємо функцію</td>
+        <td>function greet() {}</td>
+      </tr>
+      <tr>
+        <td>Виклик</td>
+        <td style="font-family:Inter;color:var(--muted);font-size:13px">Виконуємо функцію</td>
+        <td>greet()</td>
+      </tr>
+      <tr>
+        <td>Параметр</td>
+        <td style="font-family:Inter;color:var(--muted);font-size:13px">Вхідний слот</td>
+        <td>function greet(name)</td>
+      </tr>
+      <tr>
+        <td>Аргумент</td>
+        <td style="font-family:Inter;color:var(--muted);font-size:13px">Конкретне значення</td>
+        <td>greet('Антон')</td>
+      </tr>
+      <tr>
+        <td>Return</td>
+        <td style="font-family:Inter;color:var(--muted);font-size:13px">Повертає результат</td>
+        <td>return a + b</td>
+      </tr>
+      <tr>
+        <td>Скоуп</td>
+        <td style="font-family:Inter;color:var(--muted);font-size:13px">Де живе змінна</td>
+        <td>const x = 5 всередині {}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="display:flex; justify-content:flex-end; margin-top:2rem;">
+    <a href="lecture-2-callbacks.html" style="padding:10px 20px; background:var(--accent); color:white; text-decoration:none; border-radius:8px; font-size:14px; font-weight:500;">Частина 2 →</a>
+  </div>
+
+</div>
+</body>
+</html>

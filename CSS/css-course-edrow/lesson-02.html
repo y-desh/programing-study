@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 02 · Fonts & Typography — CSS курс Ed Row</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav">
+  <a class="cnav-brand" href="index.html">CSS · Ed Row</a>
+  <div class="cnav-links">
+    <a class="cnav-link" href="index.html">Огляд</a>
+    <a class="cnav-link" href="lesson-01.html">01</a>
+    <a class="cnav-link active" href="lesson-02.html">02</a>
+    <a class="cnav-link" href="lesson-03.html">03</a>
+    <a class="cnav-link" href="lesson-04.html">04</a>
+    <a class="cnav-link" href="lesson-05.html">05</a>
+    <a class="cnav-link" href="lesson-06.html">06</a>
+    <a class="cnav-link" href="lesson-07.html">07</a>
+    <a class="cnav-link" href="lesson-08.html">08</a>
+    <a class="cnav-link" href="lesson-09.html">09</a>
+    <a class="cnav-link" href="lesson-10.html">10</a>
+  </div>
+</nav>
+
+<div class="lesson-hero">
+  <div class="lnum">Лекція 02 · Проєкт 1 — Лендінг</div>
+  <h1><b>Fonts</b><br><i>& Typography</i></h1>
+  <p class="lead">
+    font-family з Google Fonts, font-size (px vs rem), font-weight, text-transform, margin, padding, text-align, line-height, letter-spacing. Типографіка — 80% вигляду будь-якого сайту.
+  </p>
+</div>
+
+<div class="w">
+
+<!-- ═══ 01 FONT-FAMILY ═══ -->
+<section class="section">
+  <div class="sec-label">01 — font-family</div>
+  <h2>Підключення шрифтів</h2>
+  <p class="lead-text">
+    Ed Row використовує Google Fonts — безкоштовний сервіс від Google з сотнями шрифтів. Для проєкту обрано <strong>Poppins</strong>. Підключається через &lt;link&gt; в HTML, далі використовується через font-family в CSS.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Як підключити Google Fonts</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <div>
+        <div class="code-file"><div class="cf-dot" style="background:#f87171"></div>index.html → &lt;head&gt;</div>
+        <pre>
+<span class="ht">&lt;head&gt;</span>
+  <span class="cm">&lt;!-- Підключення Google Fonts (Poppins) --&gt;</span>
+  <span class="ht">&lt;link</span>
+    <span class="ha">href</span>=<span class="hv">"https://fonts.googleapis.com/
+    css2?family=Poppins:wght@300;400;
+    500;600;700&display=swap"</span>
+    <span class="ha">rel</span>=<span class="hv">"stylesheet"</span>
+  <span class="ht">&gt;</span>
+
+  <span class="cm">&lt;!-- Наш CSS ПІСЛЯ Google Fonts --&gt;</span>
+  <span class="ht">&lt;link</span> <span class="ha">rel</span>=<span class="hv">"stylesheet"</span>
+        <span class="ha">href</span>=<span class="hv">"styles.css"</span><span class="ht">&gt;</span>
+<span class="ht">&lt;/head&gt;</span></pre>
+        <div class="box box-gold" style="margin-top:10px">
+          <strong>wght@300;400;500;600;700</strong>
+          Завантажуємо тільки потрібні насиченості. Що менше — то швидший сайт. Не завантажуй всі якщо не потрібно.
+        </div>
+      </div>
+      <div>
+        <div class="code-file"><div class="cf-dot" style="background:#86efac"></div>styles.css</div>
+        <pre>
+<span class="cs">body</span> {
+  <span class="cm">/* Перший = основний шрифт  */</span>
+  <span class="cm">/* Решта = fallback шрифти  */</span>
+  <span class="cp">font-family</span>: <span class="cv">Poppins, Times, serif</span>;
+
+  <span class="cm">/* Якщо Poppins не завантажиться
+     (нема інтернету або шрифт
+     заблокований) — браузер
+     спробує Times, потім serif  */</span>
+}
+
+<span class="cm">/* ЧОМУ в body, а не в .hero?   </span>
+<span class="cm">   Через успадкування!           </span>
+<span class="cm">   body — батько всієї сторінки. </span>
+<span class="cm">   Всі елементи отримають Poppins. */</span></pre>
+        <div class="box box-blue" style="margin-top:10px">
+          <strong>generic fallback</strong>
+          serif, sans-serif, monospace — вбудовані в браузер "групи шрифтів". Завжди ставь як останній fallback.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Де взяти шрифти — fonts.google.com</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:20px">
+        <div style="font-size:13px;color:var(--t2);line-height:1.8">
+          1. Заходиш на <strong style="color:var(--t1)">fonts.google.com</strong><br>
+          2. Шукаєш шрифт (наприклад Poppins)<br>
+          3. Обираєш потрібні насиченості (Select styles)<br>
+          4. Натискаєш "Get embed code" і копіюєш &lt;link&gt;<br>
+          5. Вставляєш у &lt;head&gt; перед своїм styles.css<br>
+          6. В CSS пишеш: <code style="font-family:var(--mono)">font-family: 'Poppins', sans-serif;</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 02 FONT-SIZE ═══ -->
+<section class="section">
+  <div class="sec-label">02 — font-size</div>
+  <h2>px vs rem — яку одиницю використовувати</h2>
+  <p class="lead-text">
+    Це одна з найважливіших тем. Ed Row пояснює різницю між <strong>абсолютними (px)</strong> і <strong>відносними (rem)</strong> одиницями і чому rem — кращий вибір для шрифтів.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Порівняння px і rem</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--acc4);margin-bottom:8px">px — абсолютна одиниця</div>
+        <pre>
+<span class="cs">.feature__title</span> {
+  <span class="cp">font-size</span>: <span class="cn">32px</span>;
+}
+
+<span class="cm">/* Завжди 32px на всіх екранах.
+   Не залежить ні від чого.
+   Якщо юзер збільшив шрифт
+   в браузері — px НЕ адаптується */</span></pre>
+        <div class="box box-red" style="margin-top:8px">
+          <strong>Коли використовувати px</strong>
+          Border (1px solid), box-shadow, icon size — де потрібна точна пікселізація. Для шрифтів — краще rem.
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--acc2);margin-bottom:8px">rem — відносна одиниця ★</div>
+        <pre>
+<span class="cs">.feature__title</span> {
+  <span class="cp">font-size</span>: <span class="cn">2.2rem</span>;
+}
+
+<span class="cm">/* 1rem = font-size елемента html.
+   Зазвичай: 1rem = 16px (дефолт).
+   
+   2.2rem = 2.2 × 16px = 35.2px
+   
+   Якщо юзер змінив розмір шрифту
+   в браузері — rem адаптується!  */</span></pre>
+        <div class="box box-green" style="margin-top:8px">
+          <strong>Чому rem кращий</strong>
+          Масштабується з налаштуваннями доступності браузера. Людям з поганим зором що збільшили системний шрифт — ваш текст також збільшиться.
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:20px;margin-top:16px">
+      <div style="font-size:12px;font-family:var(--mono);color:var(--t3);margin-bottom:14px;letter-spacing:2px">ШВИДКИЙ ПЕРЕВОДНИК (base 16px)</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">
+        <div style="background:var(--s3);border-radius:5px;padding:10px;text-align:center"><div style="font-family:var(--mono);font-size:11px;color:var(--acc)">0.75rem</div><div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">= 12px</div></div>
+        <div style="background:var(--s3);border-radius:5px;padding:10px;text-align:center"><div style="font-family:var(--mono);font-size:11px;color:var(--acc)">0.875rem</div><div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">= 14px</div></div>
+        <div style="background:var(--s3);border-radius:5px;padding:10px;text-align:center;border:1px solid rgba(232,184,75,.3)"><div style="font-family:var(--mono);font-size:11px;color:var(--acc)">1rem</div><div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">= 16px ★</div></div>
+        <div style="background:var(--s3);border-radius:5px;padding:10px;text-align:center"><div style="font-family:var(--mono);font-size:11px;color:var(--acc)">1.25rem</div><div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">= 20px</div></div>
+        <div style="background:var(--s3);border-radius:5px;padding:10px;text-align:center"><div style="font-family:var(--mono);font-size:11px;color:var(--acc)">1.5rem</div><div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">= 24px</div></div>
+        <div style="background:var(--s3);border-radius:5px;padding:10px;text-align:center"><div style="font-family:var(--mono);font-size:11px;color:var(--acc)">2rem</div><div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">= 32px</div></div>
+        <div style="background:var(--s3);border-radius:5px;padding:10px;text-align:center"><div style="font-family:var(--mono);font-size:11px;color:var(--acc)">2.2rem</div><div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">≈ 35px</div></div>
+        <div style="background:var(--s3);border-radius:5px;padding:10px;text-align:center"><div style="font-family:var(--mono);font-size:11px;color:var(--acc)">3rem</div><div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:2px">= 48px</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live demo -->
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Живе демо розмірів</div>
+    <div style="background:#f7f7f7;border-radius:8px;padding:24px;color:#333">
+      <div style="font-family:'Poppins',system-ui;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:12px">12px / 0.75rem — мета, підписи</div>
+        <div style="font-size:14px">14px / 0.875rem — малий текст</div>
+        <div style="font-size:16px">16px / 1rem — базовий текст параграфів</div>
+        <div style="font-size:18px">18px / 1.125rem — lead текст</div>
+        <div style="font-size:20px;font-weight:500">20px / 1.25rem — підзаголовки</div>
+        <div style="font-size:24px;font-weight:600">24px / 1.5rem — h3</div>
+        <div style="font-size:32px;font-weight:700">32px / 2rem — h2</div>
+        <div style="font-size:35px;font-weight:700">35px / 2.2rem — feature title (Ed Row)</div>
+        <div style="font-size:48px;font-weight:800">48px / 3rem — hero h1</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 03 FONT-WEIGHT ═══ -->
+<section class="section">
+  <div class="sec-label">03 — font-weight</div>
+  <h2>Насиченість шрифту</h2>
+  <p class="lead-text">
+    font-weight визначає товщину шрифту. Ed Row демонструє різні значення і каже що 500 — гарне для заголовків проєкту.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Шкала font-weight</div>
+    <pre>
+<span class="cs">.feature__title</span> {
+  <span class="cp">font-weight</span>: <span class="cn">500</span>; <span class="cm">/* середній — Ed Row вибрав для feature title */</span>
+}
+
+<span class="cm">/* Числові значення: */</span>
+<span class="cp">font-weight</span>: <span class="cn">100</span>;  <span class="cm">/* Thin — надтонкий */</span>
+<span class="cp">font-weight</span>: <span class="cn">200</span>;  <span class="cm">/* Extra Light      */</span>
+<span class="cp">font-weight</span>: <span class="cn">300</span>;  <span class="cm">/* Light            */</span>
+<span class="cp">font-weight</span>: <span class="cn">400</span>;  <span class="cm">/* Regular — нормальний (default) */</span>
+<span class="cp">font-weight</span>: <span class="cn">500</span>;  <span class="cm">/* Medium           */</span>
+<span class="cp">font-weight</span>: <span class="cn">600</span>;  <span class="cm">/* Semi Bold        */</span>
+<span class="cp">font-weight</span>: <span class="cn">700</span>;  <span class="cm">/* Bold             */</span>
+<span class="cp">font-weight</span>: <span class="cn">800</span>;  <span class="cm">/* Extra Bold       */</span>
+<span class="cp">font-weight</span>: <span class="cn">900</span>;  <span class="cm">/* Black — максимум */</span>
+
+<span class="cm">/* Словесні значення (менш точні): */</span>
+<span class="cp">font-weight</span>: <span class="cv">normal</span>;  <span class="cm">/* = 400 */</span>
+<span class="cp">font-weight</span>: <span class="cv">bold</span>;    <span class="cm">/* = 700 */</span></pre>
+
+    <div style="background:#f7f7f7;border-radius:8px;padding:24px;color:#333;margin-top:16px">
+      <div style="font-family:'Poppins',system-ui;font-size:20px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-weight:200">200 — Extra Light — Empower Young Minds</div>
+        <div style="font-weight:300">300 — Light — Empower Young Minds</div>
+        <div style="font-weight:400">400 — Regular — Empower Young Minds</div>
+        <div style="font-weight:500">500 — Medium — Empower Young Minds ← Ed Row</div>
+        <div style="font-weight:600">600 — Semi Bold — Empower Young Minds</div>
+        <div style="font-weight:700">700 — Bold — Empower Young Minds</div>
+        <div style="font-weight:900">900 — Black — Empower Young Minds</div>
+      </div>
+    </div>
+    <div class="box box-gold" style="margin-top:12px">
+      <strong>Важливо: потрібно підключити насиченості в Google Fonts</strong>
+      Якщо не підключив wght@500 — браузер буде автоматично генерувати "фейковий" bold і виглядатиме гірше. Підключуй тільки ті насиченості що використовуєш.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 04 ТЕКСТОВІ ВЛАСТИВОСТІ ═══ -->
+<section class="section">
+  <div class="sec-label">04 — Текстові властивості</div>
+  <h2>text-transform, margin, text-align, line-height, letter-spacing</h2>
+  <p class="lead-text">
+    Ed Row швидко проходить через текстові властивості для <code style="font-family:var(--mono)">.feature__description</code>. Більшість із них не настільки поширені але корисно знати.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">CSS для feature секції з проєкту</div>
+    <div class="code-file"><div class="cf-dot" style="background:#86efac"></div>styles.css — feature section</div>
+    <pre>
+<span class="cm">/* ── SECTION: Fonts ─────────────────────────────── */</span>
+
+<span class="cs">.feature</span> {
+  <span class="cp">font-family</span>: <span class="cv">Poppins, Times, serif</span>;
+  <span class="cm">/* В body краще — все успадкує */</span>
+  <span class="cp">padding</span>: <span class="cn">100px</span>;
+}
+
+<span class="cs">.feature__item</span> {
+  <span class="cp">padding</span>: <span class="cn">30px 0</span>; <span class="cm">/* 30px зверху і знизу, 0 ліво/право */</span>
+}
+
+<span class="cs">.feature__title</span> {
+  <span class="cp">font-size</span>: <span class="cn">2.2rem</span>;
+  <span class="cp">font-weight</span>: <span class="cn">500</span>;
+  <span class="cp">text-transform</span>: <span class="cv">uppercase</span>; <span class="cm">/* ВЕЛИКІ ЛІТЕРИ через CSS */</span>
+  <span class="cp">color</span>: <span class="cv">#333</span>;
+  <span class="cp">margin-bottom</span>: <span class="cn">10px</span>;        <span class="cm">/* відступ знизу */</span>
+}
+
+<span class="cs">.feature__title--selected</span> {
+  <span class="cm">/* Другий клас — тільки для виділеного */</span>
+  <span class="cp">text-decoration</span>: <span class="cv">underline</span>;
+}
+
+<span class="cs">.feature__description</span> {
+  <span class="cm">/* text-align: центрування тексту */</span>
+  <span class="cp">text-align</span>: <span class="cv">center</span>;     <span class="cm">/* left | center | right */</span>
+
+  <span class="cm">/* line-height: відстань між рядками */</span>
+  <span class="cp">line-height</span>: <span class="cn">1.6</span>;        <span class="cm">/* ЧИСЛО без одиниць! = 1.6 × font-size */</span>
+  <span class="cm">/* 2.4rem теж можна, але число — краще */</span>
+
+  <span class="cm">/* letter-spacing: відстань між літерами */</span>
+  <span class="cp">letter-spacing</span>: <span class="cn">0.5px</span>;  <span class="cm">/* рідко потрібно */</span>
+
+  <span class="cm">/* Колір параграфу */</span>
+  <span class="cp">color</span>: <span class="cv">#666</span>;
+}</pre>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Інтерактивне демо text-align і line-height</div>
+    <div style="background:#f7f7f7;border-radius:8px;padding:24px;color:#333">
+      <div id="text-demo" style="font-family:system-ui;transition:all .3s">
+        <div id="td-title" style="font-size:24px;font-weight:500;margin-bottom:10px;text-transform:uppercase">Empower Student Learning</div>
+        <div id="td-desc" style="font-size:15px;color:#666;line-height:1.6;max-width:500px">
+          Discover innovative teaching methods and personalized learning experiences that help students achieve their full potential in today's competitive world.
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <button class="demo-btn ghost" onclick="setAlign('left')">text-align: left</button>
+      <button class="demo-btn ghost" onclick="setAlign('center')">center</button>
+      <button class="demo-btn ghost" onclick="setAlign('right')">right</button>
+      <button class="demo-btn ghost" onclick="setLH('1.2')">line-height: 1.2</button>
+      <button class="demo-btn ghost" onclick="setLH('1.6')">1.6</button>
+      <button class="demo-btn ghost" onclick="setLH('2.4')">2.4</button>
+      <button class="demo-btn ghost" onclick="toggleUpper()">text-transform: uppercase</button>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">margin vs padding — різниця</div>
+    <div class="two" style="gap:20px">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--acc2);margin-bottom:10px">padding — всередині коробки</div>
+        <pre>
+<span class="cs">.feature__item</span> {
+  <span class="cp">padding</span>: <span class="cn">30px 0</span>;
+  <span class="cm">/* 30px зверху і знизу
+     0 ліво і право
+     
+     Це ЧАСТИНА елемента.
+     Колір фону заповнює padding. */</span>
+}</pre>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--acc6);margin-bottom:10px">margin — зовні коробки</div>
+        <pre>
+<span class="cs">.feature__title</span> {
+  <span class="cp">margin-bottom</span>: <span class="cn">10px</span>;
+  <span class="cm">/* Відстань між title і
+     description — між
+     двома різними коробками.
+     
+     НЕ частина елемента.
+     Колір фону не заповнює. */</span>
+}</pre>
+      </div>
+    </div>
+    <div style="background:#f0f0f0;border-radius:8px;padding:20px;margin-top:14px;display:flex;gap:16px;flex-direction:column">
+      <div style="background:rgba(110,231,183,.15);border:2px dashed rgba(110,231,183,.6);padding:20px;border-radius:4px;color:#333">
+        <div style="font-size:12px;color:#888;font-family:monospace;margin-bottom:4px">padding: 20px (всередині)</div>
+        <div style="background:white;border:1px solid #ddd;border-radius:3px;padding:10px;font-size:13px">Вміст елемента</div>
+      </div>
+      <div style="border-left:4px solid rgba(248,113,113,.5);padding-left:14px;color:#333">
+        <div style="font-size:11px;color:#999;font-family:monospace">↓ margin-bottom: 20px (зовні)</div>
+      </div>
+      <div style="background:rgba(147,197,253,.15);border:2px dashed rgba(147,197,253,.6);padding:12px;border-radius:4px;color:#333">
+        <div style="font-size:13px">Наступний елемент</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 05 ПІДСУМОК ═══ -->
+<section class="section">
+  <div class="sec-label">05 — Підсумок</div>
+  <h2>Весь CSS лекції 02 разом</h2>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">styles.css — повний код після лекції 02</div>
+    <div class="code-file"><div class="cf-dot" style="background:#86efac"></div>styles.css</div>
+    <pre>
+<span class="cm">/* ── SECTION: Selectors ────────────────────────── */</span>
+<span class="cs">*</span> { <span class="cp">padding</span>:<span class="cn">0</span>; <span class="cp">margin</span>:<span class="cn">0</span>; <span class="cp">box-sizing</span>:<span class="cv">border-box</span>; }
+
+<span class="cs">body</span> {
+  <span class="cp">background-color</span>: <span class="cv">#f7f7f7</span>;
+  <span class="cp">color</span>: <span class="cv">#333</span>;
+  <span class="cp">font-family</span>: <span class="cv">Poppins, Times, serif</span>; <span class="cm">← ТЕПЕР ТУТ</span>
+}
+
+<span class="cs">.hero</span> { <span class="cp">padding</span>: <span class="cn">100px</span>; }
+<span class="cs">.hero__title</span> { <span class="cp">color</span>: <span class="cv">black</span>; }
+<span class="cs">.hero__description</span> { <span class="cp">color</span>: <span class="cv">#81da76</span>; }
+<span class="cs">.hero__highlight</span> { <span class="cp">color</span>: <span class="cv">white</span>; }
+
+<span class="cm">/* ── SECTION: Fonts ─────────────────────────────── */</span>
+<span class="cs">.feature</span> { <span class="cp">padding</span>: <span class="cn">100px</span>; }
+
+<span class="cs">.feature__item</span> {
+  <span class="cp">padding</span>: <span class="cn">30px 0</span>;
+}
+
+<span class="cs">.feature__title</span> {
+  <span class="cp">font-size</span>: <span class="cn">2.2rem</span>;
+  <span class="cp">font-weight</span>: <span class="cn">500</span>;
+  <span class="cp">text-transform</span>: <span class="cv">uppercase</span>;
+  <span class="cp">color</span>: <span class="cv">#333</span>;
+  <span class="cp">margin-bottom</span>: <span class="cn">10px</span>;
+}
+
+<span class="cs">.feature__title--selected</span> {
+  <span class="cp">text-decoration</span>: <span class="cv">underline</span>;
+}
+
+<span class="cs">.feature__description</span> {
+  <span class="cp">text-align</span>: <span class="cv">center</span>;
+  <span class="cp">line-height</span>: <span class="cn">1.6</span>;
+  <span class="cp">color</span>: <span class="cv">#666</span>;
+}</pre>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-head">🎯 Завдання — Лекція 02</div>
+    <div class="ex-body">
+      <strong>1.</strong> Підключи Google Fonts (Poppins або будь-який інший) до свого index.html<br>
+      <strong>2.</strong> Перемісти font-family з .hero до body — перевір що всі елементи успадкують шрифт<br>
+      <strong>3.</strong> Для .feature__title встанови: font-size 2.2rem, font-weight 500, text-transform uppercase<br>
+      <strong>4.</strong> Для .feature__description встанови: text-align center, line-height 1.6, color #666<br>
+      <strong>5.</strong> Поекспериментуй: зміни font-weight від 200 до 900 — поспостерігай різницю<br>
+      <strong>6.</strong> Порівняй line-height 1.2 vs 1.6 vs 2.4 — відчуй як текст "дихає"
+    </div>
+    <div class="ex-hint">Підказка: якщо шрифт не змінився — перевір чи правильно підключено &lt;link&gt; в &lt;head&gt; і чи збігається назва в font-family</div>
+  </div>
+</section>
+
+</div>
+
+<div class="foot-nav">
+  <a href="lesson-01.html" class="foot-link">← 01 · Setup & Selectors</a>
+  <div class="foot-meta">Лекція 02 / 10 · Fonts & Typography</div>
+  <a href="lesson-03.html" class="foot-link">03 · Colors →</a>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  const p = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('prog').style.width = p + '%';
+});
+const obs = new IntersectionObserver(
+  es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }),
+  { threshold: 0.06 }
+);
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+let isUpper = false;
+function setAlign(v) { document.getElementById('td-desc').style.textAlign = v; }
+function setLH(v) { document.getElementById('td-desc').style.lineHeight = v; }
+function toggleUpper() {
+  isUpper = !isUpper;
+  document.getElementById('td-title').style.textTransform = isUpper ? 'uppercase' : 'none';
+}
+</script>
+</body>
+</html>

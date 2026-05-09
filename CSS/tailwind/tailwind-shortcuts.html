@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tailwind CSS — Шорткати</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:     #07090f;
+    --bg2:    #0c0f18;
+    --bg3:    #111520;
+    --border: #1a2035;
+    --text:   #dde4f0;
+    --muted:  #445070;
+    --accent: #38bdf8;
+    --green:  #34d399;
+    --purple: #a78bfa;
+    --orange: #fb923c;
+    --pink:   #f472b6;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #1a2035; border-radius: 3px; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed; top: 0; left: 0;
+    width: 220px; height: 100vh;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+    overflow-y: auto;
+    z-index: 100;
+  }
+  .sidebar-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap-8px;
+  }
+  .sidebar-logo span { color: var(--muted); }
+  .nav-group { margin-bottom: 20px; }
+  .nav-group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 6px; padding-left: 8px;
+  }
+  .nav-link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; border-radius: 6px;
+    color: #5a6a8a; font-size: 13px;
+    text-decoration: none;
+    transition: all .15s;
+    margin-bottom: 2px;
+  }
+  .nav-link:hover { color: var(--text); background: var(--bg3); }
+  .nav-link .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── Main ── */
+  .main { margin-left: 220px; padding: 48px 40px 80px; max-width: 900px; }
+
+  /* ── Page header ── */
+  .page-header { margin-bottom: 56px; }
+  .page-header h1 {
+    font-size: 36px; font-weight: 700; letter-spacing: -.02em;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .page-header p { color: var(--muted); font-size: 15px; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 56px; }
+  .section-title {
+    font-size: 13px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── Shortcut card ── */
+  .sc-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    transition: border-color .2s;
+  }
+  .sc-card:hover { border-color: #252d45; }
+
+  .sc-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  /* Code panel */
+  .sc-code {
+    padding: 18px 20px;
+    border-right: 1px solid var(--border);
+  }
+  .sc-code-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .copy-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--muted);
+    background: transparent; border: 1px solid var(--border);
+    padding: 2px 7px; border-radius: 3px; cursor: pointer;
+    transition: all .15s; letter-spacing: .05em;
+  }
+  .copy-btn:hover { color: var(--text); border-color: #2a3550; }
+
+  .sc-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px; font-weight: 600;
+    color: var(--accent); margin-bottom: 6px;
+  }
+  .sc-applies {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #3a5070; line-height: 1.7;
+  }
+  .sc-applies span { color: var(--purple); }
+
+  /* Demo panel */
+  .sc-demo {
+    padding: 18px 20px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+  }
+  .sc-demo-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .demo-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    min-height: 80px;
+    overflow: hidden;
+  }
+
+  /* ── CSS block (full width) ── */
+  .sc-css {
+    border-top: 1px solid var(--border);
+    padding: 14px 20px;
+    background: #05080d;
+  }
+  .sc-css-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 8px;
+  }
+  pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; line-height: 1.8; color: #5a7090;
+    overflow-x: auto; white-space: pre;
+  }
+  .kw  { color: #38bdf8; }
+  .val { color: #34d399; }
+  .cm  { color: #2a3a55; font-style: italic; }
+  .cl  { color: #a78bfa; }
+
+  /* ── Demo components ── */
+  .demo-center-box {
+    display: flex; align-items: center; justify-content: center;
+    height: 80px;
+  }
+  .demo-dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent); opacity: .8;
+  }
+  .demo-badge {
+    background: rgba(56,189,248,.15);
+    border: 1px solid rgba(56,189,248,.3);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; padding: 2px 8px; border-radius: 3px;
+  }
+  .demo-between {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 80px; padding: 0 16px;
+  }
+  .demo-col {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 80px; gap: 6px;
+  }
+
+  /* Buttons */
+  .dbtn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 6px 16px; border-radius: 8px; font-size: 13px;
+    font-weight: 500; cursor: pointer; transition: all .2s;
+    border: none;
+  }
+  .dbtn-primary {
+    background: #0ea5e9; color: white;
+  }
+  .dbtn-primary:hover { background: #0284c7; transform: scale(.97); }
+  .dbtn-outline {
+    background: transparent; color: #38bdf8;
+    border: 1px solid #38bdf8;
+  }
+  .dbtn-outline:hover { background: #38bdf8; color: white; transform: scale(.97); }
+  .dbtn-ghost {
+    background: transparent; color: #94a3b8;
+    border: 1px solid #1e2535;
+  }
+  .dbtn-ghost:hover { background: #1e2535; color: white; }
+
+  /* Card */
+  .dcard {
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    background: rgba(255,255,255,.03);
+    transition: all .3s;
+    font-size: 13px; color: #94a3b8;
+  }
+  .dcard:hover {
+    border-color: rgba(255,255,255,.15);
+    background: rgba(255,255,255,.05);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  }
+
+  /* Glass */
+  .dglass {
+    position: relative; height: 80px; border-radius: 6px; overflow: hidden;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+  }
+  .dglass-card {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    font-size: 12px; color: white; font-weight: 500;
+  }
+
+  /* Overlay demo */
+  .doverlay-wrap {
+    position: relative; height: 80px; border-radius: 6px; overflow: hidden;
+    background: linear-gradient(135deg, #0f172a, #1e3a5f);
+  }
+  .doverlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.5);
+    font-size: 12px; color: rgba(255,255,255,.7);
+  }
+
+  /* Gradient text */
+  .dgradient-text {
+    font-size: 22px; font-weight: 700;
+    background: linear-gradient(135deg, #38bdf8, #a78bfa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  /* Section demo */
+  .dsection {
+    padding: 16px; background: #0c1524; border-radius: 6px;
+  }
+  .dsection-inner {
+    max-width: 300px; margin: 0 auto;
+    border: 1px dashed #1e3a5f; border-radius: 4px;
+    padding: 8px; text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: #38bdf8;
+  }
+
+  /* Truncate */
+  .dtruncate {
+    overflow: hidden; white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 13px; color: #94a3b8;
+    padding: 8px 12px;
+  }
+
+  /* Square */
+  .dsquare-row {
+    display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+    flex-wrap: wrap;
+  }
+  .dsquare {
+    background: rgba(56,189,248,.2);
+    border: 1px solid rgba(56,189,248,.3);
+    border-radius: 4px; display: flex;
+    align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--accent);
+  }
+
+  /* No scrollbar demo */
+  .dno-scroll {
+    display: flex; gap: 8px; overflow-x: auto;
+    padding: 12px; scrollbar-width: none;
+  }
+  .dno-scroll::-webkit-scrollbar { display: none; }
+  .dno-scroll-item {
+    flex-shrink: 0; width: 60px; height: 40px;
+    border-radius: 6px; background: rgba(167,139,250,.2);
+    border: 1px solid rgba(167,139,250,.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--purple);
+  }
+
+  /* center-abs */
+  .dcenter-abs {
+    position: relative; height: 80px;
+    background: var(--bg3); border-radius: 6px;
+    overflow: hidden;
+  }
+  .dcenter-abs-inner {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(56,189,248,.2);
+    border: 1px solid rgba(56,189,248,.4);
+    padding: 6px 14px; border-radius: 6px;
+    font-size: 12px; color: var(--accent);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 24px 16px 60px; }
+    .sc-top { grid-template-columns: 1fr; }
+    .sc-code { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    .shortcuts <span>/ tw</span>
+  </div>
+
+  <div class="nav-group">
+    <p class="nav-group-label">Центрування</p>
+    <a href="#center" class="nav-link"><span class="dot" style="background:#38bdf8"></span>.center</a>
+    <a href="#center-col" class="nav-link"><span class="dot" style="background:#38bdf8"></span>.center-col</a>
+    <a href="#center-xy" class="nav-link"><span class="dot" style="background:#38bdf8"></span>.center-x / y</a>
+    <a href="#between" class="nav-link"><span class="dot" style="background:#38bdf8"></span>.between</a>
+  </div>
+
+  <div class="nav-group">
+    <p class="nav-group-label">Розміри</p>
+    <a href="#full" class="nav-link"><span class="dot" style="background:#34d399"></span>.full / .screen</a>
+    <a href="#square" class="nav-link"><span class="dot" style="background:#34d399"></span>.square-{n}</a>
+  </div>
+
+  <div class="nav-group">
+    <p class="nav-group-label">Позиція</p>
+    <a href="#overlay" class="nav-link"><span class="dot" style="background:#a78bfa"></span>.overlay</a>
+    <a href="#center-abs" class="nav-link"><span class="dot" style="background:#a78bfa"></span>.center-abs</a>
+  </div>
+
+  <div class="nav-group">
+    <p class="nav-group-label">Типографіка</p>
+    <a href="#truncate" class="nav-link"><span class="dot" style="background:#fb923c"></span>.text-truncate</a>
+    <a href="#gradient-text" class="nav-link"><span class="dot" style="background:#fb923c"></span>.gradient-text</a>
+  </div>
+
+  <div class="nav-group">
+    <p class="nav-group-label">Компоненти</p>
+    <a href="#glass" class="nav-link"><span class="dot" style="background:#f472b6"></span>.glass</a>
+    <a href="#btn" class="nav-link"><span class="dot" style="background:#f472b6"></span>.btn-*</a>
+    <a href="#card" class="nav-link"><span class="dot" style="background:#f472b6"></span>.card / .card-hover</a>
+  </div>
+
+  <div class="nav-group">
+    <p class="nav-group-label">Layout</p>
+    <a href="#container" class="nav-link"><span class="dot" style="background:#38bdf8"></span>.container-*</a>
+    <a href="#section" class="nav-link"><span class="dot" style="background:#38bdf8"></span>.section</a>
+    <a href="#no-scrollbar" class="nav-link"><span class="dot" style="background:#38bdf8"></span>.no-scrollbar</a>
+  </div>
+
+  <div class="nav-group">
+    <p class="nav-group-label">CSS файл</p>
+    <a href="#full-css" class="nav-link"><span class="dot" style="background:#34d399"></span>style.css повний</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="page-header">
+    <h1>Tailwind Shortcuts</h1>
+    <p>Кастомні класи через @apply — пишеш менше, читаєш швидше</p>
+  </div>
+
+  <!-- ════════ ЦЕНТРУВАННЯ ════════ -->
+  <div class="section" id="center">
+    <h2 class="section-title">Центрування</h2>
+
+    <!-- .center -->
+    <div class="sc-card">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            клас
+            <button class="copy-btn" onclick="copyText('.center', this)">copy</button>
+          </div>
+          <div class="sc-name">.center</div>
+          <div class="sc-applies">
+            <span>flex</span> items-center<br>
+            <span>justify-center</span>
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box demo-center-box">
+            <div class="demo-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.center</span> {
+  <span class="cm">@apply</span> <span class="kw">flex items-center justify-center</span>;
+}</pre>
+      </div>
+    </div>
+
+    <!-- .center-col -->
+    <div class="sc-card" id="center-col">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            клас
+            <button class="copy-btn" onclick="copyText('.center-col', this)">copy</button>
+          </div>
+          <div class="sc-name">.center-col</div>
+          <div class="sc-applies">
+            <span>flex flex-col</span><br>
+            items-center<br>
+            <span>justify-center</span>
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box demo-col">
+            <div class="demo-dot" style="width:24px;height:24px"></div>
+            <div class="demo-badge">item</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.center-col</span> {
+  <span class="cm">@apply</span> <span class="kw">flex flex-col items-center justify-center</span>;
+}</pre>
+      </div>
+    </div>
+
+    <!-- .center-x / .center-y -->
+    <div class="sc-card" id="center-xy">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">клас</div>
+          <div class="sc-name">.center-x</div>
+          <div class="sc-applies">
+            <span>flex justify-center</span>
+          </div>
+          <br>
+          <div class="sc-name">.center-y</div>
+          <div class="sc-applies">
+            <span>flex items-center</span>
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo — center-x</div>
+          <div class="demo-box" style="display:flex;justify-content:center;align-items:flex-start;padding:16px">
+            <div class="demo-dot" style="width:24px;height:24px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.center-x</span> { <span class="cm">@apply</span> <span class="kw">flex justify-center</span>; }
+<span class="cl">.center-y</span> { <span class="cm">@apply</span> <span class="kw">flex items-center</span>; }</pre>
+      </div>
+    </div>
+
+    <!-- .between -->
+    <div class="sc-card" id="between">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            клас
+            <button class="copy-btn" onclick="copyText('.between', this)">copy</button>
+          </div>
+          <div class="sc-name">.between</div>
+          <div class="sc-applies">
+            <span>flex items-center</span><br>
+            <span>justify-between</span>
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box demo-between">
+            <div class="demo-badge">Logo</div>
+            <div class="demo-badge">Menu</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.between</span> {
+  <span class="cm">@apply</span> <span class="kw">flex items-center justify-between</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ РОЗМІРИ ════════ -->
+  <div class="section" id="full">
+    <h2 class="section-title">Розміри</h2>
+
+    <!-- .full / .screen -->
+    <div class="sc-card">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">класи</div>
+          <div class="sc-name">.full</div>
+          <div class="sc-applies"><span>w-full h-full</span></div>
+          <br>
+          <div class="sc-name">.screen</div>
+          <div class="sc-applies"><span>w-screen h-screen</span></div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">використання</div>
+          <div class="demo-box" style="padding:12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#3a5070;display:flex;flex-direction:column;gap:6px;justify-content:center">
+            <span><span style="color:#a78bfa">&lt;div</span> <span style="color:#38bdf8">class</span>=<span style="color:#34d399">"full"</span><span style="color:#a78bfa">&gt;</span></span>
+            <span><span style="color:#a78bfa">&lt;div</span> <span style="color:#38bdf8">class</span>=<span style="color:#34d399">"screen center"</span><span style="color:#a78bfa">&gt;</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.full</span>   { <span class="cm">@apply</span> <span class="kw">w-full h-full</span>; }
+<span class="cl">.screen</span> { <span class="cm">@apply</span> <span class="kw">w-screen h-screen</span>; }</pre>
+      </div>
+    </div>
+
+    <!-- .square-{n} -->
+    <div class="sc-card" id="square">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            класи
+            <button class="copy-btn" onclick="copyText('.square-8 { @apply w-8 h-8; }', this)">copy css</button>
+          </div>
+          <div class="sc-name">.square-{n}</div>
+          <div class="sc-applies">
+            <span>.square-8</span>  → w-8 h-8 (32px)<br>
+            <span>.square-10</span> → w-10 h-10 (40px)<br>
+            <span>.square-12</span> → w-12 h-12 (48px)<br>
+            <span>.square-16</span> → w-16 h-16 (64px)
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box dsquare-row">
+            <div class="dsquare" style="width:32px;height:32px">8</div>
+            <div class="dsquare" style="width:40px;height:40px">10</div>
+            <div class="dsquare" style="width:48px;height:48px">12</div>
+            <div class="dsquare" style="width:64px;height:64px">16</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.square-8</span>  { <span class="cm">@apply</span> <span class="kw">w-8 h-8</span>; }
+<span class="cl">.square-10</span> { <span class="cm">@apply</span> <span class="kw">w-10 h-10</span>; }
+<span class="cl">.square-12</span> { <span class="cm">@apply</span> <span class="kw">w-12 h-12</span>; }
+<span class="cl">.square-16</span> { <span class="cm">@apply</span> <span class="kw">w-16 h-16</span>; }</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ ПОЗИЦІЯ ════════ -->
+  <div class="section" id="overlay">
+    <h2 class="section-title">Позиціонування</h2>
+
+    <!-- .overlay -->
+    <div class="sc-card">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            клас
+            <button class="copy-btn" onclick="copyText('.overlay', this)">copy</button>
+          </div>
+          <div class="sc-name">.overlay</div>
+          <div class="sc-applies">
+            <span>absolute inset-0</span><br>
+            Покриває батьківський елемент
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box doverlay-wrap">
+            <div class="doverlay">overlay поверх</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply + використання</div>
+        <pre><span class="cl">.overlay</span> { <span class="cm">@apply</span> <span class="kw">absolute inset-0</span>; }
+
+<span class="cm">&lt;!-- HTML --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="val">"relative"</span>&gt;
+  &lt;<span class="kw">img</span> src=<span class="val">"..."</span> /&gt;
+  &lt;<span class="kw">div</span> class=<span class="val">"overlay center bg-black/50"</span>&gt;
+    Текст поверх
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</pre>
+      </div>
+    </div>
+
+    <!-- .center-abs -->
+    <div class="sc-card" id="center-abs">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            клас
+            <button class="copy-btn" onclick="copyText('.center-abs', this)">copy</button>
+          </div>
+          <div class="sc-name">.center-abs</div>
+          <div class="sc-applies">
+            <span>absolute top-1/2 left-1/2</span><br>
+            <span>-translate-x-1/2 -translate-y-1/2</span><br>
+            Точно по центру батька
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box dcenter-abs">
+            <div class="dcenter-abs-inner">center-abs</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.center-abs</span> {
+  <span class="cm">@apply</span> <span class="kw">absolute top-1/2 left-1/2
+         -translate-x-1/2 -translate-y-1/2</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ ТИПОГРАФІКА ════════ -->
+  <div class="section" id="truncate">
+    <h2 class="section-title">Типографіка</h2>
+
+    <!-- .text-truncate -->
+    <div class="sc-card">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            клас
+            <button class="copy-btn" onclick="copyText('.text-truncate', this)">copy</button>
+          </div>
+          <div class="sc-name">.text-truncate</div>
+          <div class="sc-applies">
+            <span>truncate overflow-hidden</span><br>
+            <span>whitespace-nowrap</span><br>
+            Обрізає текст з ...
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box" style="display:flex;align-items:center">
+            <div class="dtruncate">Дуже довгий текст який не вміщується у контейнер і має бути обрізаний</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.text-truncate</span> {
+  <span class="cm">@apply</span> <span class="kw">truncate overflow-hidden whitespace-nowrap</span>;
+}</pre>
+      </div>
+    </div>
+
+    <!-- .gradient-text -->
+    <div class="sc-card" id="gradient-text">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            клас
+            <button class="copy-btn" onclick="copyText('.gradient-text', this)">copy</button>
+          </div>
+          <div class="sc-name">.gradient-text</div>
+          <div class="sc-applies">
+            <span>bg-clip-text text-transparent</span><br>
+            <span>bg-gradient-to-r</span><br>
+            from-sky-400 to-violet-400
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box center-demo" style="display:flex;align-items:center;justify-content:center;height:80px">
+            <div class="dgradient-text">Gradient Text</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.gradient-text</span> {
+  <span class="cm">@apply</span> <span class="kw">bg-clip-text text-transparent
+         bg-gradient-to-r from-sky-400 to-violet-400</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ КОМПОНЕНТИ ════════ -->
+  <div class="section" id="glass">
+    <h2 class="section-title">Компоненти</h2>
+
+    <!-- .glass -->
+    <div class="sc-card">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            класи
+            <button class="copy-btn" onclick="copyText('.glass', this)">copy</button>
+          </div>
+          <div class="sc-name">.glass</div>
+          <div class="sc-applies">
+            <span>backdrop-blur-md</span><br>
+            <span>bg-white/10</span><br>
+            border border-white/20
+          </div>
+          <br>
+          <div class="sc-name">.glass-dark</div>
+          <div class="sc-applies">
+            <span>backdrop-blur-md</span><br>
+            <span>bg-black/30</span><br>
+            border border-white/10
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box dglass">
+            <div class="dglass-card">.glass card</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.glass</span> {
+  <span class="cm">@apply</span> <span class="kw">backdrop-blur-md bg-white/10 border border-white/20</span>;
+}
+<span class="cl">.glass-dark</span> {
+  <span class="cm">@apply</span> <span class="kw">backdrop-blur-md bg-black/30 border border-white/10</span>;
+}</pre>
+      </div>
+    </div>
+
+    <!-- .btn-* -->
+    <div class="sc-card" id="btn">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">класи</div>
+          <div class="sc-name">.btn</div>
+          <div class="sc-applies">base стилі кнопки</div>
+          <br>
+          <div class="sc-name">.btn-primary</div>
+          <div class="sc-applies"><span>btn</span> + синій фон</div>
+          <br>
+          <div class="sc-name">.btn-outline</div>
+          <div class="sc-applies"><span>btn</span> + рамка</div>
+          <br>
+          <div class="sc-name">.btn-ghost</div>
+          <div class="sc-applies"><span>btn</span> + прозорий</div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box" style="display:flex;flex-direction:column;gap:8px;padding:16px;justify-content:center">
+            <button class="dbtn dbtn-primary">btn-primary</button>
+            <button class="dbtn dbtn-outline">btn-outline</button>
+            <button class="dbtn dbtn-ghost">btn-ghost</button>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.btn</span> {
+  <span class="cm">@apply</span> <span class="kw">inline-flex items-center justify-center
+         px-4 py-2 rounded-lg font-medium
+         transition-all duration-200 cursor-pointer</span>;
+}
+<span class="cl">.btn-primary</span> {
+  <span class="cm">@apply</span> <span class="kw">btn bg-sky-500 text-white
+         hover:bg-sky-600 active:scale-95</span>;
+}
+<span class="cl">.btn-outline</span> {
+  <span class="cm">@apply</span> <span class="kw">btn border border-sky-500 text-sky-500
+         hover:bg-sky-500 hover:text-white active:scale-95</span>;
+}
+<span class="cl">.btn-ghost</span> {
+  <span class="cm">@apply</span> <span class="kw">btn border border-white/10 text-gray-400
+         hover:bg-white/5 active:scale-95</span>;
+}</pre>
+      </div>
+    </div>
+
+    <!-- .card / .card-hover -->
+    <div class="sc-card" id="card">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">класи</div>
+          <div class="sc-name">.card</div>
+          <div class="sc-applies">
+            <span>rounded-xl border</span><br>
+            border-white/10<br>
+            <span>bg-white/5 p-6</span>
+          </div>
+          <br>
+          <div class="sc-name">.card-hover</div>
+          <div class="sc-applies">
+            <span>card</span> + hover ефекти<br>
+            піднімається при hover
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo — наведи мишку</div>
+          <div class="demo-box" style="padding:12px;display:flex;gap:8px">
+            <div class="dcard" style="flex:1">
+              <div style="font-size:12px;font-weight:600;margin-bottom:4px;color:#dde4f0">.card</div>
+              <div style="font-size:11px">base стилі</div>
+            </div>
+            <div class="dcard" style="flex:1">
+              <div style="font-size:12px;font-weight:600;margin-bottom:4px;color:#dde4f0">.card-hover</div>
+              <div style="font-size:11px">наведи мишку ↑</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.card</span> {
+  <span class="cm">@apply</span> <span class="kw">rounded-xl border border-white/10
+         bg-white/5 p-6 transition-all duration-300</span>;
+}
+<span class="cl">.card-hover</span> {
+  <span class="cm">@apply</span> <span class="kw">card hover:border-white/20
+         hover:shadow-xl hover:-translate-y-1</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ LAYOUT ════════ -->
+  <div class="section" id="container">
+    <h2 class="section-title">Layout</h2>
+
+    <!-- .container-* -->
+    <div class="sc-card">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">класи</div>
+          <div class="sc-name">.container-xl</div>
+          <div class="sc-applies">
+            <span>max-w-7xl mx-auto</span><br>
+            px-4 md:px-8
+          </div>
+          <br>
+          <div class="sc-name">.container-md</div>
+          <div class="sc-applies">
+            <span>max-w-3xl mx-auto</span><br>
+            px-4 md:px-6
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo</div>
+          <div class="demo-box dsection" style="padding:12px">
+            <div style="background:#0c1524;border-radius:6px;padding:8px">
+              <div style="border:1px dashed #0ea5e9;border-radius:4px;padding:6px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#0ea5e9">.container-xl (1280px)</div>
+            </div>
+            <div style="background:#0c1524;border-radius:6px;padding:8px;margin-top:4px">
+              <div style="border:1px dashed #a78bfa;border-radius:4px;padding:6px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#a78bfa;max-width:70%;margin:0 auto">.container-md (768px)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply + використання</div>
+        <pre><span class="cl">.container-xl</span> {
+  <span class="cm">@apply</span> <span class="kw">max-w-7xl mx-auto px-4 md:px-8</span>;
+}
+<span class="cl">.container-md</span> {
+  <span class="cm">@apply</span> <span class="kw">max-w-3xl mx-auto px-4 md:px-6</span>;
+}
+
+<span class="cm">&lt;!-- HTML --&gt;</span>
+&lt;<span class="kw">section</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="val">"container-xl"</span>&gt;
+    контент тут
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">section</span>&gt;</pre>
+      </div>
+    </div>
+
+    <!-- .section -->
+    <div class="sc-card" id="section">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">класи</div>
+          <div class="sc-name">.section</div>
+          <div class="sc-applies">
+            <span>py-16 md:py-24</span>
+          </div>
+          <br>
+          <div class="sc-name">.section-sm</div>
+          <div class="sc-applies">
+            <span>py-8 md:py-12</span>
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">використання</div>
+          <div class="demo-box" style="padding:12px;font-family:'JetBrains Mono',monospace;font-size:11px;display:flex;flex-direction:column;gap:6px;justify-content:center;color:#3a5070">
+            <span>&lt;<span style="color:#a78bfa">section</span> <span style="color:#38bdf8">class</span>=<span style="color:#34d399">"section"</span>&gt;</span>
+            <span style="padding-left:12px">&lt;<span style="color:#a78bfa">div</span> <span style="color:#38bdf8">class</span>=<span style="color:#34d399">"container-xl"</span>&gt;</span>
+            <span style="padding-left:24px;color:#2a3a55">контент</span>
+            <span style="padding-left:12px">&lt;/<span style="color:#a78bfa">div</span>&gt;</span>
+            <span>&lt;/<span style="color:#a78bfa">section</span>&gt;</span>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">@apply</div>
+        <pre><span class="cl">.section</span>    { <span class="cm">@apply</span> <span class="kw">py-16 md:py-24</span>; }
+<span class="cl">.section-sm</span> { <span class="cm">@apply</span> <span class="kw">py-8 md:py-12</span>; }</pre>
+      </div>
+    </div>
+
+    <!-- .no-scrollbar -->
+    <div class="sc-card" id="no-scrollbar">
+      <div class="sc-top">
+        <div class="sc-code">
+          <div class="sc-code-label">
+            клас
+            <button class="copy-btn" onclick="copyText('.no-scrollbar', this)">copy</button>
+          </div>
+          <div class="sc-name">.no-scrollbar</div>
+          <div class="sc-applies">
+            Прибирає скроллбар<br>
+            але скрол залишається<br>
+            <span>scrollbar-width: none</span>
+          </div>
+        </div>
+        <div class="sc-demo">
+          <div class="sc-demo-label">demo — скролюй</div>
+          <div class="demo-box">
+            <div class="dno-scroll">
+              <div class="dno-scroll-item">1</div>
+              <div class="dno-scroll-item">2</div>
+              <div class="dno-scroll-item">3</div>
+              <div class="dno-scroll-item">4</div>
+              <div class="dno-scroll-item">5</div>
+              <div class="dno-scroll-item">6</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-css">
+        <div class="sc-css-label">CSS (не @apply — нативний CSS)</div>
+        <pre><span class="cl">.no-scrollbar</span> {
+  <span class="kw">scrollbar-width</span>: <span class="val">none</span>;
+  <span class="kw">-ms-overflow-style</span>: <span class="val">none</span>;
+}
+<span class="cl">.no-scrollbar</span>:<span class="kw">:-webkit-scrollbar</span> {
+  <span class="kw">display</span>: <span class="val">none</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ ПОВНИЙ CSS ════════ -->
+  <div class="section" id="full-css">
+    <h2 class="section-title">Повний style.css</h2>
+
+    <div class="sc-card">
+      <div class="sc-css" style="border-top:none">
+        <div class="sc-css-label" style="display:flex;justify-content:space-between;align-items:center">
+          <span>src/style.css — копіюй повністю</span>
+          <button class="copy-btn" id="copy-all-btn" onclick="copyAll()">copy all</button>
+        </div>
+        <pre id="full-css-block"><span class="cm">/* src/style.css */</span>
+<span class="kw">@import</span> <span class="val">"tailwindcss"</span>;
+
+<span class="kw">@layer</span> utilities {
+
+  <span class="cm">/* ── Центрування ── */</span>
+  <span class="cl">.center</span>     { <span class="cm">@apply</span> <span class="kw">flex items-center justify-center</span>; }
+  <span class="cl">.center-col</span> { <span class="cm">@apply</span> <span class="kw">flex flex-col items-center justify-center</span>; }
+  <span class="cl">.center-x</span>   { <span class="cm">@apply</span> <span class="kw">flex justify-center</span>; }
+  <span class="cl">.center-y</span>   { <span class="cm">@apply</span> <span class="kw">flex items-center</span>; }
+  <span class="cl">.between</span>    { <span class="cm">@apply</span> <span class="kw">flex items-center justify-between</span>; }
+
+  <span class="cm">/* ── Розміри ── */</span>
+  <span class="cl">.full</span>       { <span class="cm">@apply</span> <span class="kw">w-full h-full</span>; }
+  <span class="cl">.screen</span>     { <span class="cm">@apply</span> <span class="kw">w-screen h-screen</span>; }
+  <span class="cl">.square-8</span>   { <span class="cm">@apply</span> <span class="kw">w-8 h-8</span>; }
+  <span class="cl">.square-10</span>  { <span class="cm">@apply</span> <span class="kw">w-10 h-10</span>; }
+  <span class="cl">.square-12</span>  { <span class="cm">@apply</span> <span class="kw">w-12 h-12</span>; }
+  <span class="cl">.square-16</span>  { <span class="cm">@apply</span> <span class="kw">w-16 h-16</span>; }
+
+  <span class="cm">/* ── Позиціонування ── */</span>
+  <span class="cl">.overlay</span>    { <span class="cm">@apply</span> <span class="kw">absolute inset-0</span>; }
+  <span class="cl">.fixed-full</span> { <span class="cm">@apply</span> <span class="kw">fixed inset-0</span>; }
+  <span class="cl">.center-abs</span> {
+    <span class="cm">@apply</span> <span class="kw">absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2</span>;
+  }
+
+  <span class="cm">/* ── Типографіка ── */</span>
+  <span class="cl">.text-truncate</span> {
+    <span class="cm">@apply</span> <span class="kw">truncate overflow-hidden whitespace-nowrap</span>;
+  }
+  <span class="cl">.gradient-text</span> {
+    <span class="cm">@apply</span> <span class="kw">bg-clip-text text-transparent
+           bg-gradient-to-r from-sky-400 to-violet-400</span>;
+  }
+
+  <span class="cm">/* ── Glassmorphism ── */</span>
+  <span class="cl">.glass</span>      { <span class="cm">@apply</span> <span class="kw">backdrop-blur-md bg-white/10 border border-white/20</span>; }
+  <span class="cl">.glass-dark</span> { <span class="cm">@apply</span> <span class="kw">backdrop-blur-md bg-black/30 border border-white/10</span>; }
+
+  <span class="cm">/* ── Кнопки ── */</span>
+  <span class="cl">.btn</span> {
+    <span class="cm">@apply</span> <span class="kw">inline-flex items-center justify-center
+           px-4 py-2 rounded-lg font-medium
+           transition-all duration-200 cursor-pointer</span>;
+  }
+  <span class="cl">.btn-primary</span> {
+    <span class="cm">@apply</span> <span class="kw">btn bg-sky-500 text-white
+           hover:bg-sky-600 active:scale-95</span>;
+  }
+  <span class="cl">.btn-outline</span> {
+    <span class="cm">@apply</span> <span class="kw">btn border border-sky-500 text-sky-500
+           hover:bg-sky-500 hover:text-white active:scale-95</span>;
+  }
+  <span class="cl">.btn-ghost</span> {
+    <span class="cm">@apply</span> <span class="kw">btn border border-white/10 text-gray-400
+           hover:bg-white/5 active:scale-95</span>;
+  }
+
+  <span class="cm">/* ── Картки ── */</span>
+  <span class="cl">.card</span> {
+    <span class="cm">@apply</span> <span class="kw">rounded-xl border border-white/10
+           bg-white/5 p-6 transition-all duration-300</span>;
+  }
+  <span class="cl">.card-hover</span> {
+    <span class="cm">@apply</span> <span class="kw">card hover:border-white/20
+           hover:shadow-xl hover:-translate-y-1</span>;
+  }
+
+  <span class="cm">/* ── Layout ── */</span>
+  <span class="cl">.container-xl</span> { <span class="cm">@apply</span> <span class="kw">max-w-7xl mx-auto px-4 md:px-8</span>; }
+  <span class="cl">.container-md</span> { <span class="cm">@apply</span> <span class="kw">max-w-3xl mx-auto px-4 md:px-6</span>; }
+  <span class="cl">.section</span>      { <span class="cm">@apply</span> <span class="kw">py-16 md:py-24</span>; }
+  <span class="cl">.section-sm</span>   { <span class="cm">@apply</span> <span class="kw">py-8 md:py-12</span>; }
+}
+
+<span class="cm">/* ── No scrollbar (нативний CSS) ── */</span>
+<span class="cl">.no-scrollbar</span> {
+  <span class="kw">scrollbar-width</span>: <span class="val">none</span>;
+  <span class="kw">-ms-overflow-style</span>: <span class="val">none</span>;
+}
+<span class="cl">.no-scrollbar</span>::<span class="kw">-webkit-scrollbar</span> {
+  <span class="kw">display</span>: <span class="val">none</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent
+    btn.textContent = 'copied!'
+    btn.style.color = '#34d399'
+    setTimeout(() => {
+      btn.textContent = orig
+      btn.style.color = ''
+    }, 1500)
+  })
+}
+
+function copyAll() {
+  const css = `/* src/style.css */
+@import "tailwindcss";
+
+@layer utilities {
+
+  /* ── Центрування ── */
+  .center     { @apply flex items-center justify-center; }
+  .center-col { @apply flex flex-col items-center justify-center; }
+  .center-x   { @apply flex justify-center; }
+  .center-y   { @apply flex items-center; }
+  .between    { @apply flex items-center justify-between; }
+
+  /* ── Розміри ── */
+  .full       { @apply w-full h-full; }
+  .screen     { @apply w-screen h-screen; }
+  .square-8   { @apply w-8 h-8; }
+  .square-10  { @apply w-10 h-10; }
+  .square-12  { @apply w-12 h-12; }
+  .square-16  { @apply w-16 h-16; }
+
+  /* ── Позиціонування ── */
+  .overlay    { @apply absolute inset-0; }
+  .fixed-full { @apply fixed inset-0; }
+  .center-abs {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  /* ── Типографіка ── */
+  .text-truncate {
+    @apply truncate overflow-hidden whitespace-nowrap;
+  }
+  .gradient-text {
+    @apply bg-clip-text text-transparent
+           bg-gradient-to-r from-sky-400 to-violet-400;
+  }
+
+  /* ── Glassmorphism ── */
+  .glass      { @apply backdrop-blur-md bg-white/10 border border-white/20; }
+  .glass-dark { @apply backdrop-blur-md bg-black/30 border border-white/10; }
+
+  /* ── Кнопки ── */
+  .btn {
+    @apply inline-flex items-center justify-center
+           px-4 py-2 rounded-lg font-medium
+           transition-all duration-200 cursor-pointer;
+  }
+  .btn-primary {
+    @apply btn bg-sky-500 text-white
+           hover:bg-sky-600 active:scale-95;
+  }
+  .btn-outline {
+    @apply btn border border-sky-500 text-sky-500
+           hover:bg-sky-500 hover:text-white active:scale-95;
+  }
+  .btn-ghost {
+    @apply btn border border-white/10 text-gray-400
+           hover:bg-white/5 active:scale-95;
+  }
+
+  /* ── Картки ── */
+  .card {
+    @apply rounded-xl border border-white/10
+           bg-white/5 p-6 transition-all duration-300;
+  }
+  .card-hover {
+    @apply card hover:border-white/20
+           hover:shadow-xl hover:-translate-y-1;
+  }
+
+  /* ── Layout ── */
+  .container-xl { @apply max-w-7xl mx-auto px-4 md:px-8; }
+  .container-md { @apply max-w-3xl mx-auto px-4 md:px-6; }
+  .section      { @apply py-16 md:py-24; }
+  .section-sm   { @apply py-8 md:py-12; }
+}
+
+/* ── No scrollbar ── */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}`
+
+  navigator.clipboard.writeText(css).then(() => {
+    const btn = document.getElementById('copy-all-btn')
+    btn.textContent = 'copied!'
+    btn.style.color = '#34d399'
+    setTimeout(() => {
+      btn.textContent = 'copy all'
+      btn.style.color = ''
+    }, 2000)
+  })
+}
+
+// Highlight active nav link on scroll
+const sections = document.querySelectorAll('[id]')
+const navLinks = document.querySelectorAll('.nav-link')
+
+window.addEventListener('scroll', () => {
+  let current = ''
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id
+  })
+  navLinks.forEach(link => {
+    link.style.color = link.getAttribute('href') === '#' + current
+      ? 'var(--text)' : ''
+    link.style.background = link.getAttribute('href') === '#' + current
+      ? 'var(--bg3)' : ''
+  })
+})
+</script>
+</body>
+</html>

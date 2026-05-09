@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Частина 2 — Колбеки та стрілки</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-code: #0d1117;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #7c6af7;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+    --comment: #6e7681;
+    --keyword: #ff7b72;
+    --string: #a5d6ff;
+    --func: #d2a8ff;
+    --number: #79c0ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 3rem 1.5rem;
+  }
+
+  .container { max-width: 760px; margin: 0 auto; }
+
+  .nav { display: flex; gap: 8px; margin-bottom: 3rem; font-size: 13px; }
+  .nav a { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .nav a.active { background: var(--accent); border-color: var(--accent); color: white; }
+  .nav a:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+  .header { margin-bottom: 3rem; }
+  .part-label { font-size: 12px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  h1 { font-size: 2rem; font-weight: 600; margin-bottom: 0.75rem; line-height: 1.2; }
+  .intro { color: var(--muted); font-size: 15px; max-width: 560px; }
+
+  .section { margin-bottom: 3rem; }
+
+  h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+  .num { width: 28px; height: 28px; background: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+
+  p { color: var(--muted); margin-bottom: 1rem; font-size: 15px; }
+
+  .analogy { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; font-size: 14px; color: var(--text); }
+  .analogy strong { color: var(--accent); }
+
+  pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 1.8; }
+
+  .cm { color: var(--comment); }
+  .kw { color: var(--keyword); }
+  .fn { color: var(--func); }
+  .st { color: var(--string); }
+  .nm { color: var(--number); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+  .card.good { border-color: var(--green); }
+  .card.bad { border-color: var(--red); }
+  .card.neutral { border-color: var(--accent); }
+  .card-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .card.good .card-label { color: var(--green); }
+  .card.bad .card-label { color: var(--red); }
+  .card.neutral .card-label { color: var(--accent); }
+  .card pre { margin: 0; background: transparent; border: none; padding: 0; font-size: 13px; }
+
+  .tip { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .tip-text { color: var(--muted); }
+  .tip-text strong { color: var(--text); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+  .arrow-visual { display: flex; align-items: center; gap: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+  .arrow-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); white-space: nowrap; }
+  .arrow-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .arrow-sep { color: var(--muted); font-size: 20px; }
+
+  .steps { display: flex; flex-direction: column; gap: 12px; margin: 1rem 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; }
+  .step-num { width: 24px; height: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+  .step-text { color: var(--muted); font-size: 14px; }
+  .step-text strong { color: var(--text); }
+
+  nav.footer-nav { display: flex; justify-content: space-between; margin-top: 2rem; }
+  nav.footer-nav a { padding: 10px 20px; background: var(--bg-card); color: var(--text); text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 500; border: 1px solid var(--border); transition: all 0.2s; }
+  nav.footer-nav a.next { background: var(--accent); border-color: var(--accent); color: white; }
+  nav.footer-nav a:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="nav">
+    <a href="lecture-1-functions.html">1 — Основи функцій</a>
+    <a href="lecture-2-callbacks.html" class="active">2 — Колбеки та стрілки</a>
+    <a href="lecture-3-js-vs-csharp.html">3 — JS vs C#</a>
+  </nav>
+
+  <div class="header">
+    <p class="part-label">Частина 2 з 3</p>
+    <h1>Колбеки та стрілочні функції</h1>
+    <p class="intro">Анонімні функції, стрілочний синтаксис, колбеки — і чому функції в JS передаються як значення.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="num">1</span> Функція як значення</h2>
+    <p>В JS функція — це звичайне значення. Її можна записати в змінну, передати в іншу функцію, повернути з функції.</p>
+
+    <pre><span class="cm">// Функція — це значення, як число чи рядок</span>
+<span class="kw">const</span> num = <span class="nm">42</span>
+<span class="kw">const</span> text = <span class="st">'hello'</span>
+<span class="kw">const</span> greet = <span class="kw">function</span>() { console.log(<span class="st">'Hi!'</span>) }
+
+<span class="cm">// Можна передати в змінну і викликати</span>
+<span class="fn">greet</span>()  <span class="cm">// → Hi!</span>
+
+<span class="cm">// Можна передати в іншу функцію</span>
+setTimeout(<span class="fn">greet</span>, <span class="nm">1000</span>)  <span class="cm">// викличе greet через 1 секунду</span></pre>
+
+    <div class="analogy">
+      <strong>В C#</strong> функції так не передаються — там є делегати і лямбди, але концепція менш природня. <strong>В JS</strong> це основа мови — функції є об'єктами першого класу.
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">2</span> Стрілочна функція</h2>
+    <p>Коротший спосіб записати функцію. В React використовується майже скрізь.</p>
+
+    <div class="arrow-visual">
+      <div>
+        <div class="arrow-box">function add(a, b) { return a + b }</div>
+        <div class="arrow-label">Звичайна функція</div>
+      </div>
+      <div class="arrow-sep">→</div>
+      <div>
+        <div class="arrow-box">(a, b) => a + b</div>
+        <div class="arrow-label">Стрілочна функція</div>
+      </div>
+    </div>
+
+    <p>Різні форми запису — однаковий результат:</p>
+
+    <pre><span class="cm">// З тілом — кілька рядків, потрібен return</span>
+<span class="kw">const</span> add = (a, b) => {
+  <span class="kw">const</span> result = a + b
+  <span class="kw">return</span> result
+}
+
+<span class="cm">// Короткий запис — один вираз, return автоматичний</span>
+<span class="kw">const</span> add = (a, b) => a + b
+
+<span class="cm">// Один параметр — дужки можна прибрати</span>
+<span class="kw">const</span> double = n => n * <span class="nm">2</span>
+
+<span class="cm">// Повертає обʼєкт — потрібні круглі дужки</span>
+<span class="kw">const</span> makeUser = name => ({ name: name, role: <span class="st">'user'</span> })</pre>
+
+    <div class="tip">
+      <span class="tip-icon">💡</span>
+      <p class="tip-text"><strong>Чому () навколо об'єкта?</strong> Без них JS думає що <code>{}</code> — це тіло функції, а не об'єкт. Дужки кажуть: "це вираз, не блок коду".</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">3</span> Що таке колбек</h2>
+    <p>Колбек — це функція яку ти передаєш в іншу функцію. Та інша функція викличе її коли настане потрібний момент.</p>
+
+    <div class="analogy">
+      <strong>Аналогія:</strong> Ти замовив піцу і залишив свій номер телефону. Коли піца буде готова — тобі зателефонують. Твій номер — це колбек. Піцерія викличе тебе тоді коли потрібно.
+    </div>
+
+    <pre><span class="cm">// setTimeout — чекає N мілісекунд, потім викликає колбек</span>
+setTimeout(() => {
+  console.log(<span class="st">'Минула 1 секунда'</span>)
+}, <span class="nm">1000</span>)
+
+<span class="cm">// addEventListener — чекає події, потім викликає колбек</span>
+button.addEventListener(<span class="st">'click'</span>, () => {
+  console.log(<span class="st">'Кнопку натиснули'</span>)
+})
+
+<span class="cm">// .map() — викликає колбек для кожного елементу</span>
+[<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>].map(num => num * <span class="nm">2</span>)  <span class="cm">// → [2, 4, 6]</span>
+
+<span class="cm">// fetch — викликає колбек коли дані прийшли</span>
+fetch(<span class="st">'/api/data'</span>)
+  .then(res => res.json())       <span class="cm">// колбек 1</span>
+  .then(data => console.log(data)) <span class="cm">// колбек 2</span></pre>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">4</span> Анонімна vs іменована функція</h2>
+
+    <div class="grid">
+      <div class="card neutral">
+        <p class="card-label">Іменована</p>
+        <pre><span class="kw">function</span> <span class="fn">handleClick</span>() {
+  console.log(<span class="st">'клік'</span>)
+}
+
+button.onClick = <span class="fn">handleClick</span></pre>
+      </div>
+      <div class="card neutral">
+        <p class="card-label">Анонімна</p>
+        <pre>button.onClick = () => {
+  console.log(<span class="st">'клік'</span>)
+}
+
+<span class="cm">// пишемо прямо на місці</span></pre>
+      </div>
+    </div>
+
+    <p>Коли що використовувати:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p class="step-text"><strong>Іменована</strong> — якщо функцію використовуєш в кількох місцях. Пишеш один раз, викликаєш скрізь.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p class="step-text"><strong>Анонімна</strong> — якщо функція потрібна тільки в одному місці. Зручно писати прямо всередині JSX чи методу.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">5</span> Колбек з параметром event</h2>
+    <p>Браузерні події автоматично передають об'єкт <code>event</code> в колбек. Він містить інформацію про подію.</p>
+
+    <pre><span class="cm">// e або event — це обʼєкт з інфо про подію</span>
+input.onChange = (e) => {
+  console.log(e.target.value)  <span class="cm">// значення інпута</span>
+}
+
+button.onClick = (e) => {
+  console.log(e.target)  <span class="cm">// елемент на якому клікнули</span>
+  e.preventDefault()     <span class="cm">// скасувати стандартну поведінку</span>
+}</pre>
+
+    <p>В React — те саме, але пишеш на компоненті:</p>
+
+    <pre><span class="cm">// e автоматично передається React</span>
+&lt;input onChange={(e) => setValue(e.target.value)} /&gt;
+
+<span class="cm">// Якщо event не потрібен — просто () =></span>
+&lt;button onClick={() => deleteAll()}&gt;</pre>
+
+    <div class="tip">
+      <span class="tip-icon">⚠️</span>
+      <p class="tip-text"><strong>Важливо:</strong> якщо пишеш <code>(item) => deleteTodo(item)</code> в onClick — <code>item</code> буде event об'єктом, а не твоєю змінною з map. Завжди використовуй <code>() => deleteTodo(item)</code> щоб захопити потрібну змінну.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <h2><span class="num">6</span> Замикання (closure)</h2>
+    <p>Функція "запам'ятовує" змінні з того місця де була створена — навіть якщо виконується в іншому місці.</p>
+
+    <pre><span class="kw">function</span> <span class="fn">makeCounter</span>() {
+  <span class="kw">let</span> count = <span class="nm">0</span>  <span class="cm">// ← ця змінна "захоплюється"</span>
+
+  <span class="kw">return</span> () => {
+    count++
+    console.log(count)
+  }
+}
+
+<span class="kw">const</span> counter = <span class="fn">makeCounter</span>()
+<span class="fn">counter</span>()  <span class="cm">// → 1</span>
+<span class="fn">counter</span>()  <span class="cm">// → 2</span>
+<span class="fn">counter</span>()  <span class="cm">// → 3</span></pre>
+
+    <p>В React ти вже використовував замикання — коли колбек в <code>onClick</code> використовує <code>item</code> з <code>.map()</code>:</p>
+
+    <pre>[...todos].map((item) => (
+  &lt;li key={item.id}&gt;
+    <span class="cm">// item "захоплений" у цьому колбеку</span>
+    &lt;button onClick={() => removeTodo(item.id)}&gt;
+      Видалити
+    &lt;/button&gt;
+  &lt;/li&gt;
+))</pre>
+  </div>
+
+  <nav class="footer-nav">
+    <a href="lecture-1-functions.html">← Частина 1</a>
+    <a href="lecture-3-js-vs-csharp.html" class="next">Частина 3 →</a>
+  </nav>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 07 · Images & Background</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav">
+  <a class="cnav-brand" href="index.html">CSS · Ed Row</a>
+  <div class="cnav-links">
+    <a class="cnav-link" href="index.html">Огляд</a>
+    <a class="cnav-link" href="lesson-01.html">01</a><a class="cnav-link" href="lesson-02.html">02</a>
+    <a class="cnav-link" href="lesson-03.html">03</a><a class="cnav-link" href="lesson-04.html">04</a>
+    <a class="cnav-link" href="lesson-05.html">05</a><a class="cnav-link" href="lesson-06.html">06</a>
+    <a class="cnav-link active" href="lesson-07.html">07</a>
+    <a class="cnav-link" href="lesson-08.html">08</a><a class="cnav-link" href="lesson-09.html">09</a>
+    <a class="cnav-link" href="lesson-10.html">10</a>
+  </div>
+</nav>
+<div class="lesson-hero">
+  <div class="lnum">Лекція 07 · Фінал Проєкт 1</div>
+  <h1><b>Images</b><br><i>&amp; Background</i></h1>
+  <p class="lead">background-image, background-size: cover, background-blend-mode — hero з фото на фоні. object-fit для img у картках. min-height. Фінал App 1.</p>
+</div>
+<div class="w">
+
+<section class="section">
+  <div class="sec-label">01 — background-image</div>
+  <h2>Hero секція з фоновим зображенням</h2>
+  <p class="lead-text">Ed Row робить hero красивим — додає фотографію на фон і темний оверлей щоб текст залишався читабельним.</p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">CSS для hero з фото</div>
+    <div class="code-file"><div class="cf-dot" style="background:#86efac"></div>styles.css — hero background</div>
+    <pre>
+<span class="cm">/* Додаємо до вже існуючого .hero */</span>
+<span class="cs">.hero</span> {
+  <span class="cp">height</span>: <span class="cn">50vh</span>;  <span class="cm">/* 50% висоти вікна браузера */</span>
+
+  <span class="cp">background-image</span>: <span class="cf">url</span>(<span class="cstr">'images/hero.jpeg'</span>);
+  <span class="cp">background-size</span>: <span class="cv">cover</span>;     <span class="cm">/* заповнює всю площу */</span>
+  <span class="cp">background-position</span>: <span class="cv">center</span>; <span class="cm">/* центрує зображення */</span>
+
+  <span class="cm">/* Темний оверлей через rgba */</span>
+  <span class="cp">background-color</span>: <span class="cf">rgba</span>(<span class="cn">0</span>, <span class="cn">0</span>, <span class="cn">0</span>, <span class="cn">0.55</span>);
+  <span class="cp">background-blend-mode</span>: <span class="cv">overlay</span>;
+
+  <span class="cp">text-align</span>: <span class="cv">center</span>;
+  <span class="cp">align-content</span>: <span class="cv">center</span>;
+}
+
+<span class="cm">/* Тепер текст білий */</span>
+<span class="cs">.hero__title</span> {
+  <span class="cp">color</span>: <span class="cv">#f5f5f5</span>; <span class="cm">← замість black</span>
+}</pre>
+
+    <div style="position:relative;height:180px;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),linear-gradient(135deg,#2d6a4f,#52b788);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;margin-top:14px">
+      <div style="font-size:26px;font-weight:700;color:#f5f5f5;margin-bottom:8px">Empower Young Minds</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.7)">Innovative educational platform</div>
+    </div>
+    <div style="font-size:12px;color:var(--t3);font-family:var(--mono);margin-top:6px">Симуляція: темний оверлей через background-blend-mode: overlay</div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">background-size і background-position</div>
+    <pre>
+<span class="cp">background-size</span>: <span class="cv">cover</span>;
+<span class="cm">/* Заповнює контейнер — може обрізати з країв.
+   Зображення завжди покриває всю площу. ← Ed Row */</span>
+
+<span class="cp">background-size</span>: <span class="cv">contain</span>;
+<span class="cm">/* Вписується в контейнер — можуть бути пробіли. */</span>
+
+<span class="cp">background-position</span>: <span class="cv">center</span>;  <span class="cm">/* по центру */</span>
+<span class="cp">background-position</span>: <span class="cv">top</span>;     <span class="cm">/* верхня частина */</span>
+<span class="cp">background-position</span>: <span class="cv">50% 30%</span>; <span class="cm">/* точне позиціонування */</span></pre>
+
+    <div class="box box-gold">
+      <strong>Чому vh, а не %?</strong>
+      height: 50% = 50% від БАТЬКА (а батько не має висоти). height: 50vh = 50% від висоти ВІКНА браузера. vh — завжди від viewport, незалежно від батька.
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">02 — object-fit</div>
+  <h2>Зображення в контейнері фіксованого розміру</h2>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Зображення у картках програм</div>
+    <pre>
+<span class="cs">.programs__card</span> {
+  <span class="cp">background</span>: <span class="cv">none</span>;          <span class="cm">← прибираємо сірий фон</span>
+  <span class="cp">padding</span>: <span class="cn">0</span>;
+  <span class="cp">flex-basis</span>: <span class="cn">30%</span>;
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">flex-direction</span>: <span class="cv">column</span>;
+  <span class="cp">justify-content</span>: <span class="cv">space-between</span>;
+  <span class="cp">height</span>: <span class="cn">500px</span>;
+  <span class="cp">border-radius</span>: <span class="cn">8px</span>;
+}
+
+<span class="cs">.programs__card .image</span> {
+  <span class="cp">width</span>: <span class="cn">100%</span>;
+  <span class="cp">height</span>: <span class="cn">70%</span>;
+  <span class="cp">min-height</span>: <span class="cn">200px</span>;  <span class="cm">← мінімальна висота</span>
+  <span class="cp">object-fit</span>: <span class="cv">cover</span>;  <span class="cm">← заповнює без спотворення</span>
+  <span class="cp">border-radius</span>: <span class="cn">4px</span>;
+}
+
+<span class="cm">/* margin-top: auto — кнопка прилипає до низу */</span>
+<span class="cs">.programs__button</span> {
+  <span class="cp">margin-top</span>: <span class="cv">auto</span>;
+  <span class="cp">background-color</span>: <span class="cv">#34c759</span>;
+  <span class="cp">color</span>: <span class="cv">white</span>;
+  <span class="cp">padding</span>: <span class="cn">10px 20px</span>;
+  <span class="cp">border-radius</span>: <span class="cn">4px</span>;
+  <span class="cp">cursor</span>: <span class="cv">pointer</span>;
+}</pre>
+    <div class="two" style="gap:12px;margin-top:14px">
+      <div style="text-align:center">
+        <div style="height:100px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:white">object-fit: cover</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:4px">заповнює весь контейнер ← використовуй</div>
+      </div>
+      <div style="text-align:center">
+        <div style="height:100px;background:#f0f0f0;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid #ddd">
+          <div style="width:70px;height:60px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:3px"></div>
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-top:4px">object-fit: contain — пробіли</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">03 — Фінал App 1</div>
+  <h2>Що побудували за 7 лекцій</h2>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Повна структура styles.css</div>
+    <pre>
+<span class="cm">/* ── Selectors ─────────────── */</span>
+<span class="cs">*</span> { <span class="cp">padding</span>:<span class="cn">0</span>; <span class="cp">margin</span>:<span class="cn">0</span>; <span class="cp">box-sizing</span>:<span class="cv">border-box</span>; }
+<span class="cs">body</span> { <span class="cp">background</span>:<span class="cv">#f7f7f7</span>; <span class="cp">color</span>:<span class="cv">#333</span>; <span class="cp">font-family</span>:<span class="cv">Poppins,serif</span>; }
+
+<span class="cm">/* ── Hero ──────────────────── */</span>
+<span class="cs">.hero</span> { <span class="cp">padding</span>:<span class="cn">100px</span>; <span class="cp">height</span>:<span class="cn">50vh</span>;
+  <span class="cp">background-image</span>:<span class="cf">url</span>(<span class="cstr">'images/hero.jpeg'</span>);
+  <span class="cp">background-size</span>:<span class="cv">cover</span>; <span class="cp">background-position</span>:<span class="cv">center</span>;
+  <span class="cp">background-color</span>:<span class="cf">rgba</span>(<span class="cn">0,0,0,.55</span>); <span class="cp">background-blend-mode</span>:<span class="cv">overlay</span>;
+  <span class="cp">text-align</span>:<span class="cv">center</span>; <span class="cp">align-content</span>:<span class="cv">center</span>; }
+<span class="cs">.hero__title</span> { <span class="cp">color</span>:<span class="cv">#f5f5f5</span>; }
+
+<span class="cm">/* ── Fonts ─────────────────── */</span>
+<span class="cs">.feature</span> { <span class="cp">display</span>:<span class="cv">flex</span>; <span class="cp">padding</span>:<span class="cn">100px</span>; <span class="cp">gap</span>:<span class="cn">20px</span>; }
+<span class="cs">.feature__title</span> { <span class="cp">font-size</span>:<span class="cn">2.2rem</span>; <span class="cp">font-weight</span>:<span class="cn">500</span>; }
+
+<span class="cm">/* ── Colors ────────────────── */</span>
+<span class="cs">.cta</span> { <span class="cp">background</span>:<span class="cv">#55bb47</span>; <span class="cp">color</span>:<span class="cv">#fff</span>; <span class="cp">padding</span>:<span class="cn">100px</span>; }
+
+<span class="cm">/* ── Box Model ─────────────── */</span>
+<span class="cs">.video__container</span> { <span class="cp">width</span>:<span class="cn">100%</span>; <span class="cp">height</span>:<span class="cn">500px</span>; }
+
+<span class="cm">/* ── Flexbox ───────────────── */</span>
+<span class="cs">.programs</span> { <span class="cp">display</span>:<span class="cv">flex</span>; <span class="cp">justify-content</span>:<span class="cv">space-between</span>; }
+<span class="cs">.programs__card</span> { <span class="cp">flex-basis</span>:<span class="cn">30%</span>; <span class="cp">height</span>:<span class="cn">500px</span>; }
+
+<span class="cm">/* ── Forms ─────────────────── */</span>
+<span class="cs">.element</span> { <span class="cp">display</span>:<span class="cv">flex</span>; <span class="cp">gap</span>:<span class="cn">60px</span>; <span class="cp">padding</span>:<span class="cn">100px</span>; }
+<span class="cs">.element__left, .element__right</span> { <span class="cp">flex</span>:<span class="cn">1</span>; }
+
+<span class="cm">/* ── Images ────────────────── */</span>
+<span class="cm">/* ... і ще багато дрібних деталей */</span></pre>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-head">🎯 Фінальне завдання App 1</div>
+    <div class="ex-body">
+      <strong>1.</strong> Hero: height 50vh, background-image, background-size cover, rgba overlay, background-blend-mode overlay<br>
+      <strong>2.</strong> .hero__title: color #f5f5f5 (білий)<br>
+      <strong>3.</strong> Programs картки: flex-direction column, height 500px, images з object-fit cover<br>
+      <strong>4 (бонус).</strong> Самостійно зверстай навбар (logo + links) і footer — Ed Row залишає це як вправу
+    </div>
+    <div class="ex-hint">Вітаємо — App 1 завершено! Далі App 2 — складні grid layouts, позиціонування, responsive.</div>
+  </div>
+</section>
+
+</div>
+<div class="foot-nav">
+  <a href="lesson-06.html" class="foot-link">← 06 · Forms</a>
+  <div class="foot-meta">Лекція 07 / 10 · Images & Background</div>
+  <a href="lesson-08.html" class="foot-link">08 · Flex vs Grid →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

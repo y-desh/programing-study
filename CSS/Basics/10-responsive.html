@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 · Адаптивний дизайн</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav"><a class="cnav-logo" href="index.html">CSS · EdRow</a><div class="cnav-links"><a class="cnav-link" href="index.html">Огляд</a><a class="cnav-link" href="01-selectors.html">01</a><a class="cnav-link" href="02-fonts.html">02</a><a class="cnav-link" href="03-colors.html">03</a><a class="cnav-link" href="04-box-model.html">04</a><a class="cnav-link" href="05-flexbox.html">05</a><a class="cnav-link" href="06-forms.html">06</a><a class="cnav-link" href="07-images.html">07</a><a class="cnav-link" href="08-grid.html">08</a><a class="cnav-link" href="09-positioning.html">09</a><a class="cnav-link cur" href="10-responsive.html">10</a></div></nav>
+<div class="lesson-hero">
+  <div class="lh-num">Лекція 10 · 10 · App 2 · Завершення</div>
+  <h1>Адаптивний <em>@media queries</em></h1>
+  <p class="ldesc">Media queries (@media screen and max-width). Mobile-first vs desktop-first. Grid і Flex вже роблять більшість адаптивності автоматично.</p>
+</div>
+<div class="w">
+
+<section class="sec">
+<div class="sec-label">01 — Media Queries</div>
+<h2>@media — умовні стилі</h2>
+<p class="intro">Media queries дозволяють застосовувати різні стилі залежно від розміру екрана. EdRow: <strong>"Grid і Flex вже роблять багато автоматично. Media queries — для структурних змін."</strong></p>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Синтаксис @media</div>
+<pre class="code">
+<span class="cm">/* @media screen and (умова) { стилі } */</span>
+<span class="ck">@media</span> <span class="cv">screen</span> <span class="ck">and</span> (<span class="cp">max-width</span>: <span class="cn">768px</span>) {
+  <span class="cm">/* Стилі для екранів < 768px */</span>
+  <span class="cs">.header__links</span> {
+    <span class="cp">display</span>: <span class="cv">none</span>;  <span class="cm">/* ховаємо навігацію */</span>
+  }
+}
+
+<span class="cm">/* max-width — Desktop first (EdRow в цьому відео)
+   min-width — Mobile first (краша практика) */</span>
+
+<span class="ck">@media</span> (<span class="cp">max-width</span>: <span class="cn">768px</span>) {
+  <span class="cm">/* Зміна flex direction */</span>
+  <span class="cs">.featured</span> {
+    <span class="cp">flex-direction</span>: <span class="cv">column</span>;
+    <span class="cp">height</span>: <span class="cv">auto</span>;
+    <span class="cp">gap</span>: <span class="cn">2rem</span>;
+  }
+
+  <span class="cm">/* Grid → block для мобільного */</span>
+  <span class="cs">.masonry-grid</span> {
+    <span class="cp">display</span>: <span class="cv">block</span>;  <span class="cm">/* всі в стовпець */</span>
+  }
+  <span class="cs">.masonry-item</span> {
+    <span class="cp">margin-bottom</span>: <span class="cn">1rem</span>;
+    <span class="cp">height</span>: <span class="cn">300px</span>;
+  }
+}</pre>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">02 — Mobile First</div>
+<h2>min-width vs max-width</h2>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Mobile First — рекомендований підхід</div>
+<pre class="code">
+<span class="cm">/* Desktop First (max-width) — EdRow в відео */</span>
+<span class="cs">.grid</span> {
+  <span class="cp">grid-template-columns</span>: <span class="cv">repeat(3, 1fr)</span>;
+}
+<span class="ck">@media</span> (<span class="cp">max-width</span>: <span class="cn">768px</span>) {
+  <span class="cs">.grid</span> { <span class="cp">grid-template-columns</span>: <span class="cn">1fr</span>; }
+}
+
+<span class="cm">/* ────────────────────────────────── */</span>
+
+<span class="cm">/* Mobile First (min-width) — краща практика!
+   Браузер завантажує мінімум CSS спочатку */</span>
+<span class="cs">.grid</span> {
+  <span class="cp">grid-template-columns</span>: <span class="cn">1fr</span>;  <span class="cm">/* mobile */</span>
+}
+<span class="ck">@media</span> (<span class="cp">min-width</span>: <span class="cn">640px</span>) {
+  <span class="cs">.grid</span> { <span class="cp">grid-template-columns</span>: <span class="cv">repeat(2, 1fr)</span>; }
+}
+<span class="ck">@media</span> (<span class="cp">min-width</span>: <span class="cn">1024px</span>) {
+  <span class="cs">.grid</span> { <span class="cp">grid-template-columns</span>: <span class="cv">repeat(3, 1fr)</span>; }
+}</pre>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Стандартні breakpoints</div>
+<table class="rtable">
+<tr><th>Name</th><th>Ширина</th><th>Пристрій</th></tr>
+<tr><td class="td-c">sm</td><td class="td-v">640px</td><td class="td-n">Великий телефон</td></tr>
+<tr><td class="td-c">md</td><td class="td-v">768px</td><td class="td-n">Планшет — EdRow використовує</td></tr>
+<tr><td class="td-c">lg</td><td class="td-v">1024px</td><td class="td-n">Ноутбук</td></tr>
+<tr><td class="td-c">xl</td><td class="td-v">1280px</td><td class="td-n">Десктоп</td></tr>
+<tr><td class="td-c">2xl</td><td class="td-v">1536px</td><td class="td-n">Великий монітор</td></tr>
+</table>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">EdRow: Grid майже не потребує media queries</div>
+<pre class="code">
+<span class="cm">/* Магія auto-fit + minmax:
+   АВТОМАТИЧНО адаптується без @media! */</span>
+<span class="cs">.latest-list</span> {
+  <span class="cp">display</span>: <span class="cv">grid</span>;
+  <span class="cp">grid-template-columns</span>:
+    <span class="cf">repeat</span>(<span class="cv">auto-fit</span>, <span class="cf">minmax</span>(<span class="cn">200px</span>, <span class="cn">1fr</span>));
+  <span class="cp">gap</span>: <span class="cn">2rem</span>;
+}
+
+<span class="cm">/* Широкий → 4 колонки
+   Середній → 3 → 2 → 1 колонка
+   Без жодного @media!  */</span>
+
+<span class="cm">/* @media потрібен тільки для структурних змін:
+   - ховати/показувати navbar
+   - flex-direction: row → column
+   - font-size для заголовків */</span></pre>
+</div>
+
+<div class="tip"><strong>EdRow висновок:</strong> «Якщо ти правильно використовуєш Grid і Flex з самого початку — більшість адаптивності вирішується автоматично. @media для структурних змін, а не для кожного елемента.»</div>
+
+<div class="exercise r">
+<div class="ex-title">🎯 Фінальна практика</div>
+<div class="ex-task">
+  1. Відкрий DevTools (F12) → Ctrl+Shift+M → перевір адаптивність того що зробив<br>
+  2. Додай @media (max-width: 768px) де Flex row → column для вузьких екранів<br>
+  3. Сховай навігаційні посилання на мобільному через display: none<br>
+  4. Перевір що grid з auto-fit адаптується без media queries<br>
+  5. Задеплой на Hostinger або Netlify Drop — покажи світу результат!
+</div>
+</div>
+</section>
+
+</div>
+<div class="lesson-footer">
+  <a href="09-positioning.html" class="fp">← 09 · Positioning</a>
+  <div class="fc">Лекція 10 / 10 · Адаптивний дизайн</div>
+  <a href="index.html" class="fn">Огляд курсу →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

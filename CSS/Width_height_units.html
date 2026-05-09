@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Розміри · Лекція 6</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:   #0e0e12;
+  --s1:   #14141a;
+  --s2:   #1a1a22;
+  --s3:   #20202a;
+  --bd:   #26263a;
+  --bd2:  #32324a;
+  --c1:   #e8ff00;  /* neon yellow */
+  --c2:   #00e5ff;  /* cyan */
+  --c3:   #ff3d71;  /* pink-red */
+  --c4:   #a78bfa;  /* violet */
+  --c5:   #34d399;  /* green */
+  --c6:   #fb923c;  /* orange */
+  --text: #dde0f0;
+  --dim:  #5a5a80;
+  --dim2: #8a8aaa;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Space Grotesk', sans-serif;
+  --head: 'Archivo Black', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--sans);font-size:15px;line-height:1.7;
+  overflow-x:hidden;
+}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--bd2);}
+
+/* ── PROGRESS ── */
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--c1);z-index:200;width:0;}
+
+/* ══ HERO ══ */
+.hero{
+  min-height:100vh;
+  display:grid;place-items:center;
+  padding:60px 24px;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 50%, rgba(232,255,0,.06) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 30%, rgba(0,229,255,.05) 0%,transparent 60%);
+}
+/* Animated grid */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(232,255,0,.04) 1px,transparent 1px),
+    linear-gradient(90deg, rgba(232,255,0,.04) 1px,transparent 1px);
+  background-size:48px 48px;
+  animation:gridMove 20s linear infinite;
+}
+@keyframes gridMove{to{background-position:48px 48px;}}
+.hero-inner{
+  position:relative;z-index:1;
+  text-align:center;max-width:780px;
+}
+.hero-tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--c1);
+  border:1px solid rgba(232,255,0,.3);background:rgba(232,255,0,.05);
+  padding:7px 20px;border-radius:2px;display:inline-block;margin-bottom:40px;
+}
+.hero h1{
+  font-family:var(--head);
+  font-size:clamp(3rem,9vw,7rem);
+  line-height:.92;letter-spacing:-.02em;
+  margin-bottom:32px;
+}
+.h1-y{color:var(--c1);}
+.h1-c{color:var(--c2);}
+.hero-sub{
+  color:var(--dim2);font-size:1.05rem;
+  max-width:520px;margin:0 auto 48px;line-height:1.85;
+}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.pill{
+  font-family:var(--mono);font-size:11px;
+  background:var(--s2);border:1px solid var(--bd);
+  color:var(--dim2);padding:7px 16px;border-radius:2px;
+  text-decoration:none;transition:all .2s;
+}
+.pill:hover{color:var(--c1);border-color:rgba(232,255,0,.4);background:rgba(232,255,0,.05);}
+
+/* ══ LAYOUT ══ */
+.w{max-width:980px;margin:0 auto;padding:0 24px;}
+.section{padding:100px 0;border-top:1px solid var(--bd);}
+.sn{
+  font-family:var(--mono);font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--c1);
+  display:flex;align-items:center;gap:14px;margin-bottom:16px;
+}
+.sn::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(232,255,0,.3),transparent);}
+h2{
+  font-family:var(--head);
+  font-size:clamp(2rem,5vw,3.2rem);
+  line-height:1;margin-bottom:20px;letter-spacing:-.02em;
+}
+.intro{color:var(--dim2);max-width:700px;margin-bottom:52px;font-size:1rem;line-height:1.9;}
+.intro strong{color:var(--text);}
+
+/* ══ CARDS ══ */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:6px;padding:28px;margin-bottom:16px;}
+.ct{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.four{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:640px){.two,.three,.four{grid-template-columns:1fr;}}
+
+/* ══ CODE ══ */
+pre,.code{
+  background:#080810;border:1px solid var(--bd);
+  border-radius:6px;padding:22px;
+  font-family:var(--mono);font-size:12.5px;line-height:2;
+  overflow-x:auto;
+}
+.cm{color:#2a2a42;}.cp{color:#7eb8e8;}.cv{color:#f08c6a;}
+.cs{color:#b8a4e8;}.cn{color:#e8d46a;}.cf{color:#7ed4a4;}.ck{color:#f07090;}
+
+/* ══ TIPS ══ */
+.tip{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-left:3px solid var(--c5);border-radius:4px;padding:14px 18px;font-size:13px;color:var(--dim2);margin-top:18px;}
+.tip strong{color:var(--c5);}
+.warn{background:rgba(255,61,113,.06);border:1px solid rgba(255,61,113,.2);border-left:3px solid var(--c3);border-radius:4px;padding:14px 18px;font-size:13px;color:var(--dim2);margin-top:18px;}
+.warn strong{color:var(--c3);}
+.note{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.2);border-left:3px solid var(--c2);border-radius:4px;padding:14px 18px;font-size:13px;color:var(--dim2);margin-top:18px;}
+.note strong{color:var(--c2);}
+.yellow{background:rgba(232,255,0,.04);border:1px solid rgba(232,255,0,.2);border-left:3px solid var(--c1);border-radius:4px;padding:14px 18px;font-size:13px;color:var(--dim2);margin-top:18px;}
+.yellow strong{color:var(--c1);}
+
+/* ══ REVEAL ══ */
+.r{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;}
+.r.on{opacity:1;transform:translateY(0);}
+
+/* ════════ UNITS TABLE ════════ */
+.units-big{display:flex;flex-direction:column;gap:3px;}
+.unit-row{
+  display:flex;align-items:stretch;gap:0;
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:6px;overflow:hidden;
+  transition:border-color .2s;
+}
+.unit-row:hover{border-color:var(--bd2);}
+.unit-name{
+  width:90px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--head);font-size:1.5rem;
+  border-right:1px solid var(--bd);padding:16px;
+}
+.unit-body{flex:1;padding:14px 20px;display:flex;flex-direction:column;justify-content:center;}
+.unit-title{font-weight:700;font-size:14px;margin-bottom:3px;}
+.unit-desc{font-size:12px;color:var(--dim2);line-height:1.6;}
+.unit-when{font-family:var(--mono);font-size:11px;margin-top:6px;}
+.unit-eg{
+  flex-shrink:0;width:200px;
+  display:flex;align-items:center;justify-content:center;
+  padding:14px;border-left:1px solid var(--bd);
+  font-family:var(--mono);font-size:11px;color:var(--dim2);
+  background:rgba(255,255,255,.01);
+}
+@media(max-width:700px){.unit-eg{display:none;}}
+
+/* ════════ COMPARISON VIS ════════ */
+.cmp-vis{display:flex;flex-direction:column;gap:12px;}
+.cmp-row{display:flex;align-items:center;gap:14px;}
+.cmp-label{font-family:var(--mono);font-size:12px;min-width:100px;color:var(--dim2);flex-shrink:0;}
+.cmp-bar-wrap{flex:1;height:32px;background:rgba(255,255,255,.03);border-radius:4px;border:1px solid var(--bd);overflow:hidden;position:relative;}
+.cmp-bar{height:100%;border-radius:3px;display:flex;align-items:center;padding:0 10px;font-family:var(--mono);font-size:11px;font-weight:700;white-space:nowrap;}
+.cmp-note{font-family:var(--mono);font-size:11px;color:var(--dim);min-width:120px;}
+
+/* ════════ WIDTH DEMO ════════ */
+.width-demo{display:flex;flex-direction:column;gap:10px;padding:20px;background:#080810;border-radius:6px;}
+.wd-label{font-family:var(--mono);font-size:10px;color:var(--dim2);margin-bottom:4px;letter-spacing:1px;}
+.wd-bar{height:28px;border-radius:3px;display:flex;align-items:center;padding:0 10px;font-family:var(--mono);font-size:10px;font-weight:700;}
+.wd-outer{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:4px;padding:8px;position:relative;}
+
+/* ════════ CLAMP VIS ════════ */
+.clamp-demo{
+  background:#080810;border:1px solid var(--bd);
+  border-radius:6px;padding:24px;
+}
+.clamp-track{
+  position:relative;height:60px;
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--bd);border-radius:4px;
+  margin-bottom:16px;overflow:visible;
+}
+.clamp-min{
+  position:absolute;left:0;top:0;bottom:0;
+  display:flex;align-items:center;justify-content:flex-end;
+  padding-right:10px;font-family:var(--mono);font-size:10px;
+  color:var(--c3);background:rgba(255,61,113,.06);
+  border-right:2px dashed rgba(255,61,113,.3);
+}
+.clamp-max{
+  position:absolute;right:0;top:0;bottom:0;
+  display:flex;align-items:center;padding-left:10px;
+  font-family:var(--mono);font-size:10px;
+  color:var(--c5);background:rgba(52,211,153,.06);
+  border-left:2px dashed rgba(52,211,153,.3);
+}
+.clamp-fluid{
+  position:absolute;top:50%;left:20%;right:20%;
+  height:4px;transform:translateY(-50%);
+  background:linear-gradient(to right,var(--c3),var(--c1),var(--c5));
+  border-radius:2px;
+}
+.clamp-dot{
+  position:absolute;top:50%;width:14px;height:14px;
+  border-radius:50%;border:2px solid var(--c1);background:var(--bg);
+  transform:translate(-50%,-50%);
+  animation:clampBounce 3s ease-in-out infinite;
+}
+@keyframes clampBounce{
+  0%{left:20%;}50%{left:80%;}100%{left:20%;}
+}
+.clamp-legend{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--dim2);}
+
+/* ════════ SITE STANDARDS ════════ */
+.site-ruler{
+  background:#080810;border:1px solid var(--bd);
+  border-radius:6px;padding:28px;
+  display:flex;align-items:flex-end;gap:2px;
+  overflow-x:auto;
+}
+.site-block{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  flex-shrink:0;
+}
+.site-bar{
+  border-radius:3px 3px 0 0;width:28px;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding-top:6px;
+}
+.site-label{font-family:var(--mono);font-size:9px;text-align:center;color:var(--dim2);line-height:1.4;}
+.site-val{font-family:var(--mono);font-size:9px;font-weight:700;text-align:center;}
+
+/* ════════ ELEMENT STANDARDS ════════ */
+.elem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.elem-card{
+  background:var(--s1);border:1px solid var(--bd);border-radius:6px;padding:16px;
+}
+.elem-preview{
+  border-radius:4px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.elem-name{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.elem-val{font-family:var(--mono);font-size:10px;color:var(--c1);margin-bottom:6px;}
+.elem-desc{font-size:11px;color:var(--dim2);line-height:1.5;}
+
+/* ════════ VIEWPORT UNITS ════════ */
+.vp-demo{
+  background:#080810;border:1px solid var(--bd);
+  border-radius:6px;overflow:hidden;
+}
+.vp-screen{
+  position:relative;height:200px;
+  border-bottom:1px solid var(--bd);
+  background:rgba(255,255,255,.01);
+}
+.vp-el{
+  position:absolute;
+  border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+}
+.vp-legend{padding:16px 20px;display:flex;flex-wrap:wrap;gap:12px;}
+.vp-item{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;}
+.vp-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+
+/* ════════ MIN MAX DEMOS ════════ */
+.minmax-demos{display:flex;flex-direction:column;gap:20px;}
+.mm-demo{background:#080810;border:1px solid var(--bd);border-radius:6px;padding:20px;}
+.mm-label{font-family:var(--mono);font-size:11px;color:var(--c2);margin-bottom:12px;font-weight:700;}
+.mm-container{
+  background:rgba(255,255,255,.02);border:1px solid var(--bd);
+  border-radius:4px;padding:10px;display:flex;gap:8px;
+  flex-wrap:wrap;resize:horizontal;overflow:hidden;
+  min-width:200px;
+}
+.mm-el{
+  background:rgba(167,139,250,.2);border:1px solid rgba(167,139,250,.4);
+  border-radius:3px;height:36px;display:flex;align-items:center;
+  justify-content:center;font-family:var(--mono);font-size:10px;
+  color:var(--c4);
+}
+
+/* ════════ ASPECT RATIO ════════ */
+.ar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+.ar-card{background:var(--s1);border:1px solid var(--bd);border-radius:6px;overflow:hidden;}
+.ar-box{background:rgba(232,255,0,.06);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:center;}
+.ar-info{padding:10px 12px;}
+.ar-name{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--c1);margin-bottom:2px;}
+.ar-use{font-size:11px;color:var(--dim2);}
+
+/* ════════ PRACTICAL TABLE ════════ */
+.prac-table{width:100%;border-collapse:collapse;font-size:13px;}
+.prac-table th{
+  text-align:left;padding:12px 16px;
+  font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dim);border-bottom:2px solid var(--bd);
+}
+.prac-table td{padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:top;line-height:1.6;}
+.prac-table tr:hover td{background:rgba(255,255,255,.02);}
+.td-prop{font-family:var(--mono);color:var(--c2);font-size:12px;}
+.td-val{font-family:var(--mono);color:var(--c1);font-size:12px;}
+.td-why{color:var(--dim2);font-size:12px;}
+
+/* ════════ DECISION TREE ════════ */
+.dtree{display:flex;flex-direction:column;gap:0;position:relative;}
+.dt-node{
+  display:flex;gap:0;
+  padding:16px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.dt-node:last-child{border-bottom:none;}
+.dt-left{width:36px;flex-shrink:0;display:flex;justify-content:center;padding-top:2px;}
+.dt-bullet{
+  width:10px;height:10px;border-radius:50%;margin-top:4px;flex-shrink:0;
+}
+.dt-body{flex:1;padding-left:14px;}
+.dt-q{font-weight:600;font-size:14px;margin-bottom:4px;}
+.dt-a{font-family:var(--mono);font-size:12px;color:var(--dim2);}
+.dt-a span{font-weight:700;}
+
+/* ══ FOOTER ══ */
+footer{
+  text-align:center;padding:72px 24px;
+  border-top:1px solid var(--bd);
+}
+.footer-big{
+  font-family:var(--head);
+  font-size:clamp(2rem,6vw,4rem);
+  line-height:1;margin-bottom:16px;
+}
+.footer-sub{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:2px;}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Лекція 6 · CSS Розміри</div>
+    <h1><span class="h1-y">Width.</span><br><span class="h1-c">Height.</span><br>Units.</h1>
+    <p class="hero-sub">
+      Розміри в CSS — не просто числа. Це система одиниць, логіка min/max, стандарти сайтів і практичні правила які відрізняють добрий CSS від поганого.
+    </p>
+    <nav class="hero-pills">
+      <a class="pill" href="#units">Одиниці виміру</a>
+      <a class="pill" href="#widthheight">Width / Height</a>
+      <a class="pill" href="#minmax">Min / Max</a>
+      <a class="pill" href="#clamp">clamp()</a>
+      <a class="pill" href="#viewport">Viewport</a>
+      <a class="pill" href="#aspect">Aspect Ratio</a>
+      <a class="pill" href="#standards">Стандарти сайту</a>
+      <a class="pill" href="#elements">Розміри елементів</a>
+      <a class="pill" href="#cheat">Шпаргалка</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     01 · ОДИНИЦІ ВИМІРУ
+══════════════════════════════════════ -->
+<section id="units" class="section">
+<div class="w">
+  <div class="sn">01 — Основа</div>
+  <h2>Одиниці виміру</h2>
+  <p class="intro">
+    CSS має більше 15 одиниць виміру. Але на практиці регулярно використовуєш лише 7–8. <strong>Завдання</strong> — знати яку одиницю і де застосовувати, бо неправильний вибір ламає адаптивність.
+  </p>
+
+  <!-- ABSOLUTE -->
+  <div class="card r">
+    <div class="ct" style="color:var(--c3)">Абсолютні одиниці — фіксовані, не масштабуються</div>
+    <div class="units-big">
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--c3)">px</div>
+        <div class="unit-body">
+          <div class="unit-title">Піксель</div>
+          <div class="unit-desc">Найпоширеніша одиниця. 1px = 1 піксель на екрані (умовно — на Retina 2 фізичних пікселі). Не масштабується разом з шрифтом браузера.</div>
+          <div class="unit-when" style="color:var(--c3)">✓ border: 1px · box-shadow · icon size · абсолютні відступи</div>
+        </div>
+        <div class="unit-eg">
+          <div style="width:60px;height:60px;background:rgba(255,61,113,.15);border:1px solid rgba(255,61,113,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--c3)">60px</div>
+        </div>
+      </div>
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--dim2)">cm<br>mm<br>pt</div>
+        <div class="unit-body">
+          <div class="unit-title">Сантиметри, міліметри, пункти</div>
+          <div class="unit-desc">Фізичні одиниці. На екрані прив'язані до dpi. На практиці — тільки для друку (print stylesheet).</div>
+          <div class="unit-when" style="color:var(--dim)">— Для друку. На сайтах не використовуй.</div>
+        </div>
+        <div class="unit-eg">
+          <span style="font-size:10px;color:var(--dim)">@media print { }</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIVE -->
+  <div class="card r">
+    <div class="ct" style="color:var(--c5)">Відносні одиниці — масштабуються, адаптивні</div>
+    <div class="units-big">
+
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--c5)">rem</div>
+        <div class="unit-body">
+          <div class="unit-title">Root em — відносно кореневого шрифту (&lt;html&gt;)</div>
+          <div class="unit-desc">1rem = font-size елемента html. За замовчуванням: <strong style="color:var(--text)">1rem = 16px</strong>. Якщо юзер збільшив шрифт у браузері — rem масштабується разом. px — ні.</div>
+          <div class="unit-when" style="color:var(--c5)">✓ font-size · padding · margin · gap — ОСНОВНА одиниця для відступів</div>
+        </div>
+        <div class="unit-eg" style="flex-direction:column;gap:4px;">
+          <div style="font-size:10px;color:var(--dim2)">при base 16px:</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--c5)">0.75rem = 12px<br>1rem = 16px<br>1.5rem = 24px<br>2rem = 32px</div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--c4)">em</div>
+        <div class="unit-body">
+          <div class="unit-title">Em — відносно шрифту БАТЬКА</div>
+          <div class="unit-desc">1em = font-size поточного елемента (або батька). <strong style="color:var(--c3)">Небезпека: каскадується!</strong> Вкладений елемент: 1.2em × 1.2em × 1.2em = 1.728em від кореня.</div>
+          <div class="unit-when" style="color:var(--c4)">✓ padding кнопок (масштабується з текстом) · line-height · letter-spacing</div>
+        </div>
+        <div class="unit-eg" style="flex-direction:column;gap:4px;">
+          <div style="font-size:10px;color:var(--dim2)">батько 16px:</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--c4)">1em = 16px<br>1.5em = 24px<br><br>батько 20px:<br>1em = 20px (!)</div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--c2)">%</div>
+        <div class="unit-body">
+          <div class="unit-title">Відсотки — відносно батьківського контейнера</div>
+          <div class="unit-desc">Для width/height — відсоток від батька. Для margin/padding — відсоток від <strong style="color:var(--text)">ширини</strong> батька (навіть для margin-top!). Для font-size — від font-size батька (як em).</div>
+          <div class="unit-when" style="color:var(--c2)">✓ width контейнерів · background-position · top/left в position</div>
+        </div>
+        <div class="unit-eg" style="flex-direction:column;gap:4px;">
+          <div style="font-size:10px;color:var(--dim2)">батько 800px:</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--c2)">50% = 400px<br>100% = 800px<br>33.333% = 266px</div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--c1)">vw<br>vh</div>
+        <div class="unit-body">
+          <div class="unit-title">Viewport Width / Height — відносно вікна браузера</div>
+          <div class="unit-desc">1vw = 1% ширини вікна. 1vh = 1% висоти вікна. <strong style="color:var(--c3)">Проблема vh на мобільному:</strong> не враховує адресний рядок браузера → секція "відрізається". Рішення: dvh.</div>
+          <div class="unit-when" style="color:var(--c1)">✓ hero секції (min-height: 100vh) · font-size що залежить від ширини вікна</div>
+        </div>
+        <div class="unit-eg" style="flex-direction:column;gap:4px;">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--c1)">100vw = вся ширина<br>100vh = вся висота<br>50vw = половина<br>font-size: 4vw</div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--c6)">dvh<br>svh<br>lvh</div>
+        <div class="unit-body">
+          <div class="unit-title">Dynamic / Small / Large Viewport Height — нові 2023</div>
+          <div class="unit-desc">
+            <strong style="color:var(--c6)">dvh</strong> — динамічна: змінюється коли браузер на мобільному ховає/показує панель. Найкращий вибір.<br>
+            <strong style="color:var(--dim2)">svh</strong> — мінімальна висота (панель видима).<br>
+            <strong style="color:var(--dim2)">lvh</strong> — максимальна (панель схована).
+          </div>
+          <div class="unit-when" style="color:var(--c6)">✓ min-height: 100dvh замість vh — для всіх мобільних секцій</div>
+        </div>
+        <div class="unit-eg" style="flex-direction:column;gap:6px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--c6)">min-height: 100dvh<br>← Використовуй це</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--dim)">min-height: 100vh<br>← Застаріло</div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--c4)">ch<br>ex</div>
+        <div class="unit-body">
+          <div class="unit-title">ch — ширина символу "0" поточного шрифту</div>
+          <div class="unit-desc">ch ідеально підходить для обмеження ширини тексту: дослідження читабельності показують що оптимальна кількість символів у рядку — 50–75. <code style="font-family:var(--mono)">max-width: 65ch</code> робить це автоматично для будь-якого шрифту.</div>
+          <div class="unit-when" style="color:var(--c4)">✓ max-width для параграфів · фіксована ширина input</div>
+        </div>
+        <div class="unit-eg" style="flex-direction:column;gap:4px;">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--c4)">p {<br>  max-width: 65ch;<br>}<br>/* ≈ 65 символів */</div>
+        </div>
+      </div>
+
+      <div class="unit-row">
+        <div class="unit-name" style="color:var(--c5)">fr</div>
+        <div class="unit-body">
+          <div class="unit-title">Fraction — частка вільного простору (тільки Grid)</div>
+          <div class="unit-desc">fr розподіляє <em>вільний</em> простір після фіксованих колонок. Якщо всі колонки в fr — вони рівномірно заповнюють контейнер. 2fr отримає вдвічі більше ніж 1fr.</div>
+          <div class="unit-when" style="color:var(--c5)">✓ grid-template-columns · grid-template-rows — ТІЛЬКИ в Grid</div>
+        </div>
+        <div class="unit-eg" style="flex-direction:column;gap:4px;">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--c5)">1fr 1fr 1fr<br>= рівні колонки<br><br>200px 1fr<br>= сайдбар + main</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tip">
+      <strong>Правило вибору одиниці:</strong>
+      font-size → <strong>rem</strong> ·
+      padding/margin → <strong>rem або px</strong> ·
+      width контейнерів → <strong>% або fr</strong> ·
+      border/shadow → <strong>px</strong> ·
+      fullscreen секції → <strong>dvh</strong> ·
+      ширина тексту → <strong>ch</strong>
+    </div>
+  </div>
+
+  <!-- REM BASE -->
+  <div class="card r">
+    <div class="ct" style="color:var(--c5)">Як змінити базовий rem — трюк з 62.5%</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre class="code">
+<span class="cm">/* За замовчуванням: 1rem = 16px
+   Незручно рахувати: 24px = 1.5rem */</span>
+
+<span class="cm">/* Трюк: base = 10px */</span>
+<span class="cs">html</span> {
+  <span class="cm">/* 62.5% від 16px = 10px */</span>
+  <span class="cp">font-size</span>: <span class="cn">62.5%</span>;
+}
+<span class="cs">body</span> {
+  <span class="cm">/* Повертаємо нормальний розмір */</span>
+  <span class="cp">font-size</span>: <span class="cn">1.6rem</span>; <span class="cm">/* = 16px */</span>
+}
+
+<span class="cm">/* Тепер рахувати просто: */</span>
+<span class="cm">/* 10px  = 1rem          */</span>
+<span class="cm">/* 16px  = 1.6rem        */</span>
+<span class="cm">/* 24px  = 2.4rem        */</span>
+<span class="cm">/* 32px  = 3.2rem        */</span>
+<span class="cm">/* 48px  = 4.8rem        */</span>
+      </pre>
+      <div>
+        <div class="cmp-vis">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--dim2);margin-bottom:10px;letter-spacing:2px">СТАНДАРТ 16px BASE</div>
+          <div class="cmp-row"><div class="cmp-label">12px</div><div class="cmp-bar-wrap"><div class="cmp-bar" style="width:75%;background:rgba(232,255,0,.15);color:var(--c1)">0.75rem</div></div></div>
+          <div class="cmp-row"><div class="cmp-label">14px</div><div class="cmp-bar-wrap"><div class="cmp-bar" style="width:87.5%;background:rgba(232,255,0,.15);color:var(--c1)">0.875rem</div></div></div>
+          <div class="cmp-row"><div class="cmp-label">16px</div><div class="cmp-bar-wrap"><div class="cmp-bar" style="width:100%;background:rgba(232,255,0,.2);color:var(--c1)">1rem</div></div></div>
+          <div class="cmp-row"><div class="cmp-label">20px</div><div class="cmp-bar-wrap"><div class="cmp-bar" style="width:100%;background:rgba(232,255,0,.15);color:var(--c1)">1.25rem</div></div></div>
+          <div class="cmp-row"><div class="cmp-label">24px</div><div class="cmp-bar-wrap"><div class="cmp-bar" style="width:100%;background:rgba(232,255,0,.15);color:var(--c1)">1.5rem</div></div></div>
+          <div class="cmp-row"><div class="cmp-label">32px</div><div class="cmp-bar-wrap"><div class="cmp-bar" style="width:100%;background:rgba(232,255,0,.15);color:var(--c1)">2rem</div></div></div>
+          <div class="cmp-row"><div class="cmp-label">48px</div><div class="cmp-bar-wrap"><div class="cmp-bar" style="width:100%;background:rgba(232,255,0,.15);color:var(--c1)">3rem</div></div></div>
+        </div>
+        <div class="warn">
+          <strong>Мінус трюку:</strong> якщо сторонній код або plugin не враховує ваш base 10px — все зламається. Тому більшість сучасних проєктів лишає 16px і просто звикає до дробів.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════
+     02 · WIDTH / HEIGHT
+══════════════════════════════════════ -->
+<section id="widthheight" class="section">
+<div class="w">
+  <div class="sn">02 — Розміри</div>
+  <h2>Width і Height</h2>
+  <p class="intro">
+    Width і height — базові властивості. Але у них є особливості поведінки які постійно плутають новачків. Головне: <strong>елементи за замовчуванням адаптивні — не задавай розміри без причини.</strong>
+  </p>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c2)">Ключові значення width і height</div>
+    <div class="two" style="gap:24px;align-items:start">
+      <pre class="code">
+<span class="cp">width</span>: <span class="cn">300px</span>;       <span class="cm">/* фіксована ширина */</span>
+<span class="cp">width</span>: <span class="cn">50%</span>;         <span class="cm">/* 50% від батька */</span>
+<span class="cp">width</span>: <span class="cv">auto</span>;        <span class="cm">/* браузер сам (default) */</span>
+<span class="cp">width</span>: <span class="cv">fit-content</span>; <span class="cm">/* по вмісту */</span>
+<span class="cp">width</span>: <span class="cv">max-content</span>; <span class="cm">/* максимально без переносу */</span>
+<span class="cp">width</span>: <span class="cv">min-content</span>; <span class="cm">/* мінімально (за найдовшим словом) */</span>
+<span class="cp">width</span>: <span class="cn">100%</span>;        <span class="cm">/* = ширина батька */</span>
+
+<span class="cp">height</span>: <span class="n">200px</span>;     <span class="cm">/* фіксована висота */</span>
+<span class="cp">height</span>: <span class="cv">auto</span>;      <span class="cm">/* за вмістом (default) ← завжди краще */</span>
+<span class="cp">height</span>: <span class="n">100%</span>;      <span class="cm">/* 100% від батька — батько має бути з висотою! */</span>
+<span class="cp">height</span>: <span class="n">100dvh</span>;    <span class="cm">/* 100% висоти viewport (мобільний) */</span>
+      </pre>
+      <div>
+        <div class="width-demo">
+          <div class="wd-outer" style="width:100%">
+            <div class="wd-label">батько · 100%</div>
+            <div class="wd-bar" style="width:100%;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:var(--c2)">width: 100%</div>
+          </div>
+          <div class="wd-outer" style="width:100%;margin-top:6px">
+            <div class="wd-label">width: 60%</div>
+            <div class="wd-bar" style="width:60%;background:rgba(232,255,0,.1);border:1px solid rgba(232,255,0,.2);color:var(--c1)">60%</div>
+          </div>
+          <div class="wd-outer" style="width:100%;margin-top:6px">
+            <div class="wd-label">width: fit-content</div>
+            <div class="wd-bar" style="width:fit-content;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);color:var(--c4);white-space:nowrap">fit-content</div>
+          </div>
+          <div class="wd-outer" style="width:100%;margin-top:6px">
+            <div class="wd-label">width: max-content</div>
+            <div class="wd-bar" style="width:max-content;max-width:100%;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);color:var(--c5);white-space:nowrap;overflow:hidden">max-content — без переносу</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn">
+      <strong>Не задавай height без причини!</strong> Фіксована висота — причина №1 чому текст "вилазить" за блок. Завжди починай з <code style="font-family:var(--mono)">height: auto</code> (default) і задавай висоту тільки коли справді потрібно. Замість висоти краще використовуй <code style="font-family:var(--mono)">padding</code> або <code style="font-family:var(--mono)">min-height</code>.
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c2)">Різниця auto, 100%, fit-content наочно</div>
+    <pre class="code">
+<span class="cm">/* ─── WIDTH: AUTO (default для block) ──────────────── */</span>
+<span class="cs">div</span> {
+  <span class="cp">width</span>: <span class="cv">auto</span>;
+  <span class="cm">/* Block елемент: розтягується на всю ширину батька */</span>
+  <span class="cm">/* АЛЕ: padding і border не виходять за межі батька */</span>
+}
+
+<span class="cm">/* ─── WIDTH: 100% ───────────────────────────────────── */</span>
+<span class="cs">div</span> {
+  <span class="cp">width</span>: <span class="cn">100%</span>;
+  <span class="cp">padding</span>: <span class="cn">20px</span>;
+  <span class="cm">/* БЕЗ box-sizing: border-box → реальна ширина 100% + 40px */</span>
+  <span class="cm">/* Тому завжди * { box-sizing: border-box } ← перший рядок */</span>
+}
+
+<span class="cm">/* ─── FIT-CONTENT ───────────────────────────────────── */</span>
+<span class="cs">.tag</span> {
+  <span class="cp">width</span>: <span class="cv">fit-content</span>;
+  <span class="cm">/* Займає рівно стільки скільки вміст, але не більше */</span>
+  <span class="cm">/* Корисно: центрувати блок по вмісту */</span>
+  <span class="cp">margin-inline</span>: <span class="cv">auto</span>; <span class="cm">/* + це = centered по вмісту */</span>
+}
+
+<span class="cm">/* ─── HEIGHT 100% ───────────────────────────────────── */</span>
+<span class="cs">.child</span> { <span class="cp">height</span>: <span class="cn">100%</span>; } <span class="cm">/* НЕ ПРАЦЮЄ якщо:</span>
+<span class="cs">.parent</span> { } <span class="cm">/* ← батько не має height або min-height */</span>
+
+<span class="cm">/* ПРАВИЛЬНО: */</span>
+<span class="cs">.parent</span> { <span class="cp">height</span>: <span class="cn">400px</span>; }    <span class="cm">/* або min-height */</span>
+<span class="cs">.child</span>  { <span class="cp">height</span>: <span class="cn">100%</span>; }     <span class="cm">/* тепер = 400px */</span>
+    </pre>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════
+     03 · MIN / MAX
+══════════════════════════════════════ -->
+<section id="minmax" class="section">
+<div class="w">
+  <div class="sn">03 — Межі</div>
+  <h2>Min-width, Max-width, Min-height, Max-height</h2>
+  <p class="intro">
+    Min/max дозволяють задати <strong>діапазон</strong> замість фіксованого розміру. Елемент вільно масштабується всередині цього діапазону. Це основа адаптивного дизайну без media queries.
+  </p>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c4)">Як вони взаємодіють між собою</div>
+    <pre class="code">
+<span class="cm">/* Пріоритет:  min-width > max-width > width */</span>
+<span class="cs">.el</span> {
+  <span class="cp">width</span>: <span class="cn">50%</span>;        <span class="cm">/* бажана ширина */</span>
+  <span class="cp">min-width</span>: <span class="cn">200px</span>;  <span class="cm">/* не менше 200px (навіть якщо 50% менше) */</span>
+  <span class="cp">max-width</span>: <span class="cn">600px</span>;  <span class="cm">/* не більше 600px (навіть якщо 50% більше) */</span>
+}
+<span class="cm">/* Реальна ширина = clamp(200px, 50%, 600px) */</span>
+<span class="cm">/*                        ↑ мін  ↑ ідеал ↑ макс */</span>
+
+<span class="cm">/* min перемагає max! */</span>
+<span class="cs">.broken</span> {
+  <span class="cp">min-width</span>: <span class="cn">400px</span>;
+  <span class="cp">max-width</span>: <span class="cn">200px</span>; <span class="cm">/* ← min виграє → буде 400px */</span>
+}
+    </pre>
+
+    <div class="minmax-demos" style="margin-top:20px">
+      <div class="mm-demo">
+        <div class="mm-label">max-width: 600px — контейнер не росте далі</div>
+        <div style="background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:4px;padding:10px;">
+          <div style="max-width:100%;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);border-radius:3px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--c4)">max-width: 600px — займає весь простір до 600px, далі не росте</div>
+        </div>
+      </div>
+      <div class="mm-demo">
+        <div class="mm-label">min-width: 200px — не стискається нижче порогу</div>
+        <div style="background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:4px;padding:10px;">
+          <div style="min-width:200px;width:30%;background:rgba(255,61,113,.12);border:1px solid rgba(255,61,113,.3);border-radius:3px;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--c3)">min-width: 200px</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c4)">Найважливіші паттерни min/max</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre class="code">
+<span class="cm">/* ── КОНТЕЙНЕР СТОРІНКИ ── */</span>
+<span class="cs">.container</span> {
+  <span class="cm">/* max-width обмежує зростання */</span>
+  <span class="cp">max-width</span>: <span class="cn">1200px</span>;
+  <span class="cp">width</span>: <span class="cn">100%</span>;       <span class="cm">/* займає все до 1200 */</span>
+  <span class="cp">margin-inline</span>: <span class="cv">auto</span>; <span class="cm">/* центрування */</span>
+  <span class="cp">padding-inline</span>: <span class="cn">24px</span>;<span class="cm">/* відступи по боках */</span>
+}
+
+<span class="cm">/* Або сучасний варіант: */</span>
+<span class="cs">.container</span> {
+  <span class="cp">width</span>: <span class="cf">min</span>(<span class="cn">100%</span> - <span class="cn">48px</span>, <span class="cn">1200px</span>);
+  <span class="cp">margin-inline</span>: <span class="cv">auto</span>;
+}
+
+<span class="cm">/* ── КНОПКА ── */</span>
+<span class="cs">.btn</span> {
+  <span class="cp">min-width</span>: <span class="cn">120px</span>;   <span class="cm">/* мінімальна ширина */</span>
+  <span class="cp">min-height</span>: <span class="cn">44px</span>;  <span class="cm">/* touch target */</span>
+  <span class="cp">padding</span>: <span class="cn">10px 20px</span>;
+}
+
+<span class="cm">/* ── ЗОБРАЖЕННЯ ── */</span>
+<span class="cs">img</span> {
+  <span class="cp">max-width</span>: <span class="cn">100%</span>; <span class="cm">/* не виходить за батька */</span>
+  <span class="cp">height</span>: <span class="cv">auto</span>;    <span class="cm">/* зберігає пропорції */</span>
+}
+
+<span class="cm">/* ── TEXTAREA ── */</span>
+<span class="cs">textarea</span> {
+  <span class="cp">min-height</span>: <span class="cn">120px</span>; <span class="cm">/* мінімальна висота */</span>
+  <span class="cp">max-height</span>: <span class="cn">400px</span>; <span class="cm">/* не виростає нескінченно */</span>
+  <span class="cp">resize</span>: <span class="cv">vertical</span>;  <span class="cm">/* тільки вертикальний resize */</span>
+}
+
+<span class="cm">/* ── SIDEBAR + MAIN ── */</span>
+<span class="cs">.sidebar</span> {
+  <span class="cp">width</span>: <span class="cn">280px</span>;
+  <span class="cp">min-width</span>: <span class="cn">240px</span>;
+  <span class="cp">max-width</span>: <span class="cn">320px</span>;
+}
+<span class="cs">.main</span> { <span class="cp">flex</span>: <span class="cn">1</span>; <span class="cp">min-width</span>: <span class="cn">0</span>; } <span class="cm">/* min-width:0 важливо! */</span>
+      </pre>
+      <div>
+        <div style="background:#080810;border:1px solid var(--bd);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:12px;">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--dim2);letter-spacing:2px;margin-bottom:4px">СТАНДАРТНІ ШИРИНИ КОНТЕЙНЕРІВ</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;">
+              <div style="width:100%;height:20px;background:rgba(232,255,0,.1);border:1px solid rgba(232,255,0,.2);border-radius:2px;display:flex;align-items:center;padding:0 8px;color:var(--c1);font-size:9px">max-width: 1536px — ultra wide</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;">
+              <div style="width:93%;height:20px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:2px;display:flex;align-items:center;padding:0 8px;color:var(--c2);font-size:9px">1440px — great wide</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;">
+              <div style="width:83%;height:20px;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);border-radius:2px;display:flex;align-items:center;padding:0 8px;color:var(--c4);font-size:9px">1280px — стандарт</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;">
+              <div style="width:78%;height:20px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.15);border-radius:2px;display:flex;align-items:center;padding:0 8px;color:var(--c4);font-size:9px">1200px — популярний</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;">
+              <div style="width:67%;height:20px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:2px;display:flex;align-items:center;padding:0 8px;color:var(--c5);font-size:9px">1024px — для контенту</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;">
+              <div style="width:50%;height:20px;background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.2);border-radius:2px;display:flex;align-items:center;padding:0 8px;color:var(--c6);font-size:9px">768px — blog/articles</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;">
+              <div style="width:42%;height:20px;background:rgba(255,61,113,.08);border:1px solid rgba(255,61,113,.2);border-radius:2px;display:flex;align-items:center;padding:0 8px;color:var(--c3);font-size:9px">640px — sm</div>
+            </div>
+          </div>
+          <div class="note" style="margin-top:8px;font-size:11px"><strong>Популярний стандарт:</strong> основний контейнер max-width: 1200px з padding: 0 24px по боках.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c4)">min-width: 0 — прихований баг у Flex</div>
+    <pre class="code">
+<span class="cm">/* ПРОБЛЕМА: flex-child не стискається нижче min-content */</span>
+<span class="cs">.flex-parent</span> { <span class="cp">display</span>: <span class="cv">flex</span>; }
+<span class="cs">.sidebar</span> { <span class="cp">width</span>: <span class="cn">300px</span>; <span class="cp">flex-shrink</span>: <span class="cn">0</span>; }
+<span class="cs">.main</span> {
+  <span class="cp">flex</span>: <span class="cn">1</span>;
+  <span class="cm">/* Якщо є довге слово або широкий елемент —</span>
+<span class="cm">     .main буде ширшим за доступний простір! */</span>
+}
+
+<span class="cm">/* РІШЕННЯ: */</span>
+<span class="cs">.main</span> {
+  <span class="cp">flex</span>: <span class="cn">1</span>;
+  <span class="cp">min-width</span>: <span class="cn">0</span>;  <span class="cm">/* дозволяє стискатись нижче min-content */</span>
+  <span class="cp">overflow</span>: <span class="cv">hidden</span>; <span class="cm">/* або overflow: auto */</span>
+}
+
+<span class="cm">/* Те саме стосується Grid children */</span>
+<span class="cs">.grid-child</span> {
+  <span class="cp">min-width</span>: <span class="cn">0</span>;  <span class="cm">/* якщо вміст виходить за сітку */</span>
+}
+    </pre>
+    <div class="warn"><strong>min-width: 0 на flex/grid дітях</strong> — один із найпоширеніших прихованих багів. Flex і Grid елементи за замовчуванням мають min-width: auto, що не дає їм стискатися. Якщо бачиш що вміст виходить за контейнер — спробуй min-width: 0.</div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════
+     04 · CLAMP
+══════════════════════════════════════ -->
+<section id="clamp" class="section">
+<div class="w">
+  <div class="sn">04 — Fluid розміри</div>
+  <h2>clamp() — найрозумніша функція CSS</h2>
+  <p class="intro">
+    <code style="font-family:var(--mono);background:var(--s2);padding:2px 8px;border-radius:3px">clamp(мін, ідеал, макс)</code> — повертає <strong>ідеал</strong>, але не менше <strong>мін</strong> і не більше <strong>макс</strong>. Замінює кілька media queries одним рядком.
+  </p>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c1)">Візуалізація clamp()</div>
+    <div class="clamp-demo">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--c1);margin-bottom:16px;text-align:center">
+        clamp(<span style="color:var(--c3)">1rem</span>, <span style="color:var(--c1)">4vw</span>, <span style="color:var(--c5)">3rem</span>)
+      </div>
+      <div class="clamp-track">
+        <div class="clamp-min" style="width:22%">мін<br><span style="font-size:9px">1rem</span></div>
+        <div class="clamp-max" style="width:22%"><span style="font-size:9px">3rem</span><br>макс</div>
+        <div class="clamp-fluid"></div>
+        <div class="clamp-dot"></div>
+      </div>
+      <div class="clamp-legend">
+        <div>📱 малий → <span style="color:var(--c3)">1rem (мін)</span></div>
+        <div>↔ середній → <span style="color:var(--c1)">4vw (fluid)</span></div>
+        <div>🖥 великий → <span style="color:var(--c5)">3rem (макс)</span></div>
+      </div>
+    </div>
+    <pre class="code" style="margin-top:14px">
+<span class="cm">/* Синтаксис */</span>
+<span class="cp">property</span>: <span class="cf">clamp</span>(<span class="cv">мінімум</span>, <span class="cv">ідеальне</span>, <span class="cv">максимум</span>);
+
+<span class="cm">/* Приклади */</span>
+<span class="cp">font-size</span>: <span class="cf">clamp</span>(<span class="cn">1rem</span>,    <span class="cn">4vw</span>,      <span class="cn">2.5rem</span>);
+<span class="cp">padding</span>:   <span class="cf">clamp</span>(<span class="cn">16px</span>,   <span class="cn">5vw</span>,      <span class="cn">48px</span>);
+<span class="cp">width</span>:     <span class="cf">clamp</span>(<span class="cn">280px</span>,  <span class="cn">80%</span>,      <span class="cn">800px</span>);
+<span class="cp">gap</span>:       <span class="cf">clamp</span>(<span class="cn">12px</span>,   <span class="cn">2vw</span>,      <span class="cn">32px</span>);
+
+<span class="cm">/* Fluid типографіка без жодного @media */</span>
+<span class="cs">h1</span> { <span class="cp">font-size</span>: <span class="cf">clamp</span>(<span class="cn">1.8rem</span>, <span class="cn">6vw</span>, <span class="cn">5rem</span>); }
+<span class="cs">h2</span> { <span class="cp">font-size</span>: <span class="cf">clamp</span>(<span class="cn">1.4rem</span>, <span class="cn">4vw</span>, <span class="cn">3rem</span>); }
+<span class="cs">p</span>  { <span class="cp">font-size</span>: <span class="cf">clamp</span>(<span class="cn">1rem</span>,   <span class="cn">2vw</span>, <span class="cn">1.1rem</span>); }
+
+<span class="cm">/* clamp() = min-width + max-width в одному рядку */</span>
+<span class="cm">/* Це одне і те саме: */</span>
+<span class="cs">.box</span> {
+  <span class="cp">width</span>: <span class="cn">50%</span>;
+  <span class="cp">min-width</span>: <span class="cn">200px</span>;
+  <span class="cp">max-width</span>: <span class="cn">600px</span>;
+}
+<span class="cm">/* = */</span>
+<span class="cs">.box</span> { <span class="cp">width</span>: <span class="cf">clamp</span>(<span class="cn">200px</span>, <span class="cn">50%</span>, <span class="cn">600px</span>); }
+    </pre>
+    <div class="tip"><strong>Ідеальна формула для vw:</strong> <code style="font-family:var(--mono)">clamp(мін, (розмір_на_320px / 320) * 100vw, макс)</code>. Якщо хочеш 18px на 320px — ідеал = (18/320)*100vw = 5.625vw.</div>
+  </div>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c1)">min() і max() — менш відомі сестри clamp()</div>
+    <pre class="code">
+<span class="cm">/* min() — повертає МЕНШЕ з двох значень */</span>
+<span class="cs">.container</span> {
+  <span class="cp">width</span>: <span class="cf">min</span>(<span class="cn">100%</span> - <span class="cn">48px</span>, <span class="cn">1200px</span>);
+  <span class="cm">/* = width: 100% - 48px, але не більше 1200px */</span>
+  <span class="cm">/* = max-width: 1200px + padding 24px по боках */</span>
+  <span class="cp">margin-inline</span>: <span class="cv">auto</span>;
+}
+
+<span class="cs">.font</span> { <span class="cp">font-size</span>: <span class="cf">min</span>(<span class="cn">16px</span>, <span class="cn">4vw</span>); }
+<span class="cm">/* Буде 4vw, але не більше ніж 16px */</span>
+
+<span class="cm">/* max() — повертає БІЛЬШЕ з двох значень */</span>
+<span class="cs">.padding</span> {
+  <span class="cp">padding</span>: <span class="cf">max</span>(<span class="cn">16px</span>, <span class="cn">3vw</span>);
+  <span class="cm">/* Буде 3vw, але не менше ніж 16px */</span>
+}
+
+<span class="cs">.font2</span> { <span class="cp">font-size</span>: <span class="cf">max</span>(<span class="cn">14px</span>, <span class="cn">1.5vw</span>); }
+<span class="cm">/* Забезпечує мінімум 14px навіть на маленьких екранах */</span>
+
+<span class="cm">/* Можна вкладати! */</span>
+<span class="cs">.el</span> { <span class="cp">width</span>: <span class="cf">min</span>(<span class="cf">max</span>(<span class="cn">200px</span>, <span class="cn">40%</span>), <span class="cn">800px</span>); }
+<span class="cm">/* = не менше 200px, не більше 800px, ідеал 40% */</span>
+    </pre>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════
+     05 · VIEWPORT UNITS
+══════════════════════════════════════ -->
+<section id="viewport" class="section">
+<div class="w">
+  <div class="sn">05 — Viewport</div>
+  <h2>Viewport одиниці — vw, vh, vmin, vmax</h2>
+  <p class="intro">
+    Viewport — це видима область браузера. Viewport одиниці прив'язані до неї, а не до батьківського елемента. Корисно для fullscreen секцій і fluid типографіки.
+  </p>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c2)">Всі viewport одиниці</div>
+    <div class="vp-demo">
+      <div class="vp-screen">
+        <!-- vw -->
+        <div class="vp-el" style="top:10%;left:0;width:100%;height:12%;background:rgba(232,255,0,.08);border:1px solid rgba(232,255,0,.3);color:var(--c1)">100vw = вся ширина вікна</div>
+        <!-- vh -->
+        <div class="vp-el" style="top:0;right:5%;width:18%;height:100%;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.2);color:var(--c2);font-size:9px;writing-mode:vertical-lr;text-orientation:mixed;justify-content:center">100vh = вся висота</div>
+        <!-- 50vw -->
+        <div class="vp-el" style="top:30%;left:0;width:50%;height:14%;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);color:var(--c4)">50vw</div>
+        <!-- vmin -->
+        <div class="vp-el" style="top:55%;left:5%;width:30%;height:20%;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);color:var(--c5);font-size:9px;flex-direction:column">vmin<br><span style="font-size:8px">= менше з vw/vh</span></div>
+        <!-- vmax -->
+        <div class="vp-el" style="top:55%;left:40%;width:30%;height:20%;background:rgba(251,146,60,.06);border:1px solid rgba(251,146,60,.2);color:var(--c6);font-size:9px;flex-direction:column">vmax<br><span style="font-size:8px">= більше з vw/vh</span></div>
+      </div>
+      <div class="vp-legend">
+        <div class="vp-item"><div class="vp-dot" style="background:rgba(232,255,0,.3);border:1px solid var(--c1)"></div><span style="color:var(--c1)">vw</span> — % від ширини вікна</div>
+        <div class="vp-item"><div class="vp-dot" style="background:rgba(0,229,255,.3);border:1px solid var(--c2)"></div><span style="color:var(--c2)">vh</span> — % від висоти вікна</div>
+        <div class="vp-item"><div class="vp-dot" style="background:rgba(52,211,153,.3);border:1px solid var(--c5)"></div><span style="color:var(--c5)">vmin</span> — % від меншого (vw або vh)</div>
+        <div class="vp-item"><div class="vp-dot" style="background:rgba(251,146,60,.3);border:1px solid var(--c6)"></div><span style="color:var(--c6)">vmax</span> — % від більшого (vw або vh)</div>
+        <div class="vp-item"><div class="vp-dot" style="background:rgba(255,61,113,.3);border:1px solid var(--c3)"></div><span style="color:var(--c3)">dvh/svh/lvh</span> — динамічні (мобільний браузер)</div>
+      </div>
+    </div>
+    <pre class="code" style="margin-top:14px">
+<span class="cm">/* Типові кейси використання */</span>
+
+<span class="cm">/* Hero секція — завжди на весь екран */</span>
+<span class="cs">.hero</span> { <span class="cp">min-height</span>: <span class="cn">100dvh</span>; } <span class="cm">/* dvh для мобільного! */</span>
+
+<span class="cm">/* Fluid шрифт залежний від ширини */</span>
+<span class="cs">h1</span> { <span class="cp">font-size</span>: <span class="cn">8vw</span>; } <span class="cm">/* 8% від ширини вікна */</span>
+<span class="cm">/* Краще з clamp: */</span>
+<span class="cs">h1</span> { <span class="cp">font-size</span>: <span class="cf">clamp</span>(<span class="cn">2rem</span>, <span class="cn">8vw</span>, <span class="cn">6rem</span>); }
+
+<span class="cm">/* Повноекранний sidebar */</span>
+<span class="cs">.sidebar</span> { <span class="cp">height</span>: <span class="cn">100vh</span>; <span class="cp">overflow-y</span>: <span class="cv">auto</span>; }
+
+<span class="cm">/* Modal overlay */</span>
+<span class="cs">.overlay</span> {
+  <span class="cp">position</span>: <span class="cv">fixed</span>;
+  <span class="cp">inset</span>: <span class="cn">0</span>; <span class="cm">/* top:0 right:0 bottom:0 left:0 */</span>
+  <span class="cp">width</span>: <span class="cn">100vw</span>;
+  <span class="cp">height</span>: <span class="cn">100vh</span>;
+}
+
+<span class="cm">/* vmin — квадрат що влазить в будь-яку орієнтацію */</span>
+<span class="cs">.avatar</span> {
+  <span class="cp">width</span>: <span class="cn">20vmin</span>;
+  <span class="cp">height</span>: <span class="cn">20vmin</span>;
+}
+    </pre>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════
+     06 · ASPECT RATIO
+══════════════════════════════════════ -->
+<section id="aspect" class="section">
+<div class="w">
+  <div class="sn">06 — Пропорції</div>
+  <h2>Aspect Ratio — фіксовані пропорції</h2>
+  <p class="intro">
+    <code style="font-family:var(--mono);background:var(--s2);padding:2px 8px;border-radius:3px">aspect-ratio</code> задає співвідношення сторін. Висота автоматично обраховується від ширини. Більше не треба хак з padding-bottom: 56.25%.
+  </p>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c6)">Стандартні пропорції</div>
+    <div class="ar-grid">
+      <div class="ar-card">
+        <div class="ar-box" style="aspect-ratio:16/9"><span style="font-family:var(--mono);font-size:10px;color:var(--c1)">16:9</span></div>
+        <div class="ar-info"><div class="ar-name">16 / 9</div><div class="ar-use">Відео, YouTube, банери</div></div>
+      </div>
+      <div class="ar-card">
+        <div class="ar-box" style="aspect-ratio:4/3"><span style="font-family:var(--mono);font-size:10px;color:var(--c1)">4:3</span></div>
+        <div class="ar-info"><div class="ar-name">4 / 3</div><div class="ar-use">Фото, презентації</div></div>
+      </div>
+      <div class="ar-card">
+        <div class="ar-box" style="aspect-ratio:1/1"><span style="font-family:var(--mono);font-size:10px;color:var(--c1)">1:1</span></div>
+        <div class="ar-info"><div class="ar-name">1 / 1</div><div class="ar-use">Аватари, продукти Instagram</div></div>
+      </div>
+      <div class="ar-card">
+        <div class="ar-box" style="aspect-ratio:3/4"><span style="font-family:var(--mono);font-size:10px;color:var(--c1)">3:4</span></div>
+        <div class="ar-info"><div class="ar-name">3 / 4</div><div class="ar-use">Портретне фото</div></div>
+      </div>
+      <div class="ar-card">
+        <div class="ar-box" style="aspect-ratio:21/9"><span style="font-family:var(--mono);font-size:10px;color:var(--c1)">21:9</span></div>
+        <div class="ar-info"><div class="ar-name">21 / 9</div><div class="ar-use">Widescreen, hero</div></div>
+      </div>
+      <div class="ar-card">
+        <div class="ar-box" style="aspect-ratio:2/3"><span style="font-family:var(--mono);font-size:10px;color:var(--c1)">2:3</span></div>
+        <div class="ar-info"><div class="ar-name">2 / 3</div><div class="ar-use">Карти товарів, книги</div></div>
+      </div>
+    </div>
+    <pre class="code" style="margin-top:14px">
+<span class="cm">/* Базовий синтаксис */</span>
+<span class="cs">.video-wrap</span> {
+  <span class="cp">width</span>: <span class="cn">100%</span>;
+  <span class="cp">aspect-ratio</span>: <span class="cn">16 / 9</span>;  <span class="cm">/* висота = width * 9/16 */</span>
+}
+
+<span class="cm">/* Зображення з фіксованими пропорціями */</span>
+<span class="cs">.card-image</span> {
+  <span class="cp">aspect-ratio</span>: <span class="cn">4 / 3</span>;
+  <span class="cp">overflow</span>: <span class="cv">hidden</span>;
+}
+<span class="cs">.card-image img</span> {
+  <span class="cp">width</span>: <span class="cn">100%</span>;
+  <span class="cp">height</span>: <span class="cn">100%</span>;
+  <span class="cp">object-fit</span>: <span class="cv">cover</span>;  <span class="cm">/* заповнює без спотворення */</span>
+}
+
+<span class="cm">/* Квадратна іконка-кнопка */</span>
+<span class="cs">.icon-btn</span> {
+  <span class="cp">width</span>: <span class="cn">44px</span>;
+  <span class="cp">aspect-ratio</span>: <span class="cn">1</span>;  <span class="cm">/* = 1/1 */</span>
+}
+
+<span class="cm">/* object-fit — як зображення заповнює контейнер */</span>
+<span class="cp">object-fit</span>: <span class="cv">cover</span>;    <span class="cm">/* заповнює, може обрізати */</span>
+<span class="cp">object-fit</span>: <span class="cv">contain</span>;  <span class="cm">/* вписується повністю */</span>
+<span class="cp">object-fit</span>: <span class="cv">fill</span>;     <span class="cm">/* розтягує (спотворює) */</span>
+<span class="cp">object-position</span>: <span class="cv">top center</span>; <span class="cm">/* де "вирізати" при cover */</span>
+    </pre>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════
+     07 · СТАНДАРТИ САЙТУ
+══════════════════════════════════════ -->
+<section id="standards" class="section">
+<div class="w">
+  <div class="sn">07 — Стандарти</div>
+  <h2>Стандарти розмірів сайту</h2>
+  <p class="intro">
+    Немає єдиних "правильних" розмірів — але є <strong>галузеві стандарти</strong> яких дотримується більшість. Знаючи їх — ти відразу розумієш макет і не витрачаєш час на підбір.
+  </p>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c1)">Ширини контейнерів — що і коли</div>
+    <div style="overflow-x:auto">
+    <table class="prac-table">
+      <tr>
+        <th>Ширина</th>
+        <th>Використання</th>
+        <th>Приклад коду</th>
+      </tr>
+      <tr>
+        <td class="td-val">max-width: 1440px</td>
+        <td class="td-why">Маркетингові лендінги, wide layout. Великий простір для фонів і декору.</td>
+        <td class="td-prop">Stripe, Linear, Apple</td>
+      </tr>
+      <tr>
+        <td class="td-val">max-width: 1280px</td>
+        <td class="td-why">Стандартний десктоп контейнер. Добре виглядає на 1366px і 1920px екранах.</td>
+        <td class="td-prop">Bootstrap .container-xl</td>
+      </tr>
+      <tr>
+        <td class="td-val">max-width: 1200px</td>
+        <td class="td-why">Найпопулярніший стандарт. Tailwind container, Bootstrap .container-lg.</td>
+        <td class="td-prop">Tailwind default</td>
+      </tr>
+      <tr>
+        <td class="td-val">max-width: 1024px</td>
+        <td class="td-why">Контент-орієнтовані сайти. Документація, дашборди.</td>
+        <td class="td-prop">GitHub docs</td>
+      </tr>
+      <tr>
+        <td class="td-val">max-width: 768px</td>
+        <td class="td-why">Блоги, статті. Вузький контейнер для читабельності тексту.</td>
+        <td class="td-prop">Medium, Substack</td>
+      </tr>
+      <tr>
+        <td class="td-val">max-width: 65ch</td>
+        <td class="td-why">Параграфи тексту. 65 символів = оптимальна довжина рядка для читання.</td>
+        <td class="td-prop"><code style="font-family:var(--mono);font-size:11px">p { max-width: 65ch; }</code></td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c1)">Типова структура сторінки з розмірами</div>
+    <pre class="code">
+<span class="cm">/* ─── HEADER / NAVBAR ─────────────────────────────── */</span>
+<span class="cs">.navbar</span> {
+  <span class="cp">height</span>: <span class="cn">64px</span>;          <span class="cm">/* стандарт: 56–80px */</span>
+  <span class="cp">position</span>: <span class="cv">sticky</span>;
+  <span class="cp">top</span>: <span class="cn">0</span>;
+  <span class="cp">z-index</span>: <span class="cn">100</span>;
+}
+
+<span class="cm">/* ─── HERO СЕКЦІЯ ─────────────────────────────────── */</span>
+<span class="cs">.hero</span> {
+  <span class="cp">min-height</span>: <span class="cn">100dvh</span>;     <span class="cm">/* або min-height: 600px */</span>
+  <span class="cp">padding-block</span>: <span class="cf">clamp</span>(<span class="cn">80px</span>, <span class="cn">15vh</span>, <span class="cn">160px</span>);
+}
+
+<span class="cm">/* ─── ЗВИЧАЙНА СЕКЦІЯ ─────────────────────────────── */</span>
+<span class="cs">.section</span> {
+  <span class="cp">padding-block</span>: <span class="cf">clamp</span>(<span class="cn">60px</span>, <span class="cn">10vw</span>, <span class="cn">120px</span>);
+  <span class="cm">/* Стандарт: 80–120px зверху і знизу на десктопі */</span>
+  <span class="cm">/* На мобільному: 48–64px                         */</span>
+}
+
+<span class="cm">/* ─── SIDEBAR ─────────────────────────────────────── */</span>
+<span class="cs">.sidebar</span> {
+  <span class="cp">width</span>: <span class="cn">280px</span>;           <span class="cm">/* стандарт: 240–320px */</span>
+  <span class="cp">min-width</span>: <span class="cn">240px</span>;
+}
+
+<span class="cm">/* ─── FOOTER ─────────────────────────────────────── */</span>
+<span class="cs">.footer</span> {
+  <span class="cp">padding-block</span>: <span class="cf">clamp</span>(<span class="cn">48px</span>, <span class="cn">8vw</span>, <span class="cn">96px</span>);
+}
+    </pre>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════
+     08 · РОЗМІРИ ЕЛЕМЕНТІВ
+══════════════════════════════════════ -->
+<section id="elements" class="section">
+<div class="w">
+  <div class="sn">08 — Елементи</div>
+  <h2>Стандартні розміри UI елементів</h2>
+  <p class="intro">
+    Для кнопок, іконок, аватарів, інпутів — є перевірені стандарти. Особливо важливий <strong>мінімальний touch target 44×44px</strong> — вимога Apple HIG і Google Material Design.
+  </p>
+
+  <div class="elem-grid r">
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(232,255,0,.06);border:1px solid rgba(232,255,0,.15);border-radius:4px;height:60px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="background:rgba(232,255,0,.2);border:1px solid var(--c1);border-radius:4px;padding:8px 16px;font-family:var(--mono);font-size:11px;color:var(--c1);height:36px;display:flex;align-items:center">sm</div>
+          <div style="background:rgba(232,255,0,.2);border:1px solid var(--c1);border-radius:4px;padding:10px 20px;font-family:var(--mono);font-size:12px;color:var(--c1);height:44px;display:flex;align-items:center">md</div>
+          <div style="background:rgba(232,255,0,.2);border:1px solid var(--c1);border-radius:4px;padding:12px 24px;font-family:var(--mono);font-size:13px;color:var(--c1);height:52px;display:flex;align-items:center">lg</div>
+        </div>
+      </div>
+      <div class="elem-name">Кнопки</div>
+      <div class="elem-val">sm: 32px · md: 44px · lg: 52px</div>
+      <div class="elem-desc">Мінімум 44px по висоті — touch target. Ширина — padding від тексту.</div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.15);border-radius:4px;height:60px">
+        <div style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);border-radius:4px;width:80%;height:44px;display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:11px;color:var(--dim)">placeholder...</div>
+      </div>
+      <div class="elem-name">Input / Select</div>
+      <div class="elem-val">height: 44px (стандарт)</div>
+      <div class="elem-desc">44px — мінімум на мобільному. Font-size мінімум 16px (iOS зум).</div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(167,139,250,.04);border:1px solid rgba(167,139,250,.15);border-radius:4px;height:60px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(167,139,250,.2);border:1px solid rgba(167,139,250,.4)"></div>
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(167,139,250,.2);border:1px solid rgba(167,139,250,.4)"></div>
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(167,139,250,.2);border:1px solid rgba(167,139,250,.4)"></div>
+          <div style="width:48px;height:48px;border-radius:50%;background:rgba(167,139,250,.2);border:1px solid rgba(167,139,250,.4)"></div>
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(167,139,250,.2);border:1px solid rgba(167,139,250,.4)"></div>
+        </div>
+      </div>
+      <div class="elem-name">Аватари</div>
+      <div class="elem-val">24 / 32 / 40 / 48 / 64 / 96px</div>
+      <div class="elem-desc">Завжди aspect-ratio: 1/1. object-fit: cover для зображень.</div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.15);border-radius:4px;height:60px">
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="font-size:16px">16</div>
+          <div style="font-size:20px">20</div>
+          <div style="font-size:24px">24</div>
+          <div style="font-size:32px">32</div>
+        </div>
+      </div>
+      <div class="elem-name">Іконки</div>
+      <div class="elem-val">16 / 20 / 24 / 32 / 48px</div>
+      <div class="elem-desc">24px — найпоширеніший. Touch area завжди ≥ 44px навіть якщо іконка менша.</div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(251,146,60,.04);border:1px solid rgba(251,146,60,.15);border-radius:4px;height:60px;padding:8px;">
+        <div style="background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.3);border-radius:4px;padding:8px;width:100%;min-height:44px;font-family:var(--mono);font-size:10px;color:var(--c6)">textarea...</div>
+      </div>
+      <div class="elem-name">Textarea</div>
+      <div class="elem-val">min-height: 100–120px</div>
+      <div class="elem-desc">min-height щоб не виглядала як input. max-height щоб не росла нескінченно.</div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(255,61,113,.04);border:1px solid rgba(255,61,113,.15);border-radius:4px;height:60px">
+        <div style="display:flex;flex-direction:column;gap:4px;width:100%;padding:0 8px">
+          <div style="height:12px;background:rgba(255,61,113,.2);border-radius:2px;width:100%"></div>
+          <div style="height:8px;background:rgba(255,61,113,.1);border-radius:2px;width:70%"></div>
+          <div style="height:8px;background:rgba(255,61,113,.1);border-radius:2px;width:85%"></div>
+        </div>
+      </div>
+      <div class="elem-name">Карти (Cards)</div>
+      <div class="elem-val">min-width: 280px</div>
+      <div class="elem-desc">Зазвичай з aspect-ratio для зображення і padding 16–24px всередині.</div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(232,255,0,.04);border:1px solid rgba(232,255,0,.15);border-radius:4px;height:60px">
+        <div style="height:64px;background:rgba(232,255,0,.06);border:1px solid rgba(232,255,0,.15);border-radius:3px;width:100%;display:flex;align-items:center;padding:0 12px">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--c1)">navbar · height: 64px</div>
+        </div>
+      </div>
+      <div class="elem-name">Navbar</div>
+      <div class="elem-val">56–80px (стандарт 64px)</div>
+      <div class="elem-desc">56px — компактний. 64px — стандарт. 80px — просторий. Фіксована висота.</div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.15);border-radius:4px;height:60px">
+        <div style="display:flex;gap:6px;padding:0 8px">
+          <div style="background:rgba(0,229,255,.15);border:1px solid rgba(0,229,255,.3);border-radius:100px;padding:3px 10px;font-family:var(--mono);font-size:9px;color:var(--c2)">tag</div>
+          <div style="background:rgba(232,255,0,.1);border:1px solid rgba(232,255,0,.3);border-radius:100px;padding:3px 10px;font-family:var(--mono);font-size:9px;color:var(--c1)">new</div>
+          <div style="background:rgba(255,61,113,.1);border:1px solid rgba(255,61,113,.3);border-radius:100px;padding:3px 10px;font-family:var(--mono);font-size:9px;color:var(--c3)">sale</div>
+        </div>
+      </div>
+      <div class="elem-name">Теги / Badges</div>
+      <div class="elem-val">height: 20–28px</div>
+      <div class="elem-desc">Маленькі, але padding не менше 6px 12px. border-radius: 100px для pill.</div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-preview" style="background:rgba(167,139,250,.04);border:1px solid rgba(167,139,250,.15);border-radius:4px;height:60px">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 8px">
+          <div style="width:40px;height:24px;background:rgba(167,139,250,.3);border:1px solid rgba(167,139,250,.5);border-radius:100px;position:relative;flex-shrink:0">
+            <div style="width:18px;height:18px;background:var(--c4);border-radius:50%;position:absolute;top:2px;right:2px;transition:all .2s"></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--dim2)">toggle</div>
+        </div>
+      </div>
+      <div class="elem-name">Toggle Switch</div>
+      <div class="elem-val">44px × 24px (min)</div>
+      <div class="elem-desc">Популярний: 52×28px. Завжди з touch area 44px мінімум.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════
+     09 · ШПАРГАЛКА
+══════════════════════════════════════ -->
+<section id="cheat" class="section">
+<div class="w">
+  <div class="sn">09 — Підсумок</div>
+  <h2>Шпаргалка — яку одиницю де</h2>
+  <p class="intro">Зведена таблиця правильного вибору одиниць за контекстом.</p>
+
+  <div class="card r">
+    <div style="overflow-x:auto">
+    <table class="prac-table">
+      <tr>
+        <th>Що стилізуємо</th>
+        <th>Одиниця</th>
+        <th>Приклад</th>
+        <th>Чому</th>
+      </tr>
+      <tr><td class="td-prop">font-size тексту</td><td class="td-val">rem</td><td><code style="font-family:var(--mono);font-size:11px">1rem, 1.125rem</code></td><td class="td-why">Масштабується з браузерними налаштуваннями юзера</td></tr>
+      <tr><td class="td-prop">font-size заголовків</td><td class="td-val">clamp() + vw</td><td><code style="font-family:var(--mono);font-size:11px">clamp(2rem,5vw,4rem)</code></td><td class="td-why">Fluid — без media queries</td></tr>
+      <tr><td class="td-prop">padding / margin</td><td class="td-val">rem або px</td><td><code style="font-family:var(--mono);font-size:11px">1rem, 24px</code></td><td class="td-why">px — фіксовані відступи. rem — масштабовані</td></tr>
+      <tr><td class="td-prop">padding кнопки</td><td class="td-val">em або rem</td><td><code style="font-family:var(--mono);font-size:11px">0.625em 1.25em</code></td><td class="td-why">em масштабується з font-size кнопки</td></tr>
+      <tr><td class="td-prop">border / outline</td><td class="td-val">px</td><td><code style="font-family:var(--mono);font-size:11px">1px, 2px</code></td><td class="td-why">Завжди фіксований, не масштабується</td></tr>
+      <tr><td class="td-prop">box-shadow</td><td class="td-val">px</td><td><code style="font-family:var(--mono);font-size:11px">0 4px 12px rgba()</code></td><td class="td-why">Точний контроль тіні</td></tr>
+      <tr><td class="td-prop">width контейнера</td><td class="td-val">% + max-width</td><td><code style="font-family:var(--mono);font-size:11px">width:100%, max-width:1200px</code></td><td class="td-why">Адаптивна ширина з обмеженням</td></tr>
+      <tr><td class="td-prop">width компонента</td><td class="td-val">% або px</td><td><code style="font-family:var(--mono);font-size:11px">280px, 50%</code></td><td class="td-why">Залежить від дизайну</td></tr>
+      <tr><td class="td-prop">ширина тексту</td><td class="td-val">ch</td><td><code style="font-family:var(--mono);font-size:11px">max-width: 65ch</code></td><td class="td-why">Прив'язано до шрифту, не до екрану</td></tr>
+      <tr><td class="td-prop">висота секції</td><td class="td-val">dvh або vh</td><td><code style="font-family:var(--mono);font-size:11px">min-height: 100dvh</code></td><td class="td-why">dvh враховує мобільний браузер</td></tr>
+      <tr><td class="td-prop">grid колонки</td><td class="td-val">fr + px</td><td><code style="font-family:var(--mono);font-size:11px">280px 1fr</code></td><td class="td-why">fr = вільний простір, px = фіксований</td></tr>
+      <tr><td class="td-prop">gap в grid/flex</td><td class="td-val">px або rem</td><td><code style="font-family:var(--mono);font-size:11px">16px, 1.5rem</code></td><td class="td-why">Стабільний проміжок між елементами</td></tr>
+      <tr><td class="td-prop">icon / аватар</td><td class="td-val">px</td><td><code style="font-family:var(--mono);font-size:11px">24px, 40px, 48px</code></td><td class="td-why">Фіксований розмір із дизайн-системи</td></tr>
+      <tr><td class="td-prop">touch target</td><td class="td-val">px</td><td><code style="font-family:var(--mono);font-size:11px">min: 44px × 44px</code></td><td class="td-why">Стандарт Apple HIG / Material Design</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="ct" style="color:var(--c1)">Дерево рішень — яку одиницю обрати</div>
+    <div class="dtree">
+      <div class="dt-node">
+        <div class="dt-left"><div class="dt-bullet" style="background:var(--c1)"></div></div>
+        <div class="dt-body">
+          <div class="dt-q">Це текст / шрифт?</div>
+          <div class="dt-a">→ <span style="color:var(--c5)">rem</span> для base text, <span style="color:var(--c1)">clamp()+vw</span> для заголовків, <span style="color:var(--c4)">em</span> для padding кнопок</div>
+        </div>
+      </div>
+      <div class="dt-node">
+        <div class="dt-left"><div class="dt-bullet" style="background:var(--c2)"></div></div>
+        <div class="dt-body">
+          <div class="dt-q">Це рамка, тінь, або піксельно-точний елемент?</div>
+          <div class="dt-a">→ <span style="color:var(--c3)">px</span> завжди. border, box-shadow, icon size — завжди пікселі</div>
+        </div>
+      </div>
+      <div class="dt-node">
+        <div class="dt-left"><div class="dt-bullet" style="background:var(--c4)"></div></div>
+        <div class="dt-body">
+          <div class="dt-q">Це ширина контейнера/колонки?</div>
+          <div class="dt-a">→ <span style="color:var(--c2)">%</span> + max-width, або <span style="color:var(--c5)">fr</span> в Grid, або <span style="color:var(--c1)">min(100% - 48px, 1200px)</span></div>
+        </div>
+      </div>
+      <div class="dt-node">
+        <div class="dt-left"><div class="dt-bullet" style="background:var(--c5)"></div></div>
+        <div class="dt-body">
+          <div class="dt-q">Це висота секції на весь екран?</div>
+          <div class="dt-a">→ <span style="color:var(--c6)">100dvh</span> (мобільний сумісний) або <span style="color:var(--dim2)">100vh</span> (якщо тільки десктоп)</div>
+        </div>
+      </div>
+      <div class="dt-node">
+        <div class="dt-left"><div class="dt-bullet" style="background:var(--c6)"></div></div>
+        <div class="dt-body">
+          <div class="dt-q">Хочу щоб розмір плавно змінювався між мін і макс?</div>
+          <div class="dt-a">→ <span style="color:var(--c1)">clamp(мін, fluid, макс)</span> — замінює min-width + max-width + fluid значення</div>
+        </div>
+      </div>
+      <div class="dt-node">
+        <div class="dt-left"><div class="dt-bullet" style="background:var(--c3)"></div></div>
+        <div class="dt-body">
+          <div class="dt-q">Це ширина параграфа / блоку тексту?</div>
+          <div class="dt-a">→ <span style="color:var(--c4)">max-width: 65ch</span> — оптимальна читабельність незалежно від шрифту</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="yellow">
+      <strong>Головне правило:</strong> спочатку не задавай жодних розмірів — подивись як виглядає без них. Браузер робить багато правильно за замовчуванням. Додавай розміри тільки тоді коли є конкретна причина.
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="footer-big">
+    <span style="color:var(--c1)">px</span> ·
+    <span style="color:var(--c2)">rem</span> ·
+    <span style="color:var(--c4)">%</span> ·
+    <span style="color:var(--c6)">dvh</span> ·
+    <span style="color:var(--c5)">fr</span> ·
+    <span style="color:var(--c3)">ch</span>
+  </div>
+  <div class="footer-sub">Лекція 6 · CSS Розміри · Одиниці · Min/Max · Clamp · Standards</div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  document.getElementById('prog').style.width=p+'%';
+});
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
+},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

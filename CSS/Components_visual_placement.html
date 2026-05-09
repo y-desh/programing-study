@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS — Лекція з ілюстраціями</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Unbounded:wght@400;700;900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface2: #1a1a26;
+  --border: #2a2a3e;
+  --accent: #6c63ff;
+  --accent2: #ff6584;
+  --accent3: #43e97b;
+  --accent4: #f7971e;
+  --text: #e8e8f0;
+  --text-dim: #888899;
+  --code-bg: #0d0d16;
+  --mono: 'JetBrains Mono', monospace;
+  --display: 'Unbounded', sans-serif;
+  --body: 'Manrope', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(108,99,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridShift 20s linear infinite;
+}
+@keyframes gridShift {
+  to { background-position: 40px 40px; }
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.8; }
+  50% { transform: translate(-50%,-50%) scale(1.15); opacity: 1; }
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  border: 1px solid rgba(108,99,255,0.3);
+  padding: 6px 16px;
+  border-radius: 100px;
+  display: inline-block;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero h1 span { color: var(--accent); }
+
+.hero p {
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  max-width: 500px;
+  margin: 0 auto 48px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.nav-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.nav-pill {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: var(--mono);
+}
+.nav-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(108,99,255,0.1);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── LAYOUT ─── */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── SECTION ─── */
+.section {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(108,99,255,0.4), transparent);
+}
+
+.section h2 {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.section-intro {
+  color: var(--text-dim);
+  font-size: 1rem;
+  max-width: 650px;
+  margin-bottom: 48px;
+  line-height: 1.8;
+}
+
+/* ─── CODE BLOCK ─── */
+.code {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-x: auto;
+  position: relative;
+}
+
+.code .comment { color: #555577; }
+.code .prop { color: #79b8ff; }
+.code .val { color: #f97583; }
+.code .sel { color: #b392f0; }
+.code .str { color: var(--accent3); }
+.code .num { color: var(--accent4); }
+.code .tag-name { color: var(--accent2); }
+
+/* ─── DIAGRAM CARDS ─── */
+.diagram-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.diagram-card h3 {
+  font-family: var(--display);
+  font-size: 1rem;
+  margin-bottom: 24px;
+  color: var(--accent);
+}
+
+/* ─── BOX MODEL DIAGRAM ─── */
+.box-model-wrap {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.box-model-visual {
+  flex: 0 0 auto;
+}
+
+.bm-margin {
+  background: rgba(247,151,30,0.12);
+  border: 2px dashed rgba(247,151,30,0.5);
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+}
+.bm-border {
+  background: rgba(255,101,132,0.12);
+  border: 2px solid rgba(255,101,132,0.6);
+  border-radius: 6px;
+  padding: 16px;
+}
+.bm-padding {
+  background: rgba(67,233,123,0.1);
+  border: 2px dashed rgba(67,233,123,0.4);
+  border-radius: 4px;
+  padding: 14px;
+}
+.bm-content {
+  background: rgba(108,99,255,0.25);
+  border: 1px solid rgba(108,99,255,0.5);
+  border-radius: 4px;
+  padding: 14px 24px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bm-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  flex: 1;
+  min-width: 180px;
+}
+.bm-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-family: var(--mono);
+}
+.bm-dot {
+  width: 12px; height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ─── DISPLAY DIAGRAM ─── */
+.display-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.display-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.display-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  min-width: 110px;
+  padding-top: 4px;
+}
+
+.display-preview {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.el-block {
+  display: block;
+  width: 100%;
+  background: rgba(108,99,255,0.2);
+  border: 1px solid rgba(108,99,255,0.5);
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  text-align: center;
+}
+
+.el-inline {
+  display: inline;
+  background: rgba(255,101,132,0.2);
+  border: 1px solid rgba(255,101,132,0.4);
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent2);
+}
+
+.el-inline-block {
+  display: inline-block;
+  width: 80px;
+  height: 48px;
+  background: rgba(67,233,123,0.15);
+  border: 1px solid rgba(67,233,123,0.4);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent3);
+  text-align: center;
+  line-height: 48px;
+}
+
+.el-text-wrap {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 2;
+}
+
+/* ─── POSITION DIAGRAM ─── */
+.pos-diagram {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.pos-card {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  min-height: 140px;
+}
+
+.pos-card-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.pos-static .pos-card-label { color: var(--text-dim); }
+.pos-relative .pos-card-label { color: var(--accent4); }
+.pos-absolute .pos-card-label { color: var(--accent2); }
+.pos-fixed .pos-card-label { color: var(--accent); }
+.pos-sticky .pos-card-label { color: var(--accent3); }
+
+.pos-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pos-flow-el {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.pos-flow-el.highlight {
+  background: rgba(247,151,30,0.15);
+  border-color: rgba(247,151,30,0.4);
+  color: var(--accent4);
+  position: relative;
+  top: 0; left: 8px;
+}
+.pos-flow-el.highlight-abs {
+  background: rgba(255,101,132,0.15);
+  border-color: rgba(255,101,132,0.4);
+  color: var(--accent2);
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 80px;
+  text-align: center;
+}
+.pos-flow-el.highlight-fix {
+  background: rgba(108,99,255,0.2);
+  border-color: rgba(108,99,255,0.5);
+  color: var(--accent);
+}
+
+/* ─── FLEXBOX DIAGRAM ─── */
+.flex-playground {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.flex-demo-row {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.flex-demo-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+.flex-demo-label span { color: var(--accent4); }
+
+.fd-container {
+  display: flex;
+  gap: 8px;
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 12px;
+  min-height: 56px;
+  align-items: center;
+}
+
+.fd-el {
+  background: rgba(108,99,255,0.25);
+  border: 1px solid rgba(108,99,255,0.5);
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.fd-el.grow { flex: 1; text-align: center; background: rgba(67,233,123,0.15); border-color: rgba(67,233,123,0.4); color: var(--accent3); }
+.fd-el.c2 { background: rgba(255,101,132,0.15); border-color: rgba(255,101,132,0.4); color: var(--accent2); }
+
+.jc-start { justify-content: flex-start; }
+.jc-center { justify-content: center; }
+.jc-end { justify-content: flex-end; }
+.jc-between { justify-content: space-between; }
+.ai-center { align-items: center; height: 80px; }
+
+/* ─── GRID DIAGRAM ─── */
+.grid-demos {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grid-demo {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.grid-demo-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+}
+.grid-demo-label span { color: var(--accent3); }
+
+.gd-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.gd-el {
+  background: rgba(67,233,123,0.12);
+  border: 1px solid rgba(67,233,123,0.3);
+  border-radius: 4px;
+  padding: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent3);
+  text-align: center;
+}
+
+.gd-el.span2 { grid-column: span 2; }
+.gd-el.span3 { grid-column: span 3; }
+
+.gd-header {
+  background: rgba(108,99,255,0.2);
+  border-color: rgba(108,99,255,0.4);
+  color: var(--accent);
+  grid-area: header;
+}
+.gd-sidebar {
+  background: rgba(255,101,132,0.15);
+  border-color: rgba(255,101,132,0.3);
+  color: var(--accent2);
+  grid-area: sidebar;
+}
+.gd-main {
+  background: rgba(67,233,123,0.12);
+  border-color: rgba(67,233,123,0.3);
+  color: var(--accent3);
+  grid-area: main;
+}
+.gd-footer {
+  background: rgba(247,151,30,0.12);
+  border-color: rgba(247,151,30,0.3);
+  color: var(--accent4);
+  grid-area: footer;
+}
+
+/* ─── SPECIFICITY VISUAL ─── */
+.spec-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.spec-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.spec-selector {
+  font-family: var(--mono);
+  font-size: 13px;
+  min-width: 180px;
+  color: var(--text-dim);
+}
+
+.spec-track {
+  flex: 1;
+  height: 28px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.spec-fill {
+  height: 100%;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spec-weight {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ─── UNITS TABLE ─── */
+.units-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.unit-card {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  transition: border-color 0.2s;
+}
+.unit-card:hover { border-color: var(--accent); }
+
+.unit-name {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.unit-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.unit-when {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent3);
+  background: rgba(67,233,123,0.08);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+/* ─── TIPS ─── */
+.tip-box {
+  background: rgba(108,99,255,0.08);
+  border: 1px solid rgba(108,99,255,0.3);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-top: 20px;
+}
+.tip-box strong { color: var(--accent); }
+
+.warn-box {
+  background: rgba(255,101,132,0.06);
+  border: 1px solid rgba(255,101,132,0.25);
+  border-left: 3px solid var(--accent2);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-top: 20px;
+}
+.warn-box strong { color: var(--accent2); }
+
+/* ─── TWO COL ─── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ─── DIVIDER ─── */
+.chapter-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+  color: var(--border);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  gap: 20px;
+}
+.chapter-divider::before, .chapter-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center;
+  padding: 60px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">CSS Lecture · Візуальний курс</div>
+    <h1>Компоненти,<br><span>відображення</span><br>та розміщення</h1>
+    <p>Повна лекція з живими ілюстраціями — від Box Model до Grid Layout</p>
+    <div class="nav-pills">
+      <a class="nav-pill" href="#boxmodel">Box Model</a>
+      <a class="nav-pill" href="#display">Display</a>
+      <a class="nav-pill" href="#position">Position</a>
+      <a class="nav-pill" href="#flexbox">Flexbox</a>
+      <a class="nav-pill" href="#grid">Grid</a>
+      <a class="nav-pill" href="#specificity">Специфічність</a>
+      <a class="nav-pill" href="#units">Одиниці</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SECTION 1: BOX MODEL -->
+<!-- ══════════════════════════════════ -->
+<section id="boxmodel" class="section">
+  <div class="container">
+    <div class="section-label">01 &mdash; Основа основ</div>
+    <h2>Box Model</h2>
+    <p class="section-intro">
+      Кожен HTML-елемент — це прямокутна коробка. Завжди. Браузер малює кожен елемент як чотири концентричних шари. Якщо ти не розумієш Box Model — ти будеш гадати чому відступи «не працюють».
+    </p>
+
+    <div class="diagram-card reveal">
+      <h3>Візуальна структура елемента</h3>
+      <div class="box-model-wrap">
+        <div class="box-model-visual">
+          <div class="bm-margin">
+            <div style="position:absolute;top:4px;left:10px;font-family:var(--mono);font-size:10px;color:rgba(247,151,30,0.7);">margin</div>
+            <div class="bm-border">
+              <div style="position:relative;">
+                <div style="position:absolute;top:-16px;left:0;font-family:var(--mono);font-size:10px;color:rgba(255,101,132,0.7);">border</div>
+              </div>
+              <div class="bm-padding">
+                <div style="position:relative;">
+                  <div style="position:absolute;top:-16px;left:0;font-family:var(--mono);font-size:10px;color:rgba(67,233,123,0.7);">padding</div>
+                </div>
+                <div class="bm-content">content</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bm-labels">
+          <div class="bm-label">
+            <div class="bm-dot" style="background:rgba(108,99,255,0.6);border:1px solid var(--accent);"></div>
+            <div><strong style="color:var(--accent)">content</strong> — сам вміст</div>
+          </div>
+          <div class="bm-label">
+            <div class="bm-dot" style="background:rgba(67,233,123,0.3);border:2px dashed rgba(67,233,123,0.5);"></div>
+            <div><strong style="color:var(--accent3)">padding</strong> — простір всередині</div>
+          </div>
+          <div class="bm-label">
+            <div class="bm-dot" style="background:rgba(255,101,132,0.3);border:2px solid rgba(255,101,132,0.6);"></div>
+            <div><strong style="color:var(--accent2)">border</strong> — рамка елемента</div>
+          </div>
+          <div class="bm-label">
+            <div class="bm-dot" style="background:rgba(247,151,30,0.2);border:2px dashed rgba(247,151,30,0.5);"></div>
+            <div><strong style="color:var(--accent4)">margin</strong> — простір зовні</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col reveal">
+      <div class="diagram-card" style="border-color:rgba(255,101,132,0.3)">
+        <h3 style="color:var(--accent2)">❌ content-box (default)</h3>
+        <div class="code">
+<span class="sel">.box</span> {
+  <span class="prop">width</span>: <span class="num">200px</span>;
+  <span class="prop">padding</span>: <span class="num">20px</span>;
+  <span class="prop">border</span>: <span class="num">2px</span> solid;
+}
+<span class="comment">/* РЕАЛЬНА ширина:
+   200 + 20 + 20 + 2 + 2
+   = 244px 😱 */</span>
+        </div>
+      </div>
+      <div class="diagram-card" style="border-color:rgba(67,233,123,0.3)">
+        <h3 style="color:var(--accent3)">✅ border-box (правильно)</h3>
+        <div class="code">
+<span class="sel">*, *::before, *::after</span> {
+  <span class="prop">box-sizing</span>: <span class="val">border-box</span>;
+}
+<span class="sel">.box</span> {
+  <span class="prop">width</span>: <span class="num">200px</span>;
+  <span class="prop">padding</span>: <span class="num">20px</span>;
+  <span class="comment">/* рівно 200px ✅ */</span>
+}
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box reveal">
+      <strong>Правило #1:</strong> Перший рядок кожного CSS файлу — завжди <code style="font-family:var(--mono);color:var(--accent)">box-sizing: border-box</code> на всіх елементах. Без виключень.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SECTION 2: DISPLAY -->
+<!-- ══════════════════════════════════ -->
+<section id="display" class="section">
+  <div class="container">
+    <div class="section-label">02 &mdash; Поведінка в потоці</div>
+    <h2>Display</h2>
+    <p class="section-intro">
+      Властивість <code style="font-family:var(--mono);color:var(--accent)">display</code> визначає як елемент розміщується в потоці документа і як поводяться його діти. Це найбільш впливова властивість в CSS після кольору.
+    </p>
+
+    <div class="diagram-card reveal">
+      <h3>Порівняння режимів відображення</h3>
+      <div class="display-demo">
+
+        <!-- block -->
+        <div class="display-row">
+          <div class="display-label">block</div>
+          <div style="flex:1;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.08);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+            <div class="el-block">div №1</div>
+            <div class="el-block">div №2 — займає всю ширину</div>
+            <div class="el-block">div №3 — кожен з нового рядка</div>
+          </div>
+        </div>
+
+        <!-- inline -->
+        <div class="display-row">
+          <div class="display-label">inline</div>
+          <div style="flex:1;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.08);border-radius:6px;padding:10px;">
+            <div class="el-text-wrap">
+              Це текст з
+              <span class="el-inline">&lt;span&gt;</span>
+              і ще один
+              <span class="el-inline">&lt;a&gt;</span>
+              — всі в одному рядку, width/height не діє
+            </div>
+          </div>
+        </div>
+
+        <!-- inline-block -->
+        <div class="display-row">
+          <div class="display-label">inline-block</div>
+          <div style="flex:1;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.08);border-radius:6px;padding:10px;">
+            <span class="el-inline-block">box 1</span>
+            <span class="el-inline-block">box 2</span>
+            <span class="el-inline-block">box 3</span>
+            <span style="font-size:12px;color:var(--text-dim);font-family:var(--mono);margin-left:8px;">← є width/height, але в рядку</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="diagram-card reveal" style="margin-top:0">
+      <h3>Таблиця значень</h3>
+      <div class="code">
+<span class="prop">display</span>: <span class="val">block</span>;        <span class="comment">/* div, p, h1..h6, section — вся ширина, новий рядок */</span>
+<span class="prop">display</span>: <span class="val">inline</span>;       <span class="comment">/* span, a, strong — в рядку, width/height ігнор. */</span>
+<span class="prop">display</span>: <span class="val">inline-block</span>; <span class="comment">/* гібрид: в рядку + є розміри */</span>
+<span class="prop">display</span>: <span class="val">none</span>;         <span class="comment">/* прихований + не займає місця */</span>
+<span class="prop">display</span>: <span class="val">flex</span>;         <span class="comment">/* flex-контейнер для дітей */</span>
+<span class="prop">display</span>: <span class="val">grid</span>;         <span class="comment">/* grid-контейнер для дітей */</span>
+      </div>
+    </div>
+
+    <div class="warn-box reveal">
+      <strong>Чому span не реагує на width?</strong> Тому що він <code style="font-family:var(--mono)">inline</code> за замовчуванням. Додай <code style="font-family:var(--mono)">display: inline-block</code> або <code style="font-family:var(--mono)">display: block</code> — і width запрацює.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SECTION 3: POSITION -->
+<!-- ══════════════════════════════════ -->
+<section id="position" class="section">
+  <div class="container">
+    <div class="section-label">03 &mdash; Де і як стоїть елемент</div>
+    <h2>Position</h2>
+    <p class="section-intro">
+      Position контролює чи елемент знаходиться в нормальному потоці документа, чи «вириваєтся» з нього. Від цього залежить як top/left/right/bottom координати взагалі діють.
+    </p>
+
+    <div class="pos-diagram reveal">
+
+      <div class="diagram-card pos-static">
+        <div class="pos-card-label">static (default)</div>
+        <div class="pos-flow">
+          <div class="pos-flow-el">елемент А</div>
+          <div class="pos-flow-el">елемент Б</div>
+          <div class="pos-flow-el">елемент В</div>
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:var(--text-dim);font-family:var(--mono);">top/left не діють</div>
+      </div>
+
+      <div class="diagram-card pos-relative">
+        <div class="pos-card-label">relative</div>
+        <div class="pos-flow">
+          <div class="pos-flow-el">елемент А</div>
+          <div class="pos-flow-el highlight">елемент Б<br><span style="font-size:9px;">top:0 left:8px</span></div>
+          <div class="pos-flow-el">елемент В</div>
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:rgba(247,151,30,0.7);font-family:var(--mono);">зсув від нормальної позиції</div>
+      </div>
+
+      <div class="diagram-card pos-absolute" style="position:relative;min-height:160px;">
+        <div class="pos-card-label">absolute</div>
+        <div class="pos-flow">
+          <div class="pos-flow-el">елемент А</div>
+          <div class="pos-flow-el">елемент В</div>
+          <div style="font-size:10px;color:var(--text-dim);font-family:var(--mono);margin-top:4px;">← Б зник з потоку</div>
+        </div>
+        <div class="pos-flow-el highlight-abs">Б<br><span style="font-size:9px;">top:16px<br>right:16px</span></div>
+        <div style="margin-top:8px;font-size:11px;color:rgba(255,101,132,0.7);font-family:var(--mono);">відносно батька з position</div>
+      </div>
+
+      <div class="diagram-card pos-fixed">
+        <div class="pos-card-label">fixed</div>
+        <div class="pos-flow">
+          <div class="pos-flow-el highlight-fix">navbar<br><span style="font-size:9px;">завжди зверху</span></div>
+          <div class="pos-flow-el" style="margin-top:8px;">контент...</div>
+          <div class="pos-flow-el">контент...</div>
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:rgba(108,99,255,0.7);font-family:var(--mono);">відносно вікна браузера</div>
+      </div>
+
+      <div class="diagram-card pos-sticky">
+        <div class="pos-card-label">sticky</div>
+        <div class="pos-flow">
+          <div class="pos-flow-el">контент вище</div>
+          <div class="pos-flow-el" style="background:rgba(67,233,123,0.15);border-color:rgba(67,233,123,0.4);color:var(--accent3);">заголовок — прилипає<br><span style="font-size:9px;">при скролі</span></div>
+          <div class="pos-flow-el">контент нижче</div>
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:rgba(67,233,123,0.7);font-family:var(--mono);">relative → fixed по порогу</div>
+      </div>
+
+    </div>
+
+    <div class="diagram-card reveal" style="margin-top:24px;">
+      <h3>Ключовий патерн: relative + absolute</h3>
+      <div class="two-col">
+        <div class="code">
+<span class="sel">.card</span> {
+  <span class="prop">position</span>: <span class="val">relative</span>;
+  <span class="comment">/* ← стає точкою відліку */</span>
+}
+
+<span class="sel">.badge</span> {
+  <span class="prop">position</span>: <span class="val">absolute</span>;
+  <span class="prop">top</span>: <span class="num">8px</span>;
+  <span class="prop">right</span>: <span class="num">8px</span>;
+  <span class="comment">/* прив'язаний до .card */</span>
+}
+        </div>
+        <div style="position:relative;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:20px;min-height:100px;display:flex;align-items:center;justify-content:center;">
+          <span style="color:var(--text-dim);font-size:13px;font-family:var(--mono)">.card</span>
+          <div style="position:absolute;top:10px;right:10px;background:var(--accent2);color:white;font-size:10px;font-family:var(--mono);padding:3px 8px;border-radius:100px;font-weight:700;">badge</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box reveal">
+      <strong>Найчастіша помилка:</strong> поставив <code style="font-family:var(--mono)">position: absolute</code>, а елемент летить куди не треба. Перевір — чи є у батька <code style="font-family:var(--mono)">position: relative</code>. Якщо ні — absolute позиціюється відносно наступного батька, у якого є position, або відносно &lt;html&gt;.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SECTION 4: FLEXBOX -->
+<!-- ══════════════════════════════════ -->
+<section id="flexbox" class="section">
+  <div class="container">
+    <div class="section-label">04 &mdash; Одновимірне розміщення</div>
+    <h2>Flexbox</h2>
+    <p class="section-intro">
+      Flex — це система для розміщення елементів вздовж <em>однієї осі</em> (рядок або стовпець). Вмикається на батькові, діє на дітей. Вирішує 80% задач верстки.
+    </p>
+
+    <div class="diagram-card reveal">
+      <h3>Осі Flexbox</h3>
+      <div class="code">
+<span class="sel">.container</span> {
+  <span class="prop">display</span>: <span class="val">flex</span>;
+  <span class="prop">flex-direction</span>: <span class="val">row</span>;    <span class="comment">/* → головна вісь горизонтальна */</span>
+  <span class="prop">flex-direction</span>: <span class="val">column</span>; <span class="comment">/* ↓ головна вісь вертикальна  */</span>
+}
+
+<span class="comment">/* justify-content — вирівнювання по ГОЛОВНІЙ осі */</span>
+<span class="comment">/* align-items    — вирівнювання по ПОПЕРЕЧНІЙ осі */</span>
+      </div>
+    </div>
+
+    <div class="diagram-card reveal">
+      <h3>justify-content — розміщення по головній осі</h3>
+      <div class="flex-playground">
+
+        <div class="flex-demo">
+          <div class="flex-demo-label">justify-content: <span>flex-start</span></div>
+          <div class="fd-container jc-start">
+            <div class="fd-el">A</div>
+            <div class="fd-el c2">B</div>
+            <div class="fd-el">C</div>
+          </div>
+        </div>
+
+        <div class="flex-demo">
+          <div class="flex-demo-label">justify-content: <span>center</span></div>
+          <div class="fd-container jc-center">
+            <div class="fd-el">A</div>
+            <div class="fd-el c2">B</div>
+            <div class="fd-el">C</div>
+          </div>
+        </div>
+
+        <div class="flex-demo">
+          <div class="flex-demo-label">justify-content: <span>flex-end</span></div>
+          <div class="fd-container jc-end">
+            <div class="fd-el">A</div>
+            <div class="fd-el c2">B</div>
+            <div class="fd-el">C</div>
+          </div>
+        </div>
+
+        <div class="flex-demo">
+          <div class="flex-demo-label">justify-content: <span>space-between</span> ← найчастіше</div>
+          <div class="fd-container jc-between">
+            <div class="fd-el">A</div>
+            <div class="fd-el c2">B</div>
+            <div class="fd-el">C</div>
+          </div>
+        </div>
+
+        <div class="flex-demo">
+          <div class="flex-demo-label">align-items: <span>center</span> (поперечна вісь)</div>
+          <div class="fd-container jc-between ai-center" style="height:80px">
+            <div class="fd-el" style="height:40px;line-height:40px">A</div>
+            <div class="fd-el c2" style="height:60px;line-height:60px">B</div>
+            <div class="fd-el" style="height:30px;line-height:30px">C</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="diagram-card reveal">
+      <h3>flex: 1 — магічне зростання</h3>
+      <div class="flex-demo-label" style="margin-bottom:14px">Елемент з <span style="color:var(--accent3)">flex: 1</span> займає весь вільний простір</div>
+      <div class="fd-container">
+        <div class="fd-el">logo</div>
+        <div class="fd-el grow">← flex: 1 → вільний простір</div>
+        <div class="fd-el c2">btn</div>
+      </div>
+      <div class="code" style="margin-top:16px;">
+<span class="sel">.navbar</span> {
+  <span class="prop">display</span>: <span class="val">flex</span>;
+  <span class="prop">align-items</span>: <span class="val">center</span>;
+  <span class="prop">gap</span>: <span class="num">16px</span>;
+}
+<span class="sel">.navbar-spacer</span> { <span class="prop">flex</span>: <span class="num">1</span>; } <span class="comment">/* поглинає весь вільний простір */</span>
+      </div>
+    </div>
+
+    <div class="tip-box reveal">
+      <strong>Ментальна модель:</strong> уяви flex-контейнер як резинку. <code style="font-family:var(--mono)">justify-content</code> розтягує резинку горизонтально між дітьми. <code style="font-family:var(--mono)">align-items</code> вирівнює їх по вертикалі. <code style="font-family:var(--mono)">flex: 1</code> на дитині — вона «з'їдає» весь залишок.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SECTION 5: GRID -->
+<!-- ══════════════════════════════════ -->
+<section id="grid" class="section">
+  <div class="container">
+    <div class="section-label">05 &mdash; Двовимірне розміщення</div>
+    <h2>Grid Layout</h2>
+    <p class="section-intro">
+      Grid — для двовимірного розміщення: рядки <em>і</em> колонки одночасно. Де Flex — рядок або стовпець, Grid — таблиця зі суперсилою.
+    </p>
+
+    <div class="diagram-card reveal">
+      <div class="grid-demos">
+
+        <div class="grid-demo">
+          <div class="grid-demo-label">grid-template-columns: <span>repeat(3, 1fr)</span> — три рівні колонки</div>
+          <div class="gd-grid" style="grid-template-columns:repeat(3,1fr)">
+            <div class="gd-el">1</div>
+            <div class="gd-el">2</div>
+            <div class="gd-el">3</div>
+            <div class="gd-el">4</div>
+            <div class="gd-el">5</div>
+            <div class="gd-el">6</div>
+          </div>
+        </div>
+
+        <div class="grid-demo">
+          <div class="grid-demo-label">grid-column: <span>span 2</span> — елемент займає 2 колонки</div>
+          <div class="gd-grid" style="grid-template-columns:repeat(3,1fr)">
+            <div class="gd-el span2">span 2</div>
+            <div class="gd-el">3</div>
+            <div class="gd-el">4</div>
+            <div class="gd-el">5</div>
+            <div class="gd-el">6</div>
+          </div>
+        </div>
+
+        <div class="grid-demo">
+          <div class="grid-demo-label">grid-template-areas — <span>іменовані зони</span> (найкрасивіший патерн)</div>
+          <div class="gd-grid" style="grid-template-columns:200px 1fr;grid-template-rows:auto 1fr auto;grid-template-areas:'header header' 'sidebar main' 'footer footer';gap:8px;min-height:200px">
+            <div class="gd-el gd-header" style="padding:14px;text-align:center">header</div>
+            <div class="gd-el gd-sidebar" style="padding:14px;text-align:center">sidebar</div>
+            <div class="gd-el gd-main" style="padding:14px;text-align:center">main</div>
+            <div class="gd-el gd-footer" style="padding:14px;text-align:center">footer</div>
+          </div>
+        </div>
+
+        <div class="grid-demo">
+          <div class="grid-demo-label">auto-fit + minmax — <span>адаптивно без медіазапитів!</span></div>
+          <div class="gd-grid" style="grid-template-columns:repeat(auto-fit,minmax(100px,1fr))">
+            <div class="gd-el">card</div>
+            <div class="gd-el">card</div>
+            <div class="gd-el">card</div>
+            <div class="gd-el">card</div>
+            <div class="gd-el">card</div>
+          </div>
+          <div style="font-size:11px;color:var(--text-dim);font-family:var(--mono);margin-top:10px;">← звузь вікно — колонки самі перебудуються</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="diagram-card reveal">
+      <h3>Flex vs Grid — коли що обирати</h3>
+      <div class="two-col">
+        <div>
+          <div style="color:var(--accent);font-family:var(--mono);font-weight:700;margin-bottom:10px;">Flex — коли:</div>
+          <div style="font-size:13px;color:var(--text-dim);line-height:2;">
+            → елементи в один рядок<br>
+            → навбар з лого і кнопками<br>
+            → центрувати що-небудь<br>
+            → карточки в ряд з wrap<br>
+            → розмір дітей динамічний
+          </div>
+        </div>
+        <div>
+          <div style="color:var(--accent3);font-family:var(--mono);font-weight:700;margin-bottom:10px;">Grid — коли:</div>
+          <div style="font-size:13px;color:var(--text-dim);line-height:2;">
+            → розкладка всієї сторінки<br>
+            → потрібні і рядки і колонки<br>
+            → елементи мають span<br>
+            → dashboard layout<br>
+            → точне позиціювання
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SECTION 6: SPECIFICITY -->
+<!-- ══════════════════════════════════ -->
+<section id="specificity" class="section">
+  <div class="container">
+    <div class="section-label">06 &mdash; Хто виграє</div>
+    <h2>Каскад і Специфічність</h2>
+    <p class="section-intro">
+      Коли два правила CSS конфліктують — браузер вираховує «вагу» кожного селектора. Хто важчий — той виграє. Це і є специфічність.
+    </p>
+
+    <div class="diagram-card reveal">
+      <h3>Вага селекторів</h3>
+      <div class="spec-bar">
+
+        <div class="spec-row">
+          <div class="spec-selector">p { }</div>
+          <div class="spec-track">
+            <div class="spec-fill" style="width:1%;background:rgba(136,136,153,0.5);color:var(--text-dim)"></div>
+          </div>
+          <div class="spec-weight">1</div>
+        </div>
+
+        <div class="spec-row">
+          <div class="spec-selector">.class { }</div>
+          <div class="spec-track">
+            <div class="spec-fill" style="width:10%;background:rgba(67,233,123,0.3);color:var(--accent3);">10</div>
+          </div>
+          <div class="spec-weight">10</div>
+        </div>
+
+        <div class="spec-row">
+          <div class="spec-selector">.a .b { }</div>
+          <div class="spec-track">
+            <div class="spec-fill" style="width:20%;background:rgba(67,233,123,0.4);color:var(--accent3);">20</div>
+          </div>
+          <div class="spec-weight">20</div>
+        </div>
+
+        <div class="spec-row">
+          <div class="spec-selector">#id { }</div>
+          <div class="spec-track">
+            <div class="spec-fill" style="width:50%;background:rgba(108,99,255,0.35);color:var(--accent);">100</div>
+          </div>
+          <div class="spec-weight">100</div>
+        </div>
+
+        <div class="spec-row">
+          <div class="spec-selector">style=""</div>
+          <div class="spec-track">
+            <div class="spec-fill" style="width:80%;background:rgba(247,151,30,0.35);color:var(--accent4);">1000</div>
+          </div>
+          <div class="spec-weight">1000</div>
+        </div>
+
+        <div class="spec-row">
+          <div class="spec-selector">!important</div>
+          <div class="spec-track">
+            <div class="spec-fill" style="width:100%;background:rgba(255,101,132,0.4);color:var(--accent2);">∞ перемагає все</div>
+          </div>
+          <div class="spec-weight">∞</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="diagram-card reveal">
+      <h3>Практичний приклад</h3>
+      <div class="code">
+<span class="sel">h1</span>            { <span class="prop">color</span>: <span class="val">black</span>; }   <span class="comment">/* вага: 1 */</span>
+<span class="sel">.title</span>        { <span class="prop">color</span>: <span class="val">blue</span>;  }   <span class="comment">/* вага: 10 */</span>
+<span class="sel">.nav .title</span>   { <span class="prop">color</span>: <span class="val">green</span>; }   <span class="comment">/* вага: 20 */</span>
+<span class="sel">#page-title</span>   { <span class="prop">color</span>: <span class="val">purple</span>; }  <span class="comment">/* вага: 100 — виграє */</span>
+
+<span class="comment">/* Якщо однакова вага — виграє той що пізніше у файлі */</span>
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="val">blue</span>; }  <span class="comment">/* ← цей виграє */</span>
+      </div>
+    </div>
+
+    <div class="warn-box reveal">
+      <strong>!important — зброя масового ураження.</strong> Кожен раз як пишеш !important — ти розриваєш каскад. Наступного разу щоб перекрити — треба ще один !important. Так проєкт стає некерованим. Вирішуй проблему через правильну специфічність.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- SECTION 7: UNITS -->
+<!-- ══════════════════════════════════ -->
+<section id="units" class="section">
+  <div class="container">
+    <div class="section-label">07 &mdash; Міри і розміри</div>
+    <h2>Одиниці виміру</h2>
+    <p class="section-intro">
+      Вибір правильної одиниці — різниця між адаптивним і «зламаним» дизайном.
+    </p>
+
+    <div class="units-grid reveal">
+      <div class="unit-card">
+        <div class="unit-name" style="color:#79b8ff">px</div>
+        <div class="unit-desc">Абсолютні пікселі. Не масштабуються.</div>
+        <div class="unit-when">border, shadow, icon size</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-name" style="color:var(--accent3)">rem</div>
+        <div class="unit-desc">Відносно шрифту &lt;html&gt;. 1rem = 16px за замовч.</div>
+        <div class="unit-when">font-size, padding, margin</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-name" style="color:var(--accent4)">em</div>
+        <div class="unit-desc">Відносно шрифту батька. Каскадується!</div>
+        <div class="unit-when">padding пов'язаний з текстом</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-name" style="color:var(--accent2)">%</div>
+        <div class="unit-desc">Відсоток від батьківського елемента.</div>
+        <div class="unit-when">width, height контейнерів</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-name" style="color:var(--accent)">vw/vh</div>
+        <div class="unit-desc">Відсоток від ширини/висоти вікна браузера.</div>
+        <div class="unit-when">hero, fullscreen секції</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-name" style="color:#e879f9">fr</div>
+        <div class="unit-desc">Fraction — частка вільного простору в Grid.</div>
+        <div class="unit-when">тільки в grid-template-columns</div>
+      </div>
+    </div>
+
+    <div class="diagram-card reveal" style="margin-top:24px">
+      <h3>clamp() — найрозумніша одиниця</h3>
+      <div class="code">
+<span class="comment">/* clamp(мінімум, ідеал, максимум) */</span>
+<span class="sel">h1</span> {
+  <span class="prop">font-size</span>: <span class="val">clamp</span>(<span class="num">1.5rem</span>, <span class="num">5vw</span>, <span class="num">3rem</span>);
+  <span class="comment">/* на телефоні: 1.5rem */</span>
+  <span class="comment">/* на планшеті: десь між */</span>
+  <span class="comment">/* на моніторі: 3rem    */</span>
+  <span class="comment">/* без жодного медіазапиту! */</span>
+}
+
+<span class="sel">p</span> {
+  <span class="prop">max-width</span>: <span class="num">65ch</span>; <span class="comment">/* 65 символів = ідеальна ширина рядка */</span>
+}
+      </div>
+    </div>
+
+    <div class="tip-box reveal">
+      <strong>Правило ментора:</strong> font-size → <code style="font-family:var(--mono)">rem</code>. Spacing → <code style="font-family:var(--mono)">rem</code> або <code style="font-family:var(--mono)">px</code>. Width контейнерів → <code style="font-family:var(--mono)">%</code> або <code style="font-family:var(--mono)">fr</code>. Border, shadow → <code style="font-family:var(--mono)">px</code>. Адаптивний текст → <code style="font-family:var(--mono)">clamp()</code>.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ -->
+<!-- CHEAT SHEET -->
+<!-- ══════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Підсумок</div>
+    <h2>Шпаргалка розробника</h2>
+
+    <div class="diagram-card reveal">
+      <div class="code" style="font-size:12px;line-height:2">
+<span class="comment">/* ─── ЗАВЖДИ на початку файлу ─── */</span>
+<span class="sel">*, *::before, *::after</span> { <span class="prop">box-sizing</span>: <span class="val">border-box</span>; }
+<span class="sel">html</span> { <span class="prop">scroll-behavior</span>: <span class="val">smooth</span>; }
+
+<span class="comment">/* ─── ЦЕНТРУВАННЯ ─── */</span>
+<span class="sel">.center</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">justify-content</span>: <span class="val">center</span>; <span class="prop">align-items</span>: <span class="val">center</span>; }
+
+<span class="comment">/* ─── ПРИЛИПАЮЧИЙ ФУТЕР ─── */</span>
+<span class="sel">body</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">flex-direction</span>: <span class="val">column</span>; <span class="prop">min-height</span>: <span class="num">100vh</span>; }
+<span class="sel">main</span> { <span class="prop">flex</span>: <span class="num">1</span>; }
+
+<span class="comment">/* ─── АДАПТИВНА СІТКА БЕЗ МЕДІАЗАПИТІВ ─── */</span>
+<span class="sel">.grid</span> { <span class="prop">display</span>: <span class="val">grid</span>; <span class="prop">grid-template-columns</span>: <span class="val">repeat</span>(<span class="val">auto-fit</span>, <span class="val">minmax</span>(<span class="num">250px</span>, <span class="num">1fr</span>)); <span class="prop">gap</span>: <span class="num">24px</span>; }
+
+<span class="comment">/* ─── БЕЙДЖ В КУТКУ ─── */</span>
+<span class="sel">.parent</span> { <span class="prop">position</span>: <span class="val">relative</span>; }
+<span class="sel">.badge</span>  { <span class="prop">position</span>: <span class="val">absolute</span>; <span class="prop">top</span>: <span class="num">8px</span>; <span class="prop">right</span>: <span class="num">8px</span>; }
+
+<span class="comment">/* ─── ОБРІЗАТИ ТЕКСТ ─── */</span>
+<span class="sel">.truncate</span> { <span class="prop">white-space</span>: <span class="val">nowrap</span>; <span class="prop">overflow</span>: <span class="val">hidden</span>; <span class="prop">text-overflow</span>: <span class="val">ellipsis</span>; }
+
+<span class="comment">/* ─── ДЕБАГ ─── */</span>
+<span class="sel">*</span> { <span class="prop">outline</span>: <span class="num">1px</span> solid <span class="val">rgba(255,0,0,0.3)</span>; }
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;">CSS Lecture · Візуальний курс</div>
+  <div style="color:rgba(136,136,153,0.5)">box model → display → position → flex → grid → specificity → units</div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

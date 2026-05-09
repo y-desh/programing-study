@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 10 · Position + Responsive</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.hover-card{position:relative;overflow:hidden;cursor:pointer;border-radius:8px;}
+.hover-card-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;}
+.hover-card:hover .hover-card-overlay{opacity:1;}
+.hover-card-after{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-weight:bold;opacity:0;transition:opacity .3s;pointer-events:none;}
+.hover-card:hover .hover-card-after{opacity:1;}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav">
+  <a class="cnav-brand" href="index.html">CSS · Ed Row</a>
+  <div class="cnav-links">
+    <a class="cnav-link" href="index.html">Огляд</a>
+    <a class="cnav-link" href="lesson-01.html">01</a><a class="cnav-link" href="lesson-02.html">02</a>
+    <a class="cnav-link" href="lesson-03.html">03</a><a class="cnav-link" href="lesson-04.html">04</a>
+    <a class="cnav-link" href="lesson-05.html">05</a><a class="cnav-link" href="lesson-06.html">06</a>
+    <a class="cnav-link" href="lesson-07.html">07</a><a class="cnav-link" href="lesson-08.html">08</a>
+    <a class="cnav-link" href="lesson-09.html">09</a>
+    <a class="cnav-link active" href="lesson-10.html">10</a>
+  </div>
+</nav>
+<div class="lesson-hero">
+  <div class="lnum">Лекція 10 · Фінал Проєкт 2</div>
+  <h1><b>Position</b><br><i>&amp; Responsive</i></h1>
+  <p class="lead">position: relative + absolute для overlay. ::before/::after псевдоелементи для hover ефектів. @media queries для мобільної версії. Фінал курсу.</p>
+</div>
+<div class="w">
+
+<section class="section">
+  <div class="sec-label">01 — position: absolute/relative</div>
+  <h2>Тільки для overlay — не для layout</h2>
+  <p class="lead-text">
+    Ed Row демонструє чому position absolute НЕ підходить для layout і показує єдиний правильний випадок — overlay.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Чому position НЕ для layout</div>
+    <pre>
+<span class="cm">/* ❌ НЕПРАВИЛЬНО — position для layout */</span>
+<span class="cs">#test</span>  { <span class="cp">position</span>: <span class="cv">absolute</span>; <span class="cp">right</span>: <span class="cn">5px</span>; }
+<span class="cs">#test2</span> { <span class="cp">position</span>: <span class="cv">absolute</span>; <span class="cp">right</span>: <span class="cn">200px</span>; }
+
+<span class="cm">/* Проблема 1: при звуженні екрану елементи
+   перекриваються — не адаптуються              */</span>
+
+<span class="cm">/* Проблема 2: видали .gallery з навбару —
+   .articles не займає його місце, залишається
+   на фіксованій позиції                        */</span>
+
+<span class="cm">/* ✅ ПРАВИЛЬНО — flex для layout */</span>
+<span class="cs">.header__nav</span> {
+  <span class="cp">display</span>: <span class="cv">flex</span>;
+  <span class="cp">justify-content</span>: <span class="cv">space-between</span>;
+  <span class="cm">/* При видаленні елемента — решта
+     автоматично перебудовується ✅  */</span>
+}</span></pre>
+
+    <div class="box box-red">
+      <strong>Ed Row прямо каже:</strong>
+      "I want to briefly go over why position absolute is not ideal for layout. Generally if you just remove Gallery — everything else aligns together automatically with Flex. With position absolute — it stays there, which is not desirable."
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">✅ Правильний кейс: текст поверх зображення</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre>
+<span class="cm">&lt;!-- HTML: батько + дитина --&gt;</span>
+<span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"hot-card"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;img</span> <span class="ha">src</span>=<span class="hv">"news.jpg"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"hot-card__overlay"</span><span class="ht">&gt;</span>
+    Election 2024
+  <span class="ht">&lt;/div&gt;</span>
+<span class="ht">&lt;/div&gt;</span>
+
+<span class="cm">/* CSS */</span>
+<span class="cs">.hot-card</span> {
+  <span class="cp">position</span>: <span class="cv">relative</span>; <span class="cm">← батько</span>
+}
+
+<span class="cs">.hot-card__overlay</span> {
+  <span class="cp">position</span>: <span class="cv">absolute</span>; <span class="cm">← дитина</span>
+  <span class="cp">bottom</span>: <span class="cn">0</span>;
+  <span class="cp">left</span>: <span class="cn">0</span>;
+  <span class="cp">right</span>: <span class="cn">0</span>;
+  <span class="cp">padding</span>: <span class="cn">1rem</span>;
+  <span class="cp">background</span>: <span class="cf">rgba</span>(<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0.7</span>);
+  <span class="cp">color</span>: <span class="cv">white</span>;
+  <span class="cp">font-weight</span>: <span class="cv">bold</span>;
+}</pre>
+      <div>
+        <div style="position:relative;height:160px;background:linear-gradient(135deg,#2d6a4f,#52b788);border-radius:8px;overflow:hidden">
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:14px;background:rgba(0,0,0,.7);color:white;font-weight:600;font-size:14px">Election 2024 results...</div>
+        </div>
+        <div style="font-size:12px;color:var(--t3);font-family:var(--mono);margin-top:6px">relative батько + absolute дитина</div>
+      </div>
+    </div>
+    <div class="box box-gold" style="margin-top:12px">
+      <strong>Ключове правило:</strong>
+      position: relative на батькові = точка відліку. position: absolute на дитині = позиціонування відносно батька, а не сторінки. Без relative на батькові — absolute буде відраховувати від найближчого positioned ancestor або сторінки.
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">02 — ::before і ::after</div>
+  <h2>Псевдоелементи для hover overlay</h2>
+  <p class="lead-text">
+    Ed Row показує спосіб зробити hover overlay БЕЗ додаткового HTML — через ::before і ::after псевдоелементи.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Hover overlay через ::before/::after</div>
+    <div class="two" style="gap:20px;align-items:start">
+      <pre>
+<span class="cs">.masonry-item</span> {
+  <span class="cp">position</span>: <span class="cv">relative</span>; <span class="cm">← батько</span>
+}
+
+<span class="cm">/* ::before — темний оверлей */</span>
+<span class="cs">.masonry-item::before</span> {
+  <span class="cp">content</span>: <span class="cstr">""</span>;         <span class="cm">← обов'язково!</span>
+  <span class="cp">position</span>: <span class="cv">absolute</span>;
+  <span class="cp">top</span>: <span class="cn">0</span>; <span class="cp">left</span>: <span class="cn">0</span>;
+  <span class="cp">right</span>: <span class="cn">0</span>; <span class="cp">bottom</span>: <span class="cn">0</span>;
+  <span class="cp">background</span>: <span class="cf">rgba</span>(<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0</span>,<span class="cn">0.5</span>);
+  <span class="cp">opacity</span>: <span class="cn">0</span>;           <span class="cm">← прихований</span>
+  <span class="cp">transition</span>: <span class="cv">opacity 0.3s ease</span>;
+}
+
+<span class="cm">/* При hover — показуємо */</span>
+<span class="cs">.masonry-item:hover::before</span> {
+  <span class="cp">opacity</span>: <span class="cn">1</span>;
+}
+
+<span class="cm">/* ::after — текст "View Story" */</span>
+<span class="cs">.masonry-item::after</span> {
+  <span class="cp">content</span>: <span class="cstr">"View Story"</span>;
+  <span class="cp">position</span>: <span class="cv">absolute</span>;
+  <span class="cp">top</span>: <span class="cn">50%</span>; <span class="cp">left</span>: <span class="cn">50%</span>;
+  <span class="cp">transform</span>: <span class="cf">translate</span>(<span class="cn">-50%</span>, <span class="cn">-50%</span>);
+  <span class="cm">/* centering трюк через translate */</span>
+  <span class="cp">color</span>: <span class="cv">white</span>;
+  <span class="cp">font-weight</span>: <span class="cv">bold</span>;
+  <span class="cp">font-size</span>: <span class="cn">1.5rem</span>;
+  <span class="cp">opacity</span>: <span class="cn">0</span>;
+  <span class="cp">transition</span>: <span class="cv">opacity 0.3s ease</span>;
+}
+<span class="cs">.masonry-item:hover::after</span> {
+  <span class="cp">opacity</span>: <span class="cn">1</span>;
+}</pre>
+      <div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="hover-card" style="height:90px;background:linear-gradient(135deg,#667eea,#764ba2)">
+            <div class="hover-card-overlay">View Story</div>
+          </div>
+          <div class="hover-card" style="height:90px;background:linear-gradient(135deg,#f093fb,#f5576c)">
+            <div class="hover-card-overlay">View Story</div>
+          </div>
+          <div class="hover-card" style="height:90px;background:linear-gradient(135deg,#43e97b,#38f9d7)">
+            <div class="hover-card-overlay">View Story</div>
+          </div>
+          <div class="hover-card" style="height:90px;background:linear-gradient(135deg,#4facfe,#00f2fe)">
+            <div class="hover-card-overlay">View Story</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--t3);font-family:var(--mono);margin-top:8px">↑ Наведи мишу — overlay через JS (в реальному проєкті через ::before/::after)</div>
+      </div>
+    </div>
+    <div class="box box-blue" style="margin-top:14px">
+      <strong>content: "" — обов'язковий</strong>
+      Без content: "" псевдоелемент не відображається. Для тексту: content: "View Story". Для порожнього overlay: content: "".
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">03 — Media Queries</div>
+  <h2>@media — адаптивний дизайн</h2>
+  <p class="lead-text">
+    Ed Row: <strong>"If you did it correctly — this will be super easy. That's why I stress this foundational layout principle."</strong> Правильний flex/grid layout → мінімальні media queries.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">@media синтаксис і практика App 2</div>
+    <pre>
+<span class="cm">/* Базові стилі — для десктопу */</span>
+<span class="cs">.header__links</span> { <span class="cp">display</span>: <span class="cv">flex</span>; <span class="cp">gap</span>: <span class="cn">2rem</span>; }
+<span class="cs">.featured</span> { <span class="cp">display</span>: <span class="cv">flex</span>; <span class="cp">height</span>: <span class="cn">600px</span>; }
+<span class="cs">.masonry-grid</span> { <span class="cp">display</span>: <span class="cv">grid</span>; <span class="cp">grid-template-columns</span>: <span class="cf">repeat</span>(<span class="cn">5</span>,<span class="cn">1fr</span>); }
+
+<span class="cm">/* При ширині <= 768px — мобільна версія */</span>
+<span class="ck">@media</span> <span class="cv">screen</span> <span class="ck">and</span> (<span class="cp">max-width</span>: <span class="cn">768px</span>) {
+
+  <span class="cm">/* Ховаємо навбар посилання */</span>
+  <span class="cs">.header__links</span> {
+    <span class="cp">display</span>: <span class="cv">none</span>;
+    <span class="cm">/* (у реальному — замінили б на меню-іконку) */</span>
+  }
+
+  <span class="cm">/* Featured: горизонталь → вертикаль */</span>
+  <span class="cs">.featured</span> {
+    <span class="cp">flex-direction</span>: <span class="cv">column</span>;
+    <span class="cp">height</span>: <span class="cv">auto</span>;
+    <span class="cp">gap</span>: <span class="cn">2rem</span>;
+  }
+
+  <span class="cm">/* Grid → block (все в одну колонку) */</span>
+  <span class="cs">.masonry-grid</span> {
+    <span class="cp">display</span>: <span class="cv">block</span>;
+  }
+  <span class="cs">.masonry-item</span> {
+    <span class="cp">height</span>: <span class="cn">300px</span>;
+    <span class="cp">margin-bottom</span>: <span class="cn">1rem</span>;
+  }
+
+  <span class="cm">/* Container менший padding */</span>
+  <span class="cs">.container</span> {
+    <span class="cp">padding</span>: <span class="cn">2rem 1rem</span>;
+  }
+}</span></pre>
+    <div class="box box-gold" style="margin-top:14px">
+      <strong>Чому це так просто?</strong>
+      Ed Row: "If you did it correctly — this will be super easy. So just two lines to make grid become block for responsive. This handles the majority of cases." Правильний layout = легкий responsive.
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">max-width vs min-width — desktop-first vs mobile-first</div>
+    <pre>
+<span class="cm">/* max-width: 768px — Desktop First (Ed Row)   </span>
+<span class="cm">   Базові стилі = десктоп                       </span>
+<span class="cm">   @media = зміни для мобільного               */</span>
+<span class="ck">@media</span> (<span class="cp">max-width</span>: <span class="cn">768px</span>) { <span class="cm">/* при <= 768px */</span>
+  <span class="cm">/* мобільні зміни */</span>
+}
+
+<span class="cm">/* min-width: 768px — Mobile First             </span>
+<span class="cm">   Базові стилі = мобільний                    </span>
+<span class="cm">   @media = розширення для десктопу            </span>
+<span class="cm">   ← Сучасний підхід, рекомендований          */</span>
+<span class="ck">@media</span> (<span class="cp">min-width</span>: <span class="cn">768px</span>) { <span class="cm">/* при >= 768px */</span>
+  <span class="cm">/* десктопні розширення */</span>
+}
+
+<span class="cm">/* Типові breakpoints: */</span>
+<span class="cm">/* 480px  — дуже маленький телефон */</span>
+<span class="cm">/* 768px  — планшет (iPad)         */</span>
+<span class="cm">/* 1024px — ноутбук                */</span>
+<span class="cm">/* 1200px — десктоп                */</span>
+<span class="cm">/* 1500px — великий монітор        */</span></pre>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">04 — Фінал курсу</div>
+  <h2>Що ти тепер знаєш</h2>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Повна карта пройденого</div>
+    <table class="cmp-table">
+      <tr><th>Лекція</th><th>Тема</th><th>Ключові концепти</th></tr>
+      <tr><td class="t-mono t-acc">01</td><td>Setup & Selectors</td><td class="t-dim">*, element, .class, #id, успадкування</td></tr>
+      <tr><td class="t-mono t-acc">02</td><td>Fonts & Typography</td><td class="t-dim">font-family, rem, font-weight, line-height</td></tr>
+      <tr><td class="t-mono t-acc">03</td><td>Colors</td><td class="t-dim">hex, rgba, hsl, правило 2-3 кольори</td></tr>
+      <tr><td class="t-mono t-acc">04</td><td>Box Model</td><td class="t-dim">margin, padding, border, box-shadow, border-box</td></tr>
+      <tr><td class="t-mono t-acc">05</td><td>Flexbox</td><td class="t-dim">display:flex, justify-content, align-items, gap</td></tr>
+      <tr><td class="t-mono t-acc">06</td><td>Forms & Inputs</td><td class="t-dim">input, select, :focus, transition, :hover</td></tr>
+      <tr><td class="t-mono t-acc">07</td><td>Images</td><td class="t-dim">background-image, object-fit, blend-mode</td></tr>
+      <tr><td class="t-mono t-acc">08</td><td>Flex vs Grid</td><td class="t-dim">Флоу-чарт: 2D/overlay/1D рішення</td></tr>
+      <tr><td class="t-mono t-acc">09</td><td>CSS Grid</td><td class="t-dim">auto-fit, minmax, fr, span, template-areas</td></tr>
+      <tr><td class="t-mono t-acc">10</td><td>Position + Responsive</td><td class="t-dim">relative/absolute, ::before/::after, @media</td></tr>
+    </table>
+  </div>
+
+  <div class="edrow-says r">
+    <p>«You don't have to learn all the details. You can just learn these CSS properties — and for the most part you're going to be okay. Everything else you can learn as you go along by searching MDN documentation.»</p>
+    <cite>— ED ROW · Фінал курсу</cite>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-head">🎯 Фінальне завдання App 2</div>
+    <div class="ex-body">
+      <strong>1.</strong> Для .hot-card: position relative. Для .hot-card__overlay: position absolute, bottom 0, rgba(0,0,0,0.7)<br>
+      <strong>2.</strong> Для .masonry-item: position relative, ::before з темним overlay і opacity 0, :hover::before з opacity 1<br>
+      <strong>3.</strong> Додай @media (max-width: 768px): ховай header__links, featured flex-direction column, masonry-grid display block<br>
+      <strong>4.</strong> Відкрий DevTools → Toggle Device (Ctrl+Shift+M) → 375px і перевір мобільну версію<br>
+      <strong>5 (бонус).</strong> Задеплой на GitHub Pages або Netlify — покажи світу!
+    </div>
+    <div class="ex-hint">Вітаємо з завершенням курсу CSS від Ed Row! Далі — JavaScript 🚀</div>
+  </div>
+</section>
+
+</div>
+<div class="foot-nav">
+  <a href="lesson-09.html" class="foot-link">← 09 · CSS Grid</a>
+  <div class="foot-meta">Лекція 10 / 10 · Position + Responsive</div>
+  <a href="index.html" class="foot-link">← Огляд курсу</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

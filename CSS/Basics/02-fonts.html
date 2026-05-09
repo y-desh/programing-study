@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 · Шрифти і Типографіка</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav"><a class="cnav-logo" href="index.html">CSS · EdRow</a><div class="cnav-links"><a class="cnav-link" href="index.html">Огляд</a><a class="cnav-link" href="01-selectors.html">01</a><a class="cnav-link cur" href="02-fonts.html">02</a><a class="cnav-link" href="03-colors.html">03</a><a class="cnav-link" href="04-box-model.html">04</a><a class="cnav-link" href="05-flexbox.html">05</a><a class="cnav-link" href="06-forms.html">06</a><a class="cnav-link" href="07-images.html">07</a><a class="cnav-link" href="08-grid.html">08</a><a class="cnav-link" href="09-positioning.html">09</a><a class="cnav-link" href="10-responsive.html">10</a></div></nav>
+
+<div class="lesson-hero">
+  <div class="lh-num">Лекція 02 · App 1 · Educational Landing Page</div>
+  <h1>Шрифти і <em>Типографіка</em></h1>
+  <p class="ldesc">font-family, font-size, font-weight, text-transform і всі текстові властивості. Різниця між px, em і rem.</p>
+</div>
+
+<div class="w">
+
+<section class="sec">
+<div class="sec-label">01 — font-family</div>
+<h2>Як підключити і налаштувати шрифт</h2>
+<p class="intro">
+  EdRow використовує <strong>Google Fonts (Poppins)</strong> — підключається через &lt;link&gt; в HTML. Встановлюємо шрифт на <code style="font-family:var(--mono)">body</code> — і всі дочірні елементи успадковують його автоматично.
+</p>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Підключення Google Fonts</div>
+<pre class="code">
+<span class="cm">&lt;!-- В &lt;head&gt; HTML файлу --&gt;</span>
+<span class="ht">&lt;link</span> <span class="ha">rel</span>=<span class="hv">"preconnect"</span> <span class="ha">href</span>=<span class="hv">"https://fonts.googleapis.com"</span><span class="ht">&gt;</span>
+<span class="ht">&lt;link</span> <span class="ha">href</span>=<span class="hv">"https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"</span>
+      <span class="ha">rel</span>=<span class="hv">"stylesheet"</span><span class="ht">&gt;</span>
+
+<span class="cm">/* CSS: застосовуємо на body */</span>
+<span class="cs">body</span> {
+  <span class="cm">/* Poppins — перший вибір, Times — fallback */</span>
+  <span class="cp">font-family</span>: <span class="cv">'Poppins', 'Times New Roman', serif</span>;
+}
+
+<span class="cm">/* Fallback шрифти — якщо Poppins не завантажився
+   або недоступний — браузер використає Times */</span></pre>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Чому ставити на body, а не на кожен елемент</div>
+<div class="two" style="gap:20px">
+<pre class="code">
+<span class="cm">/* ❌ Погано — повторення */</span>
+<span class="cs">.hero__title</span>       { <span class="cp">font-family</span>: <span class="cv">'Poppins'</span>; }
+<span class="cs">.hero__desc</span>        { <span class="cp">font-family</span>: <span class="cv">'Poppins'</span>; }
+<span class="cs">.feature__title</span>    { <span class="cp">font-family</span>: <span class="cv">'Poppins'</span>; }
+<span class="cs">.video__title</span>      { <span class="cp">font-family</span>: <span class="cv">'Poppins'</span>; }
+<span class="cm">/* і так далі... */</span></pre>
+<pre class="code">
+<span class="cm">/* ✅ Добре — через успадкування */</span>
+<span class="cs">body</span> {
+  <span class="cp">font-family</span>: <span class="cv">'Poppins', serif</span>;
+}
+<span class="cm">/* Всі елементи в body
+   автоматично отримають Poppins.
+   Один рядок замість десятків. */</span></pre>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">02 — font-size: px vs rem vs em</div>
+<h2>Три одиниці для розміру шрифту</h2>
+<p class="intro">EdRow чітко пояснює різницю: <strong>px — абсолютний</strong>, не змінюється на різних екранах. <strong>rem — відносний</strong> до кореневого шрифту браузера, масштабується.</p>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">px, em, rem — порівняння</div>
+<pre class="code">
+<span class="cm">/* px — абсолютний, завжди 32px */</span>
+<span class="cs">.feature__title</span> { <span class="cp">font-size</span>: <span class="cn">32px</span>; }
+
+<span class="cm">/* em — відносно розміру батька
+   Проблема: вкладені em множаться! */</span>
+<span class="cs">.feature__title</span> { <span class="cp">font-size</span>: <span class="cn">2em</span>; }
+<span class="cm">/* Якщо батько 16px → 2em = 32px
+   Якщо батько 20px → 2em = 40px ← непередбачувано */</span>
+
+<span class="cm">/* rem — відносно root (&lt;html&gt;), завжди стабільний */</span>
+<span class="cs">.feature__title</span> { <span class="cp">font-size</span>: <span class="cn">2rem</span>; }
+<span class="cm">/* root (html) = 16px → 2rem = 32px завжди
+   Незалежно від батьківського розміру! */</span>
+
+<span class="cm">/* EdRow рекомендує rem для font-size:
+   2.2rem ≈ 35px — хороший розмір для підзаголовка */</span></pre>
+
+<div style="margin-top:20px;display:flex;flex-direction:column;gap:6px">
+  <div style="font-size:clamp(10px,1.5vw,12px);color:var(--dim2);font-family:var(--mono)">0.75rem = 12px</div>
+  <div style="font-size:clamp(12px,2vw,14px);color:var(--dim2);font-family:var(--mono)">0.875rem = 14px</div>
+  <div style="font-size:clamp(14px,2.5vw,16px);color:var(--text)">1rem = 16px (base)</div>
+  <div style="font-size:clamp(18px,3vw,20px);font-weight:500">1.25rem = 20px</div>
+  <div style="font-size:clamp(22px,4vw,24px);font-weight:600">1.5rem = 24px</div>
+  <div style="font-size:clamp(28px,5vw,32px);font-weight:700">2rem = 32px</div>
+  <div style="font-size:clamp(36px,6vw,48px);font-weight:800;line-height:1.1">3rem = 48px</div>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">03 — Текстові властивості</div>
+<h2>font-weight, text-transform та інші</h2>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Всі текстові властивості з App 1</div>
+<pre class="code">
+<span class="cs">.feature__title</span> {
+  <span class="cp">font-size</span>: <span class="cn">2.2rem</span>;
+
+  <span class="cm">/* Товщина — число 100-900 або ключові слова */</span>
+  <span class="cp">font-weight</span>: <span class="cn">500</span>;         <span class="cm">/* 200=тонкий, 900=жирний */</span>
+
+  <span class="cm">/* Трансформація — без зміни HTML */</span>
+  <span class="cp">text-transform</span>: <span class="cv">uppercase</span>; <span class="cm">/* ВЕЛИКІ ЛІТЕРИ */</span>
+
+  <span class="cp">color</span>: <span class="cv">#333</span>;
+  <span class="cp">margin-bottom</span>: <span class="cn">10px</span>;
+}
+
+<span class="cs">.feature__description</span> {
+  <span class="cm">/* Вирівнювання тексту */</span>
+  <span class="cp">text-align</span>: <span class="cv">center</span>;        <span class="cm">/* left | center | right */</span>
+
+  <span class="cm">/* Міжлітерний інтервал */</span>
+  <span class="cp">letter-spacing</span>: <span class="cn">0.5rem</span>;
+
+  <span class="cm">/* Висота рядка — без одиниці = множник */</span>
+  <span class="cp">line-height</span>: <span class="cn">1.6</span>;           <span class="cm">/* 1.6 × font-size */</span>
+  <span class="cm">/* line-height: 2.4rem; — теж можна */</span>
+
+  <span class="cm">/* Міжслівний інтервал */</span>
+  <span class="cp">word-spacing</span>: <span class="cn">3rem</span>;
+
+  <span class="cm">/* Перенос рядків */</span>
+  <span class="cp">white-space</span>: <span class="cv">nowrap</span>;       <span class="cm">/* без переносу */</span>
+}
+
+<span class="cs">.feature__title--selected</span> {
+  <span class="cm">/* Підкреслення */</span>
+  <span class="cp">text-decoration</span>: <span class="cv">underline</span>;
+}</pre>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Живе порівняння font-weight</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:8px 0">
+  <div style="font-weight:200;font-size:20px">font-weight: 200 — Light</div>
+  <div style="font-weight:300;font-size:20px">font-weight: 300 — Thin</div>
+  <div style="font-weight:400;font-size:20px">font-weight: 400 — Regular (default)</div>
+  <div style="font-weight:500;font-size:20px">font-weight: 500 — Medium</div>
+  <div style="font-weight:600;font-size:20px">font-weight: 600 — SemiBold</div>
+  <div style="font-weight:700;font-size:20px">font-weight: 700 — Bold</div>
+  <div style="font-weight:800;font-size:20px">font-weight: 800 — ExtraBold</div>
+  <div style="font-weight:900;font-size:20px">font-weight: 900 — Black</div>
+</div>
+<div class="yellow" style="margin-top:12px"><strong>Увага:</strong> щоб використовувати weight 300 або 700 — треба підключити їх в Google Fonts. <code style="font-family:var(--mono)">wght@300;400;500;600;700</code> в URL. Якщо не підключив — браузер використає найближчий доступний.</div>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">line-height — міжрядковий інтервал</div>
+<div class="two" style="gap:20px">
+<div style="background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:16px">
+  <div style="font-size:11px;color:var(--dim2);font-family:var(--mono);margin-bottom:8px">line-height: 1.2</div>
+  <p style="line-height:1.2;font-size:14px;color:var(--text)">Текст з вузьким міжрядковим інтервалом. Рядки близько один до одного. Підходить для заголовків але важко читати основний текст.</p>
+</div>
+<div style="background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:16px">
+  <div style="font-size:11px;color:var(--dim2);font-family:var(--mono);margin-bottom:8px">line-height: 1.8</div>
+  <p style="line-height:1.8;font-size:14px;color:var(--text)">Текст з комфортним міжрядковим інтервалом. Рядки мають простір між собою. Ідеально для основного тексту сторінки.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">04 — Весь CSS для App 1 Fonts</div>
+<h2>Код з відео EdRow</h2>
+<div class="card r">
+<div class="ct" style="color:var(--acc)">features секція — повний CSS</div>
+<pre class="code">
+<span class="cm">/* ── FONTS SECTION ────────────────────────────── */</span>
+
+<span class="cm">/* Шрифт для всього документа через body */</span>
+<span class="cs">body</span> {
+  <span class="cp">font-family</span>: <span class="cv">'Poppins', 'Times New Roman', serif</span>;
+  <span class="cp">background-color</span>: <span class="cv">#f7f7f7</span>;
+  <span class="cp">color</span>: <span class="cv">#333</span>;
+}
+
+<span class="cs">.feature</span> {
+  <span class="cp">padding</span>: <span class="cn">100px</span>;
+}
+
+<span class="cs">.feature__item</span> {
+  <span class="cp">padding</span>: <span class="cn">30px 0</span>;  <span class="cm">/* 30px зверху і знизу, 0 по боках */</span>
+}
+
+<span class="cs">.feature__title</span> {
+  <span class="cp">font-size</span>: <span class="cn">2.2rem</span>;
+  <span class="cp">font-weight</span>: <span class="cn">500</span>;
+  <span class="cp">text-transform</span>: <span class="cv">uppercase</span>;
+  <span class="cp">color</span>: <span class="cv">#333</span>;
+  <span class="cp">margin-bottom</span>: <span class="cn">10px</span>;
+}
+
+<span class="cs">.feature__title--selected</span> {
+  <span class="cm">/* Тільки перший заголовок з підкресленням */</span>
+  <span class="cp">text-decoration</span>: <span class="cv">underline</span>;
+}
+
+<span class="cs">.feature__description</span> {
+  <span class="cp">text-align</span>: <span class="cv">center</span>;
+  <span class="cp">font-weight</span>: <span class="cn">300</span>;
+  <span class="cp">color</span>: <span class="cv">#6e6e6e</span>;
+}</pre>
+</div>
+
+<div class="exercise r">
+<div class="ex-title">🎯 Практика</div>
+<div class="ex-task">
+  1. Підключи Google Fonts (Poppins або будь-який на вибір) через &lt;link&gt; в head<br>
+  2. Встанови font-family на body з fallback шрифтом<br>
+  3. Зроби два h2: один 2rem bold, інший 1.5rem light italic<br>
+  4. Параграф з line-height: 1.8 і color: #555<br>
+  5. Кнопку з text-transform: uppercase і letter-spacing: 0.1em
+</div>
+</div>
+</section>
+
+</div>
+<div class="lesson-footer">
+  <a href="01-selectors.html" class="fp">← 01 · Селектори</a>
+  <div class="fc">Лекція 02 / 10 · Шрифти</div>
+  <a href="03-colors.html" class="fn">03 · Кольори →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

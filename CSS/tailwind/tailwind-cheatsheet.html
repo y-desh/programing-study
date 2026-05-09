@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tailwind CSS — Шпаргалка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0a0a0a;
+    --bg2:      #111111;
+    --bg3:      #1a1a1a;
+    --border:   #222222;
+    --border2:  #2e2e2e;
+    --text:     #e8e8e8;
+    --muted:    #666666;
+    --muted2:   #444444;
+    --accent:   #7c6aff;
+    --accent2:  #a594ff;
+    --green:    #3ecf8e;
+    --orange:   #ff7c47;
+    --mono:     'JetBrains Mono', monospace;
+    --sans:     'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: .02em;
+  }
+  .logo span { color: var(--accent2); }
+
+  .header-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── Layout ── */
+  .shell {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  /* ── Tabs ── */
+  .tab-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 32px;
+    position: sticky;
+    top: 56px;
+    z-index: 90;
+    background: var(--bg);
+    padding: 16px 0 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--muted);
+    transition: all .15s;
+    letter-spacing: .04em;
+  }
+  .tab:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+  .tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ── Sections ── */
+  .section { display: none; }
+  .section.on { display: block; }
+
+  /* ── Grid of cards ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    transition: border-color .2s;
+  }
+  .card:hover { border-color: var(--border2); }
+
+  .card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-title.mt { margin-top: 18px; }
+
+  /* ── Rows ── */
+  .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,.03);
+  }
+  .row:last-child { border-bottom: none; }
+
+  .cls {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent2);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    flex: 1;
+    min-width: 0;
+  }
+  .val em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  /* ── Note ── */
+  .note {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: rgba(124,106,255,.06);
+    border: 1px solid rgba(124,106,255,.15);
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .note b { color: var(--accent2); font-weight: 500; }
+
+  /* ── Patterns tab ── */
+  .patterns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 12px;
+  }
+
+  .pattern-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .pattern-label {
+    padding: 12px 18px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg3);
+  }
+
+  .code-block {
+    padding: 16px 18px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+    color: #c0c0c0;
+  }
+
+  .t  { color: var(--orange); }   /* tag */
+  .k  { color: var(--accent2); }  /* keyword / attr */
+  .s  { color: var(--green); }    /* string */
+  .c  { color: var(--muted); }    /* comment */
+
+  /* ── Scale visual ── */
+  .scale-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .scale-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    width: 70px;
+    flex-shrink: 0;
+  }
+  .scale-bar-wrap {
+    flex: 1;
+    background: var(--bg3);
+    border-radius: 2px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .scale-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width .3s;
+  }
+  .scale-px {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    width: 40px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── Color swatches ── */
+  .swatch-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,.03);
+  }
+  .swatch-row:last-child { border-bottom: none; }
+  .swatch { width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0; }
+  .swatch-name { font-family: var(--mono); font-size: 12px; color: var(--accent2); margin-left: 4px; flex-shrink: 0; }
+  .swatch-hex  { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: auto; }
+
+  /* responsive */
+  @media (max-width: 600px) {
+    .header { padding: 0 16px; }
+    .shell  { padding: 24px 16px 60px; }
+    .cards  { grid-template-columns: 1fr; }
+    .patterns-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">tailwind <span>cheatsheet</span></div>
+  <div class="header-badge">v4 · 2025–2026</div>
+</header>
+
+<div class="shell">
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab on"  onclick="go('spacing')">Відступи</button>
+    <button class="tab"     onclick="go('flex')">Flex / Grid</button>
+    <button class="tab"     onclick="go('text')">Текст</button>
+    <button class="tab"     onclick="go('colors')">Кольори</button>
+    <button class="tab"     onclick="go('sizing')">Розміри</button>
+    <button class="tab"     onclick="go('borders')">Рамки</button>
+    <button class="tab"     onclick="go('states')">Hover / Стани</button>
+    <button class="tab"     onclick="go('responsive')">Адаптив</button>
+    <button class="tab"     onclick="go('patterns')">Паттерни</button>
+    <button class="tab"     onclick="go('scale')">Шкала</button>
+  </div>
+
+  <!-- ═══════════════════════ SPACING ═══════════════════════ -->
+  <div id="spacing" class="section on">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Padding — p-{n}</div>
+        <div class="row"><span class="cls">p-0</span><span class="val">0px</span></div>
+        <div class="row"><span class="cls">p-1</span><span class="val">4px</span></div>
+        <div class="row"><span class="cls">p-2</span><span class="val">8px</span></div>
+        <div class="row"><span class="cls">p-3</span><span class="val">12px</span></div>
+        <div class="row"><span class="cls">p-4</span><span class="val">16px</span></div>
+        <div class="row"><span class="cls">p-5</span><span class="val">20px</span></div>
+        <div class="row"><span class="cls">p-6</span><span class="val">24px</span></div>
+        <div class="row"><span class="cls">p-8</span><span class="val">32px</span></div>
+        <div class="row"><span class="cls">p-10</span><span class="val">40px</span></div>
+        <div class="row"><span class="cls">p-12</span><span class="val">48px</span></div>
+        <div class="row"><span class="cls">p-16</span><span class="val">64px</span></div>
+        <div class="card-title mt">Сторони</div>
+        <div class="row"><span class="cls">px-4</span><span class="val">padding-left + right: 16px</span></div>
+        <div class="row"><span class="cls">py-4</span><span class="val">padding-top + bottom: 16px</span></div>
+        <div class="row"><span class="cls">pt-4</span><span class="val">padding-top: 16px</span></div>
+        <div class="row"><span class="cls">pb-4</span><span class="val">padding-bottom: 16px</span></div>
+        <div class="row"><span class="cls">pl-4</span><span class="val">padding-left: 16px</span></div>
+        <div class="row"><span class="cls">pr-4</span><span class="val">padding-right: 16px</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Margin — m-{n}</div>
+        <div class="row"><span class="cls">m-0</span><span class="val">0px</span></div>
+        <div class="row"><span class="cls">m-2</span><span class="val">8px</span></div>
+        <div class="row"><span class="cls">m-4</span><span class="val">16px</span></div>
+        <div class="row"><span class="cls">m-6</span><span class="val">24px</span></div>
+        <div class="row"><span class="cls">m-8</span><span class="val">32px</span></div>
+        <div class="row"><span class="cls">mx-auto</span><span class="val"><em>margin-left/right: auto → центрування</em></span></div>
+        <div class="row"><span class="cls">mx-4</span><span class="val">margin-left + right: 16px</span></div>
+        <div class="row"><span class="cls">my-4</span><span class="val">margin-top + bottom: 16px</span></div>
+        <div class="row"><span class="cls">mt-4</span><span class="val">margin-top: 16px</span></div>
+        <div class="row"><span class="cls">mb-4</span><span class="val">margin-bottom: 16px</span></div>
+        <div class="row"><span class="cls">ml-4</span><span class="val">margin-left: 16px</span></div>
+        <div class="row"><span class="cls">mr-4</span><span class="val">margin-right: 16px</span></div>
+        <div class="row"><span class="cls">-mt-4</span><span class="val">margin-top: -16px</span></div>
+        <div class="card-title mt">Gap між flex/grid дітьми</div>
+        <div class="row"><span class="cls">gap-2</span><span class="val">8px</span></div>
+        <div class="row"><span class="cls">gap-4</span><span class="val">16px</span></div>
+        <div class="row"><span class="cls">gap-6</span><span class="val">24px</span></div>
+        <div class="row"><span class="cls">gap-x-4</span><span class="val">column-gap: 16px</span></div>
+        <div class="row"><span class="cls">gap-y-2</span><span class="val">row-gap: 8px</span></div>
+        <div class="row"><span class="cls">space-y-4</span><span class="val"><em>margin-top між дітьми: 16px</em></span></div>
+        <div class="row"><span class="cls">space-x-2</span><span class="val">margin-left між дітьми: 8px</span></div>
+      </div>
+
+    </div>
+    <div class="note"><b>Правило:</b> 1 одиниця = 4px. Тому p-4 = 16px, p-6 = 24px, p-8 = 32px. Всі класи margin/padding/gap працюють за цією ж шкалою.</div>
+  </div>
+
+  <!-- ═══════════════════════ FLEX / GRID ═══════════════════════ -->
+  <div id="flex" class="section">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Flexbox</div>
+        <div class="row"><span class="cls">flex</span><span class="val">display: flex</span></div>
+        <div class="row"><span class="cls">inline-flex</span><span class="val">display: inline-flex</span></div>
+        <div class="row"><span class="cls">flex-row</span><span class="val">flex-direction: row (за замовч.)</span></div>
+        <div class="row"><span class="cls">flex-col</span><span class="val"><em>flex-direction: column</em></span></div>
+        <div class="row"><span class="cls">flex-row-reverse</span><span class="val">row у зворотньому порядку</span></div>
+        <div class="row"><span class="cls">flex-col-reverse</span><span class="val">column у зворотньому порядку</span></div>
+        <div class="row"><span class="cls">flex-wrap</span><span class="val">flex-wrap: wrap</span></div>
+        <div class="row"><span class="cls">flex-nowrap</span><span class="val">flex-wrap: nowrap</span></div>
+        <div class="row"><span class="cls">flex-1</span><span class="val"><em>flex: 1 1 0% — займає весь простір</em></span></div>
+        <div class="row"><span class="cls">flex-auto</span><span class="val">flex: 1 1 auto</span></div>
+        <div class="row"><span class="cls">flex-none</span><span class="val">flex: none — не розтягується</span></div>
+        <div class="row"><span class="cls">flex-shrink-0</span><span class="val">flex-shrink: 0 — не стискається</span></div>
+        <div class="row"><span class="cls">grow</span><span class="val">flex-grow: 1</span></div>
+        <div class="row"><span class="cls">shrink</span><span class="val">flex-shrink: 1</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Вирівнювання (align + justify)</div>
+        <div class="row"><span class="cls">items-start</span><span class="val">align-items: flex-start</span></div>
+        <div class="row"><span class="cls">items-center</span><span class="val"><em>align-items: center ← найчастіше</em></span></div>
+        <div class="row"><span class="cls">items-end</span><span class="val">align-items: flex-end</span></div>
+        <div class="row"><span class="cls">items-stretch</span><span class="val">align-items: stretch</span></div>
+        <div class="row"><span class="cls">items-baseline</span><span class="val">align-items: baseline</span></div>
+        <div class="row"><span class="cls">justify-start</span><span class="val">justify-content: flex-start</span></div>
+        <div class="row"><span class="cls">justify-center</span><span class="val">justify-content: center</span></div>
+        <div class="row"><span class="cls">justify-end</span><span class="val">justify-content: flex-end</span></div>
+        <div class="row"><span class="cls">justify-between</span><span class="val"><em>justify-content: space-between</em></span></div>
+        <div class="row"><span class="cls">justify-around</span><span class="val">justify-content: space-around</span></div>
+        <div class="row"><span class="cls">justify-evenly</span><span class="val">justify-content: space-evenly</span></div>
+        <div class="row"><span class="cls">self-start</span><span class="val">align-self: flex-start</span></div>
+        <div class="row"><span class="cls">self-center</span><span class="val">align-self: center</span></div>
+        <div class="row"><span class="cls">self-end</span><span class="val">align-self: flex-end</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Grid</div>
+        <div class="row"><span class="cls">grid</span><span class="val">display: grid</span></div>
+        <div class="row"><span class="cls">grid-cols-1</span><span class="val">repeat(1, 1fr)</span></div>
+        <div class="row"><span class="cls">grid-cols-2</span><span class="val">repeat(2, 1fr)</span></div>
+        <div class="row"><span class="cls">grid-cols-3</span><span class="val">repeat(3, 1fr)</span></div>
+        <div class="row"><span class="cls">grid-cols-4</span><span class="val">repeat(4, 1fr)</span></div>
+        <div class="row"><span class="cls">grid-cols-6</span><span class="val">repeat(6, 1fr)</span></div>
+        <div class="row"><span class="cls">grid-cols-12</span><span class="val">repeat(12, 1fr)</span></div>
+        <div class="row"><span class="cls">col-span-2</span><span class="val">grid-column: span 2</span></div>
+        <div class="row"><span class="cls">col-span-full</span><span class="val"><em>grid-column: 1 / -1 — на всю ширину</em></span></div>
+        <div class="row"><span class="cls">row-span-2</span><span class="val">grid-row: span 2</span></div>
+        <div class="card-title mt">Display / Position</div>
+        <div class="row"><span class="cls">block</span><span class="val">display: block</span></div>
+        <div class="row"><span class="cls">inline-block</span><span class="val">display: inline-block</span></div>
+        <div class="row"><span class="cls">hidden</span><span class="val">display: none</span></div>
+        <div class="row"><span class="cls">relative</span><span class="val">position: relative</span></div>
+        <div class="row"><span class="cls">absolute</span><span class="val">position: absolute</span></div>
+        <div class="row"><span class="cls">inset-0</span><span class="val"><em>top/right/bottom/left: 0 — overlay</em></span></div>
+        <div class="row"><span class="cls">top-4</span><span class="val">top: 16px</span></div>
+        <div class="row"><span class="cls">z-10</span><span class="val">z-index: 10</span></div>
+        <div class="row"><span class="cls">z-50</span><span class="val">z-index: 50</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ TEXT ═══════════════════════ -->
+  <div id="text" class="section">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Розмір шрифту — text-{size}</div>
+        <div class="row"><span class="cls">text-xs</span><span class="val">12px / lh 16px</span></div>
+        <div class="row"><span class="cls">text-sm</span><span class="val">14px / lh 20px</span></div>
+        <div class="row"><span class="cls">text-base</span><span class="val"><em>16px / lh 24px ← базовий</em></span></div>
+        <div class="row"><span class="cls">text-lg</span><span class="val">18px / lh 28px</span></div>
+        <div class="row"><span class="cls">text-xl</span><span class="val">20px / lh 28px</span></div>
+        <div class="row"><span class="cls">text-2xl</span><span class="val">24px / lh 32px</span></div>
+        <div class="row"><span class="cls">text-3xl</span><span class="val">30px / lh 36px</span></div>
+        <div class="row"><span class="cls">text-4xl</span><span class="val">36px / lh 40px</span></div>
+        <div class="row"><span class="cls">text-5xl</span><span class="val">48px / lh 1</span></div>
+        <div class="row"><span class="cls">text-6xl</span><span class="val">60px / lh 1</span></div>
+        <div class="row"><span class="cls">text-7xl</span><span class="val">72px / lh 1</span></div>
+        <div class="row"><span class="cls">text-8xl</span><span class="val">96px / lh 1</span></div>
+        <div class="row"><span class="cls">text-9xl</span><span class="val">128px / lh 1</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Жирність — font-{weight}</div>
+        <div class="row"><span class="cls">font-thin</span><span class="val">font-weight: 100</span></div>
+        <div class="row"><span class="cls">font-extralight</span><span class="val">font-weight: 200</span></div>
+        <div class="row"><span class="cls">font-light</span><span class="val">font-weight: 300</span></div>
+        <div class="row"><span class="cls">font-normal</span><span class="val">font-weight: 400</span></div>
+        <div class="row"><span class="cls">font-medium</span><span class="val"><em>font-weight: 500 ← найчастіше</em></span></div>
+        <div class="row"><span class="cls">font-semibold</span><span class="val">font-weight: 600</span></div>
+        <div class="row"><span class="cls">font-bold</span><span class="val">font-weight: 700</span></div>
+        <div class="row"><span class="cls">font-extrabold</span><span class="val">font-weight: 800</span></div>
+        <div class="row"><span class="cls">font-black</span><span class="val">font-weight: 900</span></div>
+        <div class="card-title mt">Вирівнювання і трансформація</div>
+        <div class="row"><span class="cls">text-left</span><span class="val">text-align: left</span></div>
+        <div class="row"><span class="cls">text-center</span><span class="val">text-align: center</span></div>
+        <div class="row"><span class="cls">text-right</span><span class="val">text-align: right</span></div>
+        <div class="row"><span class="cls">uppercase</span><span class="val">text-transform: uppercase</span></div>
+        <div class="row"><span class="cls">lowercase</span><span class="val">text-transform: lowercase</span></div>
+        <div class="row"><span class="cls">capitalize</span><span class="val">text-transform: capitalize</span></div>
+        <div class="row"><span class="cls">italic</span><span class="val">font-style: italic</span></div>
+        <div class="row"><span class="cls">underline</span><span class="val">text-decoration: underline</span></div>
+        <div class="row"><span class="cls">no-underline</span><span class="val">text-decoration: none</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Line-height, Letter-spacing, Обрізка</div>
+        <div class="row"><span class="cls">leading-none</span><span class="val">line-height: 1</span></div>
+        <div class="row"><span class="cls">leading-tight</span><span class="val">line-height: 1.25</span></div>
+        <div class="row"><span class="cls">leading-snug</span><span class="val">line-height: 1.375</span></div>
+        <div class="row"><span class="cls">leading-normal</span><span class="val">line-height: 1.5</span></div>
+        <div class="row"><span class="cls">leading-relaxed</span><span class="val">line-height: 1.625</span></div>
+        <div class="row"><span class="cls">leading-loose</span><span class="val">line-height: 2</span></div>
+        <div class="row"><span class="cls">tracking-tighter</span><span class="val">letter-spacing: -0.05em</span></div>
+        <div class="row"><span class="cls">tracking-tight</span><span class="val">letter-spacing: -0.025em</span></div>
+        <div class="row"><span class="cls">tracking-normal</span><span class="val">letter-spacing: 0</span></div>
+        <div class="row"><span class="cls">tracking-wide</span><span class="val">letter-spacing: 0.025em</span></div>
+        <div class="row"><span class="cls">tracking-wider</span><span class="val">letter-spacing: 0.05em</span></div>
+        <div class="row"><span class="cls">tracking-widest</span><span class="val"><em>letter-spacing: 0.1em</em></span></div>
+        <div class="row"><span class="cls">truncate</span><span class="val"><em>overflow hidden + ellipsis</em></span></div>
+        <div class="row"><span class="cls">line-clamp-2</span><span class="val">обрізає після 2 рядків</span></div>
+        <div class="row"><span class="cls">line-clamp-3</span><span class="val">обрізає після 3 рядків</span></div>
+        <div class="row"><span class="cls">whitespace-nowrap</span><span class="val">white-space: nowrap</span></div>
+        <div class="row"><span class="cls">break-words</span><span class="val">word-break: break-word</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ COLORS ═══════════════════════ -->
+  <div id="colors" class="section">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Палітра gray (найчастіше використовується)</div>
+        <div class="swatch-row"><div class="swatch" style="background:#F9FAFB"></div><span class="swatch-name">gray-50</span><span class="swatch-hex">#F9FAFB</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#F3F4F6"></div><span class="swatch-name">gray-100</span><span class="swatch-hex">#F3F4F6</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#E5E7EB"></div><span class="swatch-name">gray-200</span><span class="swatch-hex">#E5E7EB</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#D1D5DB"></div><span class="swatch-name">gray-300</span><span class="swatch-hex">#D1D5DB</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#9CA3AF"></div><span class="swatch-name">gray-400</span><span class="swatch-hex">#9CA3AF</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#6B7280"></div><span class="swatch-name">gray-500</span><span class="swatch-hex">#6B7280</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#4B5563"></div><span class="swatch-name">gray-600</span><span class="swatch-hex">#4B5563</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#374151"></div><span class="swatch-name">gray-700</span><span class="swatch-hex">#374151</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#1F2937"></div><span class="swatch-name">gray-800</span><span class="swatch-hex">#1F2937</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#111827"></div><span class="swatch-name">gray-900</span><span class="swatch-hex">#111827</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#030712"></div><span class="swatch-name">gray-950</span><span class="swatch-hex">#030712</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Акцентні кольори</div>
+        <div class="swatch-row"><div class="swatch" style="background:#3B82F6"></div><span class="swatch-name">blue-500</span><span class="swatch-hex">#3B82F6</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#2563EB"></div><span class="swatch-name">blue-600</span><span class="swatch-hex">#2563EB</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#1D4ED8"></div><span class="swatch-name">blue-700</span><span class="swatch-hex">#1D4ED8</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#EF4444"></div><span class="swatch-name">red-500</span><span class="swatch-hex">#EF4444</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#22C55E"></div><span class="swatch-name">green-500</span><span class="swatch-hex">#22C55E</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#EAB308"></div><span class="swatch-name">yellow-500</span><span class="swatch-hex">#EAB308</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#F97316"></div><span class="swatch-name">orange-500</span><span class="swatch-hex">#F97316</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#A855F7"></div><span class="swatch-name">purple-500</span><span class="swatch-hex">#A855F7</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#EC4899"></div><span class="swatch-name">pink-500</span><span class="swatch-hex">#EC4899</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#14B8A6"></div><span class="swatch-name">teal-500</span><span class="swatch-hex">#14B8A6</span></div>
+        <div class="swatch-row"><div class="swatch" style="background:#06B6D4"></div><span class="swatch-name">cyan-500</span><span class="swatch-hex">#06B6D4</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Класи кольорів</div>
+        <div class="row"><span class="cls">text-white</span><span class="val">color: #ffffff</span></div>
+        <div class="row"><span class="cls">text-black</span><span class="val">color: #000000</span></div>
+        <div class="row"><span class="cls">text-gray-400</span><span class="val">підказки, placeholder</span></div>
+        <div class="row"><span class="cls">text-gray-500</span><span class="val">допоміжний текст</span></div>
+        <div class="row"><span class="cls">text-gray-700</span><span class="val">другорядний текст</span></div>
+        <div class="row"><span class="cls">text-gray-900</span><span class="val"><em>основний текст</em></span></div>
+        <div class="row"><span class="cls">text-blue-500</span><span class="val">посилання</span></div>
+        <div class="row"><span class="cls">text-red-500</span><span class="val">помилка</span></div>
+        <div class="row"><span class="cls">text-green-500</span><span class="val">успіх</span></div>
+        <div class="row"><span class="cls">bg-white</span><span class="val">background: #fff</span></div>
+        <div class="row"><span class="cls">bg-gray-50</span><span class="val">майже білий фон</span></div>
+        <div class="row"><span class="cls">bg-gray-900</span><span class="val">темний фон</span></div>
+        <div class="row"><span class="cls">bg-blue-500</span><span class="val"><em>синя кнопка</em></span></div>
+        <div class="row"><span class="cls">bg-transparent</span><span class="val">прозорий фон</span></div>
+        <div class="row"><span class="cls">opacity-0</span><span class="val">opacity: 0</span></div>
+        <div class="row"><span class="cls">opacity-50</span><span class="val">opacity: 0.5</span></div>
+        <div class="row"><span class="cls">opacity-75</span><span class="val">opacity: 0.75</span></div>
+        <div class="row"><span class="cls">opacity-100</span><span class="val">opacity: 1</span></div>
+      </div>
+
+    </div>
+    <div class="note"><b>Тони:</b> 50 (найсвітліший) → 100 → 200 → 300 → 400 → 500 → 600 → 700 → 800 → 900 → 950 (найтемніший). Доступні кольори: slate, gray, zinc, neutral, stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose.</div>
+  </div>
+
+  <!-- ═══════════════════════ SIZING ═══════════════════════ -->
+  <div id="sizing" class="section">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Width</div>
+        <div class="row"><span class="cls">w-auto</span><span class="val">width: auto</span></div>
+        <div class="row"><span class="cls">w-full</span><span class="val"><em>width: 100%</em></span></div>
+        <div class="row"><span class="cls">w-screen</span><span class="val">width: 100vw</span></div>
+        <div class="row"><span class="cls">w-1/2</span><span class="val">width: 50%</span></div>
+        <div class="row"><span class="cls">w-1/3</span><span class="val">width: 33.33%</span></div>
+        <div class="row"><span class="cls">w-2/3</span><span class="val">width: 66.66%</span></div>
+        <div class="row"><span class="cls">w-1/4</span><span class="val">width: 25%</span></div>
+        <div class="row"><span class="cls">w-3/4</span><span class="val">width: 75%</span></div>
+        <div class="row"><span class="cls">w-4</span><span class="val">16px</span></div>
+        <div class="row"><span class="cls">w-8</span><span class="val">32px</span></div>
+        <div class="row"><span class="cls">w-16</span><span class="val">64px</span></div>
+        <div class="row"><span class="cls">w-32</span><span class="val">128px</span></div>
+        <div class="row"><span class="cls">w-64</span><span class="val">256px</span></div>
+        <div class="row"><span class="cls">min-w-0</span><span class="val">min-width: 0</span></div>
+        <div class="row"><span class="cls">min-w-full</span><span class="val">min-width: 100%</span></div>
+        <div class="card-title mt">Max-width</div>
+        <div class="row"><span class="cls">max-w-xs</span><span class="val">320px</span></div>
+        <div class="row"><span class="cls">max-w-sm</span><span class="val">384px</span></div>
+        <div class="row"><span class="cls">max-w-md</span><span class="val">448px</span></div>
+        <div class="row"><span class="cls">max-w-lg</span><span class="val">512px</span></div>
+        <div class="row"><span class="cls">max-w-xl</span><span class="val">576px</span></div>
+        <div class="row"><span class="cls">max-w-2xl</span><span class="val">672px</span></div>
+        <div class="row"><span class="cls">max-w-4xl</span><span class="val">896px</span></div>
+        <div class="row"><span class="cls">max-w-6xl</span><span class="val">1152px</span></div>
+        <div class="row"><span class="cls">max-w-7xl</span><span class="val"><em>1280px ← контейнер сторінки</em></span></div>
+        <div class="row"><span class="cls">max-w-full</span><span class="val">max-width: 100%</span></div>
+        <div class="row"><span class="cls">max-w-none</span><span class="val">max-width: none</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Height</div>
+        <div class="row"><span class="cls">h-auto</span><span class="val">height: auto</span></div>
+        <div class="row"><span class="cls">h-full</span><span class="val">height: 100%</span></div>
+        <div class="row"><span class="cls">h-screen</span><span class="val"><em>height: 100vh</em></span></div>
+        <div class="row"><span class="cls">h-svh</span><span class="val">height: 100svh (mobile)</span></div>
+        <div class="row"><span class="cls">h-4</span><span class="val">16px</span></div>
+        <div class="row"><span class="cls">h-8</span><span class="val">32px</span></div>
+        <div class="row"><span class="cls">h-10</span><span class="val"><em>40px ← кнопки</em></span></div>
+        <div class="row"><span class="cls">h-12</span><span class="val">48px</span></div>
+        <div class="row"><span class="cls">h-16</span><span class="val"><em>64px ← navbar</em></span></div>
+        <div class="row"><span class="cls">h-48</span><span class="val">192px ← картки зображень</span></div>
+        <div class="row"><span class="cls">h-64</span><span class="val">256px</span></div>
+        <div class="row"><span class="cls">min-h-0</span><span class="val">min-height: 0</span></div>
+        <div class="row"><span class="cls">min-h-screen</span><span class="val">min-height: 100vh</span></div>
+        <div class="card-title mt">Border Radius</div>
+        <div class="row"><span class="cls">rounded-none</span><span class="val">0px</span></div>
+        <div class="row"><span class="cls">rounded-sm</span><span class="val">2px</span></div>
+        <div class="row"><span class="cls">rounded</span><span class="val">4px</span></div>
+        <div class="row"><span class="cls">rounded-md</span><span class="val">6px</span></div>
+        <div class="row"><span class="cls">rounded-lg</span><span class="val"><em>8px ← найчастіше</em></span></div>
+        <div class="row"><span class="cls">rounded-xl</span><span class="val">12px</span></div>
+        <div class="row"><span class="cls">rounded-2xl</span><span class="val">16px</span></div>
+        <div class="row"><span class="cls">rounded-3xl</span><span class="val">24px</span></div>
+        <div class="row"><span class="cls">rounded-full</span><span class="val"><em>9999px ← круг / пігулка</em></span></div>
+        <div class="row"><span class="cls">rounded-t-lg</span><span class="val">тільки зверху: 8px</span></div>
+        <div class="row"><span class="cls">rounded-b-lg</span><span class="val">тільки знизу: 8px</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ BORDERS ═══════════════════════ -->
+  <div id="borders" class="section">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Border width</div>
+        <div class="row"><span class="cls">border-0</span><span class="val">border-width: 0</span></div>
+        <div class="row"><span class="cls">border</span><span class="val"><em>border-width: 1px</em></span></div>
+        <div class="row"><span class="cls">border-2</span><span class="val">border-width: 2px</span></div>
+        <div class="row"><span class="cls">border-4</span><span class="val">border-width: 4px</span></div>
+        <div class="row"><span class="cls">border-t</span><span class="val">border-top: 1px</span></div>
+        <div class="row"><span class="cls">border-b</span><span class="val">border-bottom: 1px</span></div>
+        <div class="row"><span class="cls">border-l</span><span class="val">border-left: 1px</span></div>
+        <div class="row"><span class="cls">border-r</span><span class="val">border-right: 1px</span></div>
+        <div class="row"><span class="cls">border-x</span><span class="val">border-left + right: 1px</span></div>
+        <div class="row"><span class="cls">border-y</span><span class="val">border-top + bottom: 1px</span></div>
+        <div class="card-title mt">Border color</div>
+        <div class="row"><span class="cls">border-gray-200</span><span class="val">#E5E7EB — світла рамка</span></div>
+        <div class="row"><span class="cls">border-gray-700</span><span class="val">#374151 — темна рамка</span></div>
+        <div class="row"><span class="cls">border-blue-500</span><span class="val">#3B82F6 — акцент</span></div>
+        <div class="row"><span class="cls">border-transparent</span><span class="val">прозора рамка</span></div>
+        <div class="row"><span class="cls">border-white/20</span><span class="val">white з opacity 20%</span></div>
+        <div class="card-title mt">Border style</div>
+        <div class="row"><span class="cls">border-solid</span><span class="val">border-style: solid</span></div>
+        <div class="row"><span class="cls">border-dashed</span><span class="val">border-style: dashed</span></div>
+        <div class="row"><span class="cls">border-dotted</span><span class="val">border-style: dotted</span></div>
+        <div class="row"><span class="cls">divide-y</span><span class="val"><em>border між дітьми по Y</em></span></div>
+        <div class="row"><span class="cls">divide-gray-700</span><span class="val">колір divide ліній</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Shadow</div>
+        <div class="row"><span class="cls">shadow-none</span><span class="val">box-shadow: none</span></div>
+        <div class="row"><span class="cls">shadow-sm</span><span class="val">дрібна тінь</span></div>
+        <div class="row"><span class="cls">shadow</span><span class="val">стандартна тінь</span></div>
+        <div class="row"><span class="cls">shadow-md</span><span class="val">середня тінь</span></div>
+        <div class="row"><span class="cls">shadow-lg</span><span class="val"><em>велика тінь ← картки</em></span></div>
+        <div class="row"><span class="cls">shadow-xl</span><span class="val">дуже велика тінь</span></div>
+        <div class="row"><span class="cls">shadow-2xl</span><span class="val">максимальна тінь</span></div>
+        <div class="row"><span class="cls">ring-1</span><span class="val">box-shadow ring 1px</span></div>
+        <div class="row"><span class="cls">ring-2</span><span class="val">box-shadow ring 2px</span></div>
+        <div class="row"><span class="cls">ring-blue-500</span><span class="val">колір ring</span></div>
+        <div class="card-title mt">Overflow / Cursor / Misc</div>
+        <div class="row"><span class="cls">overflow-hidden</span><span class="val"><em>overflow: hidden ← картки з img</em></span></div>
+        <div class="row"><span class="cls">overflow-auto</span><span class="val">overflow: auto</span></div>
+        <div class="row"><span class="cls">overflow-x-auto</span><span class="val">горизонтальний скрол</span></div>
+        <div class="row"><span class="cls">cursor-pointer</span><span class="val">cursor: pointer</span></div>
+        <div class="row"><span class="cls">cursor-not-allowed</span><span class="val">cursor: not-allowed</span></div>
+        <div class="row"><span class="cls">select-none</span><span class="val">user-select: none</span></div>
+        <div class="row"><span class="cls">pointer-events-none</span><span class="val">pointer-events: none</span></div>
+        <div class="row"><span class="cls">object-cover</span><span class="val"><em>object-fit: cover ← img в картках</em></span></div>
+        <div class="row"><span class="cls">object-contain</span><span class="val">object-fit: contain</span></div>
+        <div class="row"><span class="cls">object-center</span><span class="val">object-position: center</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ STATES ═══════════════════════ -->
+  <div id="states" class="section">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Hover / Focus / Active / Disabled</div>
+        <div class="row"><span class="cls">hover:bg-gray-100</span><span class="val">фон при наведенні</span></div>
+        <div class="row"><span class="cls">hover:text-white</span><span class="val">текст при наведенні</span></div>
+        <div class="row"><span class="cls">hover:opacity-80</span><span class="val">прозорість при hover</span></div>
+        <div class="row"><span class="cls">hover:scale-105</span><span class="val"><em>збільшення при hover</em></span></div>
+        <div class="row"><span class="cls">hover:shadow-lg</span><span class="val">тінь при hover</span></div>
+        <div class="row"><span class="cls">hover:border-blue-500</span><span class="val">рамка при hover</span></div>
+        <div class="row"><span class="cls">hover:underline</span><span class="val">підкреслення при hover</span></div>
+        <div class="row"><span class="cls">focus:outline-none</span><span class="val">прибрати outline</span></div>
+        <div class="row"><span class="cls">focus:ring-2</span><span class="val">ring при фокусі</span></div>
+        <div class="row"><span class="cls">focus:ring-blue-500</span><span class="val">колір ring</span></div>
+        <div class="row"><span class="cls">active:scale-95</span><span class="val"><em>стискання при кліку</em></span></div>
+        <div class="row"><span class="cls">active:bg-blue-700</span><span class="val">фон при кліку</span></div>
+        <div class="row"><span class="cls">disabled:opacity-50</span><span class="val">вимкнений стан</span></div>
+        <div class="row"><span class="cls">disabled:cursor-not-allowed</span><span class="val">курсор заблокований</span></div>
+        <div class="row"><span class="cls">placeholder:text-gray-400</span><span class="val">колір placeholder</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Transition і Transform</div>
+        <div class="row"><span class="cls">transition</span><span class="val"><em>всі властивості 150ms</em></span></div>
+        <div class="row"><span class="cls">transition-colors</span><span class="val">тільки кольори</span></div>
+        <div class="row"><span class="cls">transition-all</span><span class="val">все включно з transform</span></div>
+        <div class="row"><span class="cls">transition-opacity</span><span class="val">тільки opacity</span></div>
+        <div class="row"><span class="cls">transition-transform</span><span class="val">тільки transform</span></div>
+        <div class="row"><span class="cls">duration-75</span><span class="val">75ms</span></div>
+        <div class="row"><span class="cls">duration-150</span><span class="val">150ms</span></div>
+        <div class="row"><span class="cls">duration-300</span><span class="val"><em>300ms ← найчастіше</em></span></div>
+        <div class="row"><span class="cls">duration-500</span><span class="val">500ms</span></div>
+        <div class="row"><span class="cls">ease-in</span><span class="val">cubic-bezier(0.4,0,1,1)</span></div>
+        <div class="row"><span class="cls">ease-out</span><span class="val">cubic-bezier(0,0,0.2,1)</span></div>
+        <div class="row"><span class="cls">ease-in-out</span><span class="val">cubic-bezier(0.4,0,0.2,1)</span></div>
+        <div class="row"><span class="cls">scale-0</span><span class="val">transform: scale(0)</span></div>
+        <div class="row"><span class="cls">scale-95</span><span class="val">transform: scale(0.95)</span></div>
+        <div class="row"><span class="cls">scale-100</span><span class="val">transform: scale(1)</span></div>
+        <div class="row"><span class="cls">scale-105</span><span class="val"><em>transform: scale(1.05)</em></span></div>
+        <div class="row"><span class="cls">scale-110</span><span class="val">transform: scale(1.1)</span></div>
+        <div class="row"><span class="cls">translate-x-4</span><span class="val">translateX(16px)</span></div>
+        <div class="row"><span class="cls">-translate-y-1</span><span class="val">translateY(-4px)</span></div>
+        <div class="row"><span class="cls">rotate-45</span><span class="val">rotate(45deg)</span></div>
+        <div class="row"><span class="cls">rotate-180</span><span class="val">rotate(180deg) ← іконки</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Group (hover батька → зміна дитини)</div>
+        <div class="row"><span class="cls">group</span><span class="val">ставиш на батьківський елемент</span></div>
+        <div class="row"><span class="cls">group-hover:text-white</span><span class="val">текст при hover батька</span></div>
+        <div class="row"><span class="cls">group-hover:opacity-100</span><span class="val">показати при hover батька</span></div>
+        <div class="row"><span class="cls">group-hover:scale-110</span><span class="val">збільшити при hover батька</span></div>
+        <div class="row"><span class="cls">group-hover:translate-x-1</span><span class="val">зрушити при hover батька</span></div>
+        <div class="card-title mt">Peer (стан сусіда)</div>
+        <div class="row"><span class="cls">peer</span><span class="val">ставиш на input/checkbox</span></div>
+        <div class="row"><span class="cls">peer-checked:bg-blue-500</span><span class="val">коли checkbox відмічений</span></div>
+        <div class="row"><span class="cls">peer-focus:border-blue-500</span><span class="val">коли сусід у фокусі</span></div>
+        <div class="card-title mt">Dark mode</div>
+        <div class="row"><span class="cls">dark:bg-gray-900</span><span class="val">фон у темній темі</span></div>
+        <div class="row"><span class="cls">dark:text-white</span><span class="val">текст у темній темі</span></div>
+        <div class="row"><span class="cls">dark:border-gray-700</span><span class="val">рамка у темній темі</span></div>
+      </div>
+
+    </div>
+    <div class="note"><b>Порядок важливий:</b> завжди пиши <b>transition</b> ПЕРЕД hover-класами. Без нього зміна стрибає миттєво без анімації.<br>Приклад: <b>className="transition-all duration-300 hover:scale-105 hover:shadow-xl"</b></div>
+  </div>
+
+  <!-- ═══════════════════════ RESPONSIVE ═══════════════════════ -->
+  <div id="responsive" class="section">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Breakpoints (mobile-first)</div>
+        <div class="row"><span class="cls">без префіксу</span><span class="val"><em>всі екрани — мобільний базис</em></span></div>
+        <div class="row"><span class="cls">sm:</span><span class="val">min-width: 640px</span></div>
+        <div class="row"><span class="cls">md:</span><span class="val">min-width: 768px ← планшет</span></div>
+        <div class="row"><span class="cls">lg:</span><span class="val">min-width: 1024px ← десктоп</span></div>
+        <div class="row"><span class="cls">xl:</span><span class="val">min-width: 1280px</span></div>
+        <div class="row"><span class="cls">2xl:</span><span class="val">min-width: 1536px</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Найчастіші паттерни адаптивності</div>
+        <div class="row"><span class="cls">hidden md:block</span><span class="val"><em>ховає на мобільному</em></span></div>
+        <div class="row"><span class="cls">block md:hidden</span><span class="val">ховає на десктопі</span></div>
+        <div class="row"><span class="cls">flex-col md:flex-row</span><span class="val">стовпець → рядок</span></div>
+        <div class="row"><span class="cls">grid-cols-1 md:grid-cols-2 lg:grid-cols-4</span><span class="val">адаптивний грід</span></div>
+        <div class="row"><span class="cls">text-sm md:text-base lg:text-lg</span><span class="val">адаптивний текст</span></div>
+        <div class="row"><span class="cls">p-4 md:p-8</span><span class="val">більший padding на десктопі</span></div>
+        <div class="row"><span class="cls">w-full md:w-1/2 lg:w-1/3</span><span class="val">адаптивна ширина</span></div>
+        <div class="row"><span class="cls">text-4xl md:text-6xl</span><span class="val">великий заголовок</span></div>
+      </div>
+
+    </div>
+    <div class="note"><b>Mobile-first:</b> клас без префіксу діє на ВСІ розміри. sm: md: lg: — додають правило тільки від цієї ширини і вище. Пиши від мобільного до десктопу зліва направо.</div>
+  </div>
+
+  <!-- ═══════════════════════ PATTERNS ═══════════════════════ -->
+  <div id="patterns" class="section">
+    <div class="patterns-grid">
+
+      <div class="pattern-card">
+        <div class="pattern-label">Кнопка</div>
+        <div class="code-block"><span class="t">&lt;button</span> <span class="k">className</span>=<span class="s">"
+  px-4 py-2 rounded-lg text-sm font-medium
+  bg-blue-500 text-white
+  hover:bg-blue-600 active:scale-95
+  transition-all duration-150 cursor-pointer
+  disabled:opacity-50 disabled:cursor-not-allowed
+"</span><span class="t">&gt;</span>Натисни<span class="t">&lt;/button&gt;</span></div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label">Navbar</div>
+        <div class="code-block"><span class="t">&lt;nav</span> <span class="k">className</span>=<span class="s">"
+  flex items-center justify-between
+  px-6 h-16 bg-gray-900
+  border-b border-gray-800
+"</span><span class="t">&gt;</span>
+  <span class="t">&lt;img</span> <span class="k">className</span>=<span class="s">"h-8 w-auto"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;ul</span> <span class="k">className</span>=<span class="s">"hidden md:flex items-center gap-6"</span><span class="t">&gt;</span>
+    ...<span class="c"> {/* посилання */}</span>
+  <span class="t">&lt;/ul&gt;</span>
+  <span class="t">&lt;button</span> <span class="k">className</span>=<span class="s">"md:hidden text-white"</span><span class="t">&gt;</span>☰<span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/nav&gt;</span></div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label">Картка героя (Dota 2 стиль)</div>
+        <div class="code-block"><span class="t">&lt;div</span> <span class="k">className</span>=<span class="s">"
+  relative overflow-hidden rounded-xl
+  bg-gray-900 border border-gray-700
+  hover:border-orange-500 hover:scale-105
+  transition-all duration-300 cursor-pointer
+"</span><span class="t">&gt;</span>
+  <span class="t">&lt;img</span>
+    <span class="k">src</span>={image}
+    <span class="k">className</span>=<span class="s">"w-full h-48 object-cover"</span>
+  <span class="t">/&gt;</span>
+  <span class="t">&lt;div</span> <span class="k">className</span>=<span class="s">"p-4"</span><span class="t">&gt;</span>
+    <span class="t">&lt;h3</span> <span class="k">className</span>=<span class="s">"text-white font-bold text-lg"</span><span class="t">&gt;</span>
+      {name}
+    <span class="t">&lt;/h3&gt;</span>
+    <span class="t">&lt;p</span> <span class="k">className</span>=<span class="s">"text-gray-400 text-sm mt-1"</span><span class="t">&gt;</span>
+      {role}
+    <span class="t">&lt;/p&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label">Адаптивний грід карток</div>
+        <div class="code-block"><span class="t">&lt;div</span> <span class="k">className</span>=<span class="s">"
+  grid
+  grid-cols-1
+  sm:grid-cols-2
+  lg:grid-cols-4
+  gap-6
+"</span><span class="t">&gt;</span>
+  {heroes.map(h =&gt; (
+    <span class="t">&lt;HeroCard</span> <span class="k">key</span>={h.id} {...h} <span class="t">/&gt;</span>
+  ))}
+<span class="t">&lt;/div&gt;</span></div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label">Контейнер сторінки</div>
+        <div class="code-block"><span class="t">&lt;main</span> <span class="k">className</span>=<span class="s">"min-h-screen bg-gray-950"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="k">className</span>=<span class="s">"
+    max-w-7xl mx-auto
+    px-4 md:px-8
+    py-12
+  "</span><span class="t">&gt;</span>
+    <span class="c">{/* контент */}</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/main&gt;</span></div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label">Input</div>
+        <div class="code-block"><span class="t">&lt;input</span>
+  <span class="k">className</span>=<span class="s">"
+    w-full px-3 py-2 rounded-lg
+    bg-gray-800 border border-gray-700
+    text-white text-sm
+    placeholder:text-gray-500
+    focus:outline-none focus:ring-2
+    focus:ring-blue-500 focus:border-transparent
+    transition-all duration-200
+  "</span>
+  <span class="k">placeholder</span>=<span class="s">"Пошук героя..."</span>
+<span class="t">/&gt;</span></div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label">Badge / тег</div>
+        <div class="code-block"><span class="t">&lt;span</span> <span class="k">className</span>=<span class="s">"
+  inline-flex items-center
+  px-2 py-0.5
+  rounded-full text-xs font-medium
+  bg-blue-500/10 text-blue-400
+  border border-blue-500/20
+"</span><span class="t">&gt;</span>
+  Strength
+<span class="t">&lt;/span&gt;</span></div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label">Group hover (hover карточки → показати кнопку)</div>
+        <div class="code-block"><span class="t">&lt;div</span> <span class="k">className</span>=<span class="s">"group relative"</span><span class="t">&gt;</span>
+  <span class="t">&lt;img</span> <span class="k">className</span>=<span class="s">"w-full h-48 object-cover"</span> <span class="t">/&gt;</span>
+
+  <span class="c">{/* кнопка прихована, з'являється при hover */}</span>
+  <span class="t">&lt;button</span> <span class="k">className</span>=<span class="s">"
+    absolute inset-0 flex items-center
+    justify-center bg-black/60
+    opacity-0 group-hover:opacity-100
+    transition-opacity duration-200
+  "</span><span class="t">&gt;</span>
+    Дивитись
+  <span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ SCALE ═══════════════════════ -->
+  <div id="scale" class="section">
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Шкала відступів (1 одиниця = 4px)</div>
+        <div class="scale-row"><span class="scale-label">0</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:0%"></div></div><span class="scale-px">0px</span></div>
+        <div class="scale-row"><span class="scale-label">1</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:2%"></div></div><span class="scale-px">4px</span></div>
+        <div class="scale-row"><span class="scale-label">2</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:4%"></div></div><span class="scale-px">8px</span></div>
+        <div class="scale-row"><span class="scale-label">3</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:6%"></div></div><span class="scale-px">12px</span></div>
+        <div class="scale-row"><span class="scale-label">4</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:8%"></div></div><span class="scale-px">16px</span></div>
+        <div class="scale-row"><span class="scale-label">5</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:10%"></div></div><span class="scale-px">20px</span></div>
+        <div class="scale-row"><span class="scale-label">6</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:12%"></div></div><span class="scale-px">24px</span></div>
+        <div class="scale-row"><span class="scale-label">8</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:16%"></div></div><span class="scale-px">32px</span></div>
+        <div class="scale-row"><span class="scale-label">10</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:20%"></div></div><span class="scale-px">40px</span></div>
+        <div class="scale-row"><span class="scale-label">12</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:24%"></div></div><span class="scale-px">48px</span></div>
+        <div class="scale-row"><span class="scale-label">16</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:32%"></div></div><span class="scale-px">64px</span></div>
+        <div class="scale-row"><span class="scale-label">20</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:40%"></div></div><span class="scale-px">80px</span></div>
+        <div class="scale-row"><span class="scale-label">24</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:48%"></div></div><span class="scale-px">96px</span></div>
+        <div class="scale-row"><span class="scale-label">32</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:64%"></div></div><span class="scale-px">128px</span></div>
+        <div class="scale-row"><span class="scale-label">40</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:80%"></div></div><span class="scale-px">160px</span></div>
+        <div class="scale-row"><span class="scale-label">48</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:96%"></div></div><span class="scale-px">192px</span></div>
+        <div class="scale-row"><span class="scale-label">64</span><div class="scale-bar-wrap"><div class="scale-bar" style="width:100%"></div></div><span class="scale-px">256px</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Шкала шрифтів</div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding:4px 0">
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-xs</span><span style="font-size:12px;color:var(--text)">Dota 2 — 12px</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-sm</span><span style="font-size:14px;color:var(--text)">Dota 2 — 14px</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-base</span><span style="font-size:16px;color:var(--text)">Dota 2 — 16px</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-lg</span><span style="font-size:18px;color:var(--text)">Dota 2 — 18px</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-xl</span><span style="font-size:20px;color:var(--text)">Dota 2 — 20px</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-2xl</span><span style="font-size:24px;color:var(--text)">Dota 2 — 24px</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-3xl</span><span style="font-size:30px;color:var(--text)">Dota 2 — 30px</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-4xl</span><span style="font-size:36px;color:var(--text)">Dota 2 — 36px</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="cls" style="width:80px;flex-shrink:0">text-5xl</span><span style="font-size:48px;color:var(--text)">Dota — 48px</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Arbitrary values — коли шкала не підходить</div>
+        <div class="row"><span class="cls">w-[340px]</span><span class="val">width: 340px</span></div>
+        <div class="row"><span class="cls">h-[72px]</span><span class="val">height: 72px</span></div>
+        <div class="row"><span class="cls">text-[13px]</span><span class="val">font-size: 13px</span></div>
+        <div class="row"><span class="cls">bg-[#C8522A]</span><span class="val">background: #C8522A</span></div>
+        <div class="row"><span class="cls">top-[110px]</span><span class="val">top: 110px</span></div>
+        <div class="row"><span class="cls">grid-cols-[1fr_2fr]</span><span class="val">нерівні колонки</span></div>
+        <div class="row"><span class="cls">bg-[url('/bg.jpg')]</span><span class="val">background-image</span></div>
+        <div class="note" style="margin-top:12px">Квадратні дужки <b>[]</b> дозволяють використати будь-яке значення. Зручно для точного відтворення Figma-макету.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /shell -->
+
+<script>
+function go(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  event.currentTarget.classList.add('on');
+  window.scrollTo({ top: 56, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

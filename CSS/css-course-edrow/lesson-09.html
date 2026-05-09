@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 09 · CSS Grid</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav">
+  <a class="cnav-brand" href="index.html">CSS · Ed Row</a>
+  <div class="cnav-links">
+    <a class="cnav-link" href="index.html">Огляд</a>
+    <a class="cnav-link" href="lesson-01.html">01</a><a class="cnav-link" href="lesson-02.html">02</a>
+    <a class="cnav-link" href="lesson-03.html">03</a><a class="cnav-link" href="lesson-04.html">04</a>
+    <a class="cnav-link" href="lesson-05.html">05</a><a class="cnav-link" href="lesson-06.html">06</a>
+    <a class="cnav-link" href="lesson-07.html">07</a><a class="cnav-link" href="lesson-08.html">08</a>
+    <a class="cnav-link active" href="lesson-09.html">09</a>
+    <a class="cnav-link" href="lesson-10.html">10</a>
+  </div>
+</nav>
+<div class="lesson-hero">
+  <div class="lnum">Лекція 09 · Проєкт 2 — Новинний сайт</div>
+  <h1><b>CSS Grid</b><br><i>Двовимірний layout</i></h1>
+  <p class="lead">display: grid, grid-template-columns, repeat, auto-fit, minmax, fr, grid-column span, grid-template-areas. Адаптивна сітка без media queries.</p>
+</div>
+<div class="w">
+
+<section class="section">
+  <div class="sec-label">01 — Основи Grid</div>
+  <h2>grid-template-columns — визначаємо колонки</h2>
+  <p class="lead-text">Ed Row: <strong>"Grid is a much more useful way to do two-dimensional layouts, especially for complex layouts."</strong></p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Базовий Grid синтаксис</div>
+    <pre>
+<span class="cs">.latest__list</span> {
+  <span class="cp">display</span>: <span class="cv">grid</span>;
+
+  <span class="cm">/* 3 рівні колонки через repeat */</span>
+  <span class="cp">grid-template-columns</span>: <span class="cf">repeat</span>(<span class="cn">3</span>, <span class="cn">1fr</span>);
+  <span class="cm">/*                       ↑     ↑   ↑
+                    repeat 3  рівні
+                    разів   колонки  */</span>
+
+  <span class="cp">gap</span>: <span class="cn">2rem</span>;
+}
+
+<span class="cm">/* fr = fractional unit (частка вільного простору) */</span>
+<span class="cm">/* 1fr 1fr 1fr = кожна по 33.3%                   */</span>
+<span class="cm">/* 2fr 1fr     = 66% і 33%                         */</span>
+<span class="cm">/* 280px 1fr   = 280px і решта                     */</span>
+
+<span class="cm">/* Hot Grid: 4 колонки × 2 рядки */</span>
+<span class="cs">.hot-grid</span> {
+  <span class="cp">display</span>: <span class="cv">grid</span>;
+  <span class="cp">grid-template-columns</span>: <span class="cf">repeat</span>(<span class="cn">4</span>, <span class="cn">1fr</span>);
+  <span class="cp">grid-template-rows</span>: <span class="cf">repeat</span>(<span class="cn">2</span>, <span class="cn">1fr</span>);
+  <span class="cp">gap</span>: <span class="cn">1rem</span>;
+  <span class="cp">height</span>: <span class="cn">600px</span>;
+}</span></pre>
+
+    <div class="grid-vis" style="grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
+      <div class="grid-cell">1fr</div><div class="grid-cell">1fr</div><div class="grid-cell">1fr</div>
+      <div class="grid-cell">4</div><div class="grid-cell">5</div><div class="grid-cell">6</div>
+    </div>
+    <div style="font-size:11px;font-family:var(--mono);color:var(--t3);margin-top:5px">repeat(3, 1fr)</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">02 — auto-fit і minmax</div>
+  <h2>Адаптивна сітка БЕЗ media queries</h2>
+  <p class="lead-text">
+    Ed Row: <strong>"This property is exactly why I recommend Grid — it makes responsive design a lot easier."</strong> Один рядок замість 5 media queries.
+  </p>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">repeat(auto-fit, minmax()) — магічний рядок</div>
+    <pre>
+<span class="cs">.latest__list</span> {
+  <span class="cp">display</span>: <span class="cv">grid</span>;
+
+  <span class="cm">/* auto-fit: браузер сам визначає кількість колонок */</span>
+  <span class="cm">/* minmax(200px, 1fr): мінімум 200px, максимум 1fr  */</span>
+  <span class="cp">grid-template-columns</span>:
+    <span class="cf">repeat</span>(<span class="cv">auto-fit</span>, <span class="cf">minmax</span>(<span class="cn">200px</span>, <span class="cn">1fr</span>));
+
+  <span class="cp">gap</span>: <span class="cn">2rem</span>;
+}
+
+<span class="cm">/* Як це працює:
+   При ширині 1200px → 6 колонок по 200px
+   При ширині 800px  → 4 колонки
+   При ширині 400px  → 2 колонки
+   Responsive без жодного @media query! ✅ */</span>
+
+<span class="cm">/* auto-fit  — колонки розтягуються щоб заповнити */</span>
+<span class="cm">/* auto-fill — залишає порожні місця               */</span>
+<span class="cm">/* Ed Row рекомендує auto-fit                      */</span></pre>
+
+    <div style="margin-top:14px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="demo-btn ghost" onclick="setGC('repeat(2,1fr)')">2 cols</button>
+        <button class="demo-btn ghost" onclick="setGC('repeat(3,1fr)')">3 cols</button>
+        <button class="demo-btn ghost" onclick="setGC('repeat(4,1fr)')">4 cols</button>
+        <button class="demo-btn" onclick="setGC('repeat(auto-fit,minmax(120px,1fr))')">auto-fit ✨</button>
+      </div>
+      <div id="grid-demo" class="grid-vis" style="grid-template-columns:repeat(3,1fr);gap:8px;transition:all .3s">
+        <div class="grid-cell">Новина 1</div><div class="grid-cell">Новина 2</div>
+        <div class="grid-cell">Новина 3</div><div class="grid-cell">Новина 4</div>
+        <div class="grid-cell">Новина 5</div><div class="grid-cell">Новина 6</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--t3);margin-top:5px">grid-template-columns: <span id="gc-val" style="color:var(--acc2)">repeat(3,1fr)</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">03 — grid-column span</div>
+  <h2>Елемент займає кілька комірок</h2>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">Hot Grid — 4 колонки, 2 рядки</div>
+    <pre>
+<span class="cs">.hot-grid</span> {
+  <span class="cp">display</span>: <span class="cv">grid</span>;
+  <span class="cp">grid-template-columns</span>: <span class="cf">repeat</span>(<span class="cn">4</span>, <span class="cn">1fr</span>);
+  <span class="cp">grid-template-rows</span>: <span class="cf">repeat</span>(<span class="cn">2</span>, <span class="cn">1fr</span>);
+  <span class="cp">gap</span>: <span class="cn">1rem</span>;
+  <span class="cp">height</span>: <span class="cn">600px</span>;
+}
+
+<span class="cm">/* Перший — займає 2 колонки і 2 рядки */</span>
+<span class="cs">.hot-grid-1</span> {
+  <span class="cp">grid-column</span>: <span class="cv">span 2</span>;  <span class="cm">/* або: 1 / 3 */</span>
+  <span class="cp">grid-row</span>: <span class="cv">span 2</span>;
+}
+
+<span class="cm">/* Другий і третій — стандартна 1×1 комірка */</span>
+<span class="cs">.hot-grid-2, .hot-grid-3</span> {
+  <span class="cp">grid-column</span>: <span class="cv">span 1</span>;
+  <span class="cp">grid-row</span>: <span class="cv">span 1</span>;
+}
+
+<span class="cm">/* Четвертий — 2 колонки, 1 рядок */</span>
+<span class="cs">.hot-grid-4</span> {
+  <span class="cp">grid-column</span>: <span class="cv">span 2</span>;
+}</span>
+
+<span class="cm">/* span 2 = займає 2 юніти від поточної позиції  */</span>
+<span class="cm">/* 1 / 3  = від лінії 1 до лінії 3 (= 2 колонки) */</span></pre>
+
+    <div class="grid-vis" style="grid-template-columns:repeat(4,1fr);grid-template-rows:80px 80px;gap:6px;margin-top:14px">
+      <div class="grid-cell" style="grid-column:span 2;grid-row:span 2;background:rgba(232,184,75,.15);border-color:rgba(232,184,75,.4);color:var(--acc);font-size:13px">hot-grid-1<br>span 2×2</div>
+      <div class="grid-cell" style="font-size:11px">hot-grid-2</div>
+      <div class="grid-cell" style="font-size:11px">hot-grid-3</div>
+      <div class="grid-cell" style="grid-column:span 2;background:rgba(110,231,183,.12);border-color:rgba(110,231,183,.3);color:var(--acc2);font-size:11px">hot-grid-4 · span 2</div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-title" style="color:var(--acc)">grid-template-areas — іменовані зони</div>
+    <pre>
+<span class="cm">/* Для дуже складних layouts — іменовані зони */</span>
+<span class="cs">.gallery-grid</span> {
+  <span class="cp">display</span>: <span class="cv">grid</span>;
+  <span class="cp">grid-template-columns</span>: <span class="cf">repeat</span>(<span class="cn">5</span>, <span class="cn">1fr</span>);
+  <span class="cp">grid-template-rows</span>: <span class="cf">repeat</span>(<span class="cn">5</span>, <span class="cn">150px</span>);
+  <span class="cm">/* Для висоти — абсолютні px! Ed Row:   </span>
+<span class="cm">     "For height use absolute units."   */</span>
+
+  <span class="cm">/* Візуальна карта layout прямо в CSS! */</span>
+  <span class="cp">grid-template-areas</span>:
+    <span class="cstr">"a a b c d"</span>
+    <span class="cstr">"a a e e d"</span>
+    <span class="cstr">"f g e e h"</span>
+    <span class="cstr">"f g i j h"</span>
+    <span class="cstr">"k k l m n"</span>;
+}
+
+<span class="cm">/* Кожен елемент отримує ім'я зони */</span>
+<span class="cs">.gallery-item-a</span> { <span class="cp">grid-area</span>: <span class="cv">a</span>; }
+<span class="cs">.gallery-item-b</span> { <span class="cp">grid-area</span>: <span class="cv">b</span>; }
+<span class="cm">/* ... і так далі */</span>
+
+<span class="cs">.gallery-item img</span> {
+  <span class="cp">width</span>: <span class="cn">100%</span>; <span class="cp">height</span>: <span class="cn">100%</span>;
+  <span class="cp">object-fit</span>: <span class="cv">cover</span>;
+}</pre>
+
+    <div class="grid-vis" style="grid-template-columns:repeat(4,1fr);grid-template-rows:60px 60px 60px;gap:4px;grid-template-areas:'a a b c' 'a a d c' 'e e e f';margin-top:14px">
+      <div class="grid-cell" style="grid-area:a;background:rgba(232,184,75,.15);border-color:rgba(232,184,75,.3);color:var(--acc)">a</div>
+      <div class="grid-cell" style="grid-area:b;background:rgba(110,231,183,.12);border-color:rgba(110,231,183,.25);color:var(--acc2)">b</div>
+      <div class="grid-cell" style="grid-area:c;background:rgba(147,197,253,.12);border-color:rgba(147,197,253,.25);color:var(--acc3)">c</div>
+      <div class="grid-cell" style="grid-area:d;background:rgba(196,181,253,.12);border-color:rgba(196,181,253,.25);color:var(--acc5)">d</div>
+      <div class="grid-cell" style="grid-area:e;background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.25);color:var(--acc4)">e</div>
+      <div class="grid-cell" style="grid-area:f;background:rgba(253,186,116,.12);border-color:rgba(253,186,116,.25);color:var(--acc6)">f</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--t3);margin-top:6px">"a a b c" / "a a d c" / "e e e f" — читабельний layout прямо в CSS</div>
+
+    <div class="box box-gold" style="margin-top:12px">
+      <strong>Чому template-areas — кращий підхід для складних layouts</strong>
+      Ed Row: "This makes it easy to come back to. You want to always take into consideration that there is an issue later on to maintain — and this is a huge issue especially when it comes to AI code."
+    </div>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-head">🎯 Завдання — Лекція 09</div>
+    <div class="ex-body">
+      <strong>1.</strong> Зроби .latest__list з repeat(auto-fit, minmax(280px, 1fr)) — звузь вікно і спостерігай адаптивність<br>
+      <strong>2.</strong> Зроби hot-grid: 4 колонки, 2 рядки, перший елемент span 2 по обох осях<br>
+      <strong>3.</strong> Спробуй grid-template-areas для простого layout: header, sidebar, main, footer<br>
+      <strong>4.</strong> Порівняй auto-fit і auto-fill при широкому вікні — відчуй різницю
+    </div>
+  </div>
+</section>
+
+</div>
+<div class="foot-nav">
+  <a href="lesson-08.html" class="foot-link">← 08 · Flex vs Grid</a>
+  <div class="foot-meta">Лекція 09 / 10 · CSS Grid</div>
+  <a href="lesson-10.html" class="foot-link">10 · Position + Responsive →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+function setGC(v){document.getElementById('grid-demo').style.gridTemplateColumns=v;document.getElementById('gc-val').textContent=v;}
+</script>
+</body>
+</html>

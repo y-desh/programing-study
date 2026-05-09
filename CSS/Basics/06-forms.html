@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 · Форми і Псевдокласи</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="prog"></div>
+<nav class="cnav"><a class="cnav-logo" href="index.html">CSS · EdRow</a><div class="cnav-links"><a class="cnav-link" href="index.html">Огляд</a><a class="cnav-link" href="01-selectors.html">01</a><a class="cnav-link" href="02-fonts.html">02</a><a class="cnav-link" href="03-colors.html">03</a><a class="cnav-link" href="04-box-model.html">04</a><a class="cnav-link" href="05-flexbox.html">05</a><a class="cnav-link cur" href="06-forms.html">06</a><a class="cnav-link" href="07-images.html">07</a><a class="cnav-link" href="08-grid.html">08</a><a class="cnav-link" href="09-positioning.html">09</a><a class="cnav-link" href="10-responsive.html">10</a></div></nav>
+<div class="lesson-hero">
+  <div class="lh-num">Лекція 06 · 06 · App 1 · Form Section</div>
+  <h1>Форми <em>:hover · :focus · transition</em></h1>
+  <p class="ldesc">input, select, label, button. Псевдокласи :hover і :focus. border-radius. Комбіновані селектори. Cursor pointer. Transition для smooth ефектів.</p>
+</div>
+<div class="w">
+
+<section class="sec">
+<div class="sec-label">01 — Форми і HTML елементи</div>
+<h2>input, select, label, button</h2>
+<p class="intro">Форми — постійна частина будь-якого сайту. CSS для форм має особливості: треба скидати браузерні дефолти і додавати власні стилі.</p>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">HTML структура форми</div>
+<pre class="code">
+<span class="ht">&lt;form</span> <span class="ha">class</span>=<span class="hv">"element__form"</span><span class="ht">&gt;</span>
+  <span class="cm">&lt;!-- label пов'язаний з input через for/id --&gt;</span>
+  <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"element__form-group"</span><span class="ht">&gt;</span>
+    <span class="ht">&lt;label</span> <span class="ha">for</span>=<span class="hv">"username"</span><span class="ht">&gt;</span>Ім'я<span class="ht">&lt;/label&gt;</span>
+    <span class="ht">&lt;input</span> <span class="ha">type</span>=<span class="hv">"text"</span>
+           <span class="ha">id</span>=<span class="hv">"username"</span>
+           <span class="ha">placeholder</span>=<span class="hv">"Введіть ім'я"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;/div&gt;</span>
+
+  <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"element__form-group"</span><span class="ht">&gt;</span>
+    <span class="ht">&lt;label</span> <span class="ha">for</span>=<span class="hv">"course"</span><span class="ht">&gt;</span>Курс<span class="ht">&lt;/label&gt;</span>
+    <span class="ht">&lt;select</span> <span class="ha">id</span>=<span class="hv">"course"</span><span class="ht">&gt;</span>
+      <span class="ht">&lt;option&gt;</span>Виберіть курс<span class="ht">&lt;/option&gt;</span>
+      <span class="ht">&lt;option</span> <span class="ha">value</span>=<span class="hv">"html"</span><span class="ht">&gt;</span>HTML & CSS<span class="ht">&lt;/option&gt;</span>
+      <span class="ht">&lt;option</span> <span class="ha">value</span>=<span class="hv">"js"</span><span class="ht">&gt;</span>JavaScript<span class="ht">&lt;/option&gt;</span>
+    <span class="ht">&lt;/select&gt;</span>
+  <span class="ht">&lt;/div&gt;</span>
+
+  <span class="ht">&lt;button</span> <span class="ha">type</span>=<span class="hv">"submit"</span> <span class="ha">class</span>=<span class="hv">"element__button"</span><span class="ht">&gt;</span>
+    Відправити
+  <span class="ht">&lt;/button&gt;</span>
+<span class="ht">&lt;/form&gt;</span></pre>
+</div>
+</section>
+
+<section class="sec">
+<div class="sec-label">02 — Псевдокласи і transition</div>
+<h2>:hover · :focus · transition</h2>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Стилі input і select</div>
+<pre class="code">
+<span class="cm">/* Комбінований селектор: form-group label */</span>
+<span class="cs">.element__form-group label</span> {
+  <span class="cp">font-weight</span>: <span class="cn">500</span>;
+}
+
+<span class="cm">/* Кома — застосувати до ОБОХ */</span>
+<span class="cs">.element__form-group input,
+.element__form-group select</span> {
+  <span class="cp">padding</span>: <span class="cn">12px</span>;
+  <span class="cp">border</span>: <span class="cn">1px</span> <span class="cv">solid #e0e0e0</span>;
+  <span class="cp">border-radius</span>: <span class="cn">4px</span>;
+  <span class="cp">font-family</span>: <span class="cv">inherit</span>;  <span class="cm">/* успадкувати від body! */</span>
+}
+
+<span class="cm">/* :focus — коли клікнули (отримало фокус) */</span>
+<span class="cs">.element__form-group input:focus,
+.element__form-group select:focus</span> {
+  <span class="cp">outline</span>: <span class="cv">none</span>;               <span class="cm">/* прибираємо дефолтний */</span>
+  <span class="cp">border-color</span>: <span class="cv">#34c759</span>;        <span class="cm">/* зелений border */</span>
+  <span class="cp">box-shadow</span>: <span class="cv">0 0 0 3px rgba(52,199,89,0.2)</span>;
+}
+
+<span class="cs">.element__form-group select</span> {
+  <span class="cp">cursor</span>: <span class="cv">pointer</span>;   <span class="cm">/* рука при наведенні */</span>
+  <span class="cp">background-color</span>: <span class="cv">white</span>;
+}</pre>
+</div>
+
+<div class="card r">
+<div class="ct" style="color:var(--acc)">Кнопка з hover і transition</div>
+<pre class="code">
+<span class="cs">.element__button</span> {
+  <span class="cp">background-color</span>: <span class="cv">#34c759</span>;
+  <span class="cp">color</span>: <span class="cv">white</span>;
+  <span class="cp">padding</span>: <span class="cn">12px 24px</span>;
+  <span class="cp">border</span>: <span class="cv">none</span>;         <span class="cm">/* скинути дефолт */</span>
+  <span class="cp">border-radius</span>: <span class="cn">4px</span>;
+  <span class="cp">cursor</span>: <span class="cv">pointer</span>;
+  <span class="cp">font-weight</span>: <span class="cn">500</span>;
+
+  <span class="cm">/* transition — плавна зміна властивості */</span>
+  <span class="cp">transition</span>: <span class="cv">background-color 0.2s</span>;
+  <span class="cm">/* 0.2s = 200 мілісекунд — ледь помітно */</span>
+  <span class="cm">/* 1s = 1 секунда — дуже повільно */</span>
+}
+
+<span class="cs">.element__button:hover</span> {
+  <span class="cp">background-color</span>: <span class="cv">#2eb352</span>;  <span class="cm">/* трохи темніший */</span>
+  <span class="cm">/* transition плавно анімує цю зміну */</span>
+}
+</pre>
+
+<div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+  <button style="background:#34c759;color:white;padding:12px 24px;border:none;border-radius:4px;cursor:pointer;font-weight:500;transition:background 0.2s;font-size:14px" onmouseover="this.style.background='#2eb352'" onmouseout="this.style.background='#34c759'">Hover на мене</button>
+  <button style="background:transparent;color:#34c759;padding:12px 24px;border:2px solid #34c759;border-radius:4px;cursor:pointer;font-weight:500;transition:all 0.2s;font-size:14px" onmouseover="this.style.background='#34c759';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='#34c759'">Інверсія</button>
+</div>
+</div>
+
+<div class="tip"><strong>font-family: inherit на input</strong> — важливо! Браузери за замовчуванням не успадковують шрифт для form елементів. Завжди додавай <code style="font-family:var(--mono)">font-family: inherit</code> до input, select і textarea.</div>
+
+<div class="exercise r">
+<div class="ex-title">🎯 Практика</div>
+<div class="ex-task">
+  1. Зроби форму: input для email, select з варіантами, кнопка submit<br>
+  2. Стилізуй input: padding 12px, border 1px solid #ddd, border-radius 4px<br>
+  3. Додай :focus стилі — інший border-color і легкий box-shadow<br>
+  4. Кнопці додай transition і :hover ефект із зміною кольору<br>
+  5. Перевір cursor: pointer на кнопці і select
+</div>
+</div>
+</section>
+
+</div>
+<div class="lesson-footer">
+  <a href="05-flexbox.html" class="fp">← 05 · Flexbox</a>
+  <div class="fc">Лекція 06 / 10 · Форми і Псевдокласи</div>
+  <a href="07-images.html" class="fn">07 · Зображення →</a>
+</div>
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

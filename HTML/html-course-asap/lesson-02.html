@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 02 · HTML Tag Syntax & Page Structure</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">HTML · ASAP Frontend</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Огляд</a>
+    <a class="nav-link" href="lesson-01.html">01</a>
+    <a class="nav-link on" href="lesson-02.html">02</a>
+    <a class="nav-link" href="lesson-03.html">03</a><a class="nav-link" href="lesson-04.html">04</a>
+    <a class="nav-link" href="lesson-05.html">05</a><a class="nav-link" href="lesson-06.html">06</a>
+    <a class="nav-link" href="lesson-07.html">07</a><a class="nav-link" href="lesson-08.html">08</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="lesson-badge">Лекція 02 · ASAP Frontend HTML Crash Course</div>
+  <h1>HTML Tag Syntax<br><b>&amp; Page Structure</b></h1>
+  <p>Як влаштований HTML тег. Start/End теги, самозакриваючі теги. Структура сторінки: DOCTYPE, html, head, body. Різниця між тегом і елементом.</p>
+</div>
+
+<div class="w">
+
+<!-- ═══ 01 ТЕГИ ═══ -->
+<section class="section">
+  <div class="sec-label">01 — HTML Теги</div>
+  <h2>Анатомія HTML тегу</h2>
+  <p class="lead">
+    ASAP Frontend: <strong>"Everything in HTML is made up of tags. Different kinds of tags allow us to choose different kinds of content."</strong> Тег — основна одиниця HTML.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Структура тегу</div>
+    <pre>
+<span class="c">&lt;!-- Кутові дужки + назва тегу = тег --&gt;</span>
+<span class="t">&lt;h1&gt;</span><span class="tx">Текст заголовку</span><span class="t">&lt;/h1&gt;</span>
+<span class="c"> ↑              ↑             ↑
+Start tag    Вміст        End tag
+(відкриває)  (content)   (закриває)
+                          / = кінець</span>
+
+<span class="t">&lt;p&gt;</span><span class="tx">Параграф тексту</span><span class="t">&lt;/p&gt;</span>
+<span class="t">&lt;button&gt;</span><span class="tx">Натисни мене</span><span class="t">&lt;/button&gt;</span>
+
+<span class="c">&lt;!-- Теги зазвичай йдуть ПАРАМИ:       --&gt;
+&lt;!-- Start tag ... content ... End tag --&gt;
+&lt;!-- End tag = те саме + forward slash --&gt;</span></pre>
+
+    <div class="box amber">
+      <strong>Ключові правила тегів</strong>
+      1. Кутові дужки &lt; &gt; навколо назви — обов'язково<br>
+      2. Теги зазвичай парні: start і end<br>
+      3. End tag = як start tag, але з / перед назвою<br>
+      4. Вміст між тегами — те що бачить користувач
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Тег vs Елемент — різниця</div>
+    <pre>
+<span class="c">&lt;!-- ТЕГ — це одна конструкція: --&gt;</span>
+<span class="t">&lt;h1&gt;</span>   <span class="tx">← це start TAG</span>
+<span class="t">&lt;/h1&gt;</span>  <span class="tx">← це end TAG</span>
+
+<span class="c">&lt;!-- ЕЛЕМЕНТ — це start tag + вміст + end tag разом: --&gt;</span>
+<span class="t">&lt;h1&gt;</span><span class="tx">Hello World</span><span class="t">&lt;/h1&gt;</span>
+<span class="c"> ↑                    ↑
+ ←── увесь цей рядок = HTML ELEMENT ──→</span></pre>
+    <div class="box blue">
+      <strong>Простіше запам'ятати так:</strong>
+      Tag — кутовий дужкастий шматок (&lt;h1&gt;). Element — це тег + весь його вміст. В звичайній розмові їх часто плутають, але офіційно це різні речі.
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Самозакриваючі теги (Self-closing)</div>
+    <pre>
+<span class="c">&lt;!-- Деякі теги НЕ мають end tag --&gt;
+&lt;!-- Вони самозакриваються.       --&gt;</span>
+
+<span class="c">&lt;!-- Парний тег (звичайний): --&gt;</span>
+<span class="t">&lt;p&gt;</span><span class="tx">Текст</span><span class="t">&lt;/p&gt;</span>
+
+<span class="c">&lt;!-- Самозакриваючий тег: --&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"text"</span> <span class="t">/&gt;</span>   <span class="tx">← / перед &gt; — best practice</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"photo.jpg"</span> <span class="a">alt</span>=<span class="v">"фото"</span> <span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- Ще самозакриваючі теги: --&gt;</span>
+<span class="t">&lt;br /&gt;</span>    <span class="tx">← перенос рядка</span>
+<span class="t">&lt;hr /&gt;</span>    <span class="tx">← горизонтальна лінія</span>
+<span class="t">&lt;meta /&gt;</span>  <span class="tx">← метадані</span>
+<span class="t">&lt;link /&gt;</span>  <span class="tx">← підключення CSS</span></pre>
+    <div class="box green">
+      <strong>Чому / перед закриваючою &gt;?</strong>
+      ASAP Frontend: "This helps us keep our code more consistent and clear. It makes very clear that this is not a start tag we forgot to close — it's a self-closing tag."
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 02 АТРИБУТИ ═══ -->
+<section class="section">
+  <div class="sec-label">02 — Атрибути</div>
+  <h2>Attributes — додаткова інформація про елемент</h2>
+  <p class="lead">
+    Атрибути — це спосіб дати елементу додаткову інформацію. Вони завжди в start tag і мають формат <strong>name="value"</strong>.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Синтаксис атрибутів</div>
+    <pre>
+<span class="c">&lt;!-- Атрибут: ім'я="значення" --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://google.com"</span><span class="t">&gt;</span><span class="tx">Google</span><span class="t">&lt;/a&gt;</span>
+<span class="c">   ↑атрибут       ↑значення</span>
+
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"photo.jpg"</span> <span class="a">alt</span>=<span class="v">"Моє фото"</span> <span class="t">/&gt;</span>
+<span class="c">      ↑1-й атр.         ↑2-й атрибут</span>
+<span class="c">      (де файл)         (опис для зрячих)</span>
+
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"email"</span> <span class="a">placeholder</span>=<span class="v">"Email..."</span> <span class="t">/&gt;</span>
+<span class="c">       ↑тип поля          ↑підказка всередині</span>
+
+<span class="c">&lt;!-- Кілька атрибутів — через пробіл --&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"https://asapfrontend.com"</span> <span class="a">target</span>=<span class="v">"_blank"</span><span class="t">&gt;</span>
+  <span class="tx">ASAP Frontend</span>
+<span class="t">&lt;/a&gt;</span></pre>
+  </div>
+</section>
+
+<!-- ═══ 03 СТРУКТУРА СТОРІНКИ ═══ -->
+<section class="section">
+  <div class="sec-label">03 — Структура сторінки</div>
+  <h2>DOCTYPE, html, head, body — кожен HTML документ</h2>
+  <p class="lead">
+    Кожна HTML сторінка має однакову базову структуру. Розберемо кожну частину детально.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Повна структура — з поясненнями</div>
+    <div class="code-file"><div class="dot" style="background:#f87171"></div>index.html</div>
+    <pre>
+<span class="t">&lt;!DOCTYPE html&gt;</span>
+<span class="c">&lt;!-- Каже браузеру: "це HTML5 документ".
+     Завжди перший рядок. Завжди. --&gt;</span>
+
+<span class="t">&lt;html</span> <span class="a">lang</span>=<span class="v">"uk"</span><span class="t">&gt;</span>
+<span class="c">&lt;!-- Кореневий елемент.
+     lang="uk" — мова сторінки (для SEO і reader'ів).
+     Все HTML знаходиться всередині нього. --&gt;</span>
+
+  <span class="t">&lt;head&gt;</span>
+  <span class="c">  &lt;!-- ГОЛОВА: метадані (невидима частина).
+       Тут не буде НІЧОГО видимого на сторінці!
+       Тут: підключення CSS, JS, налаштування. --&gt;</span>
+
+    <span class="t">&lt;meta</span> <span class="a">charset</span>=<span class="v">"UTF-8"</span> <span class="t">/&gt;</span>
+    <span class="c">    &lt;!-- Кодування символів. UTF-8 підтримує
+         всі символи включно з кирилицею. --&gt;</span>
+
+    <span class="t">&lt;meta</span> <span class="a">name</span>=<span class="v">"viewport"</span>
+          <span class="a">content</span>=<span class="v">"width=device-width, initial-scale=1.0"</span> <span class="t">/&gt;</span>
+    <span class="c">    &lt;!-- Мобільна адаптація. Завжди включай. --&gt;</span>
+
+    <span class="t">&lt;title&gt;</span><span class="tx">HTML Crash Course</span><span class="t">&lt;/title&gt;</span>
+    <span class="c">    &lt;!-- Заголовок вкладки в браузері.
+         Також використовується пошуковиками. --&gt;</span>
+
+  <span class="t">&lt;/head&gt;</span>
+
+  <span class="t">&lt;body&gt;</span>
+  <span class="c">  &lt;!-- ТІЛО: весь видимий вміст сторінки.
+       Текст, зображення, кнопки, форми —
+       все сюди. Тут ти будеш проводити 95% часу. --&gt;</span>
+
+    <span class="t">&lt;h1&gt;</span><span class="tx">Привіт, HTML!</span><span class="t">&lt;/h1&gt;</span>
+    <span class="t">&lt;p&gt;</span><span class="tx">Мій перший параграф.</span><span class="t">&lt;/p&gt;</span>
+
+  <span class="t">&lt;/body&gt;</span>
+
+<span class="t">&lt;/html&gt;</span></pre>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">head vs body — що куди йде</div>
+    <div class="two">
+      <div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--acc3);margin-bottom:10px">&lt;head&gt; — невидима частина</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8">
+          ✅ &lt;title&gt; — заголовок вкладки<br>
+          ✅ &lt;meta&gt; — кодування, viewport<br>
+          ✅ &lt;link&gt; — підключення CSS<br>
+          ✅ &lt;script&gt; — підключення JS<br>
+          ❌ Параграфи, заголовки, зображення
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--acc2);margin-bottom:10px">&lt;body&gt; — видима частина</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8">
+          ✅ Заголовки (h1–h6)<br>
+          ✅ Параграфи (p)<br>
+          ✅ Зображення (img)<br>
+          ✅ Посилання (a), кнопки (button)<br>
+          ✅ Форми, списки, div'и...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Змінюємо title — бачимо результат</div>
+    <div class="two" style="align-items:start">
+      <pre>
+<span class="c">&lt;!-- Зміни title --&gt;</span>
+<span class="t">&lt;title&gt;</span><span class="tx">Document</span><span class="t">&lt;/title&gt;</span>
+<span class="c">   ↓ Зміни на:</span>
+<span class="t">&lt;title&gt;</span><span class="tx">HTML Crash Course</span><span class="t">&lt;/title&gt;</span>
+
+<span class="c">&lt;!-- Збережи → бачиш у вкладці
+     браузера: "HTML Crash Course" --&gt;</span></pre>
+      <div>
+        <div style="background:#f5f5f3;border-radius:8px;overflow:hidden;border:1px solid var(--bd)">
+          <div style="background:#e5e5e3;padding:8px 14px;font-size:12px;color:#666;display:flex;align-items:center;gap:8px;font-family:system-ui">
+            <div style="display:flex;gap:5px"><div style="width:10px;height:10px;border-radius:50%;background:#f87171"></div><div style="width:10px;height:10px;border-radius:50%;background:#fbbf24"></div><div style="width:10px;height:10px;border-radius:50%;background:#34d399"></div></div>
+            <div style="background:white;border-radius:4px;padding:3px 10px;font-size:11px;color:#444">HTML Crash Course</div>
+          </div>
+          <div style="padding:16px;background:white;color:#111;font-family:system-ui;font-size:14px">
+            <h1 style="font-size:24px;margin-bottom:8px">Hello World</h1>
+            <p>I love ASAP Front End</p>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--t3);font-family:var(--mono);margin-top:6px">↑ title відображається у вкладці</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Коментарі в HTML</div>
+    <pre>
+<span class="c">&lt;!-- Це коментар. Браузер його не показує. --&gt;</span>
+
+<span class="c">&lt;!-- Ctrl+/ (Cmd+/) — ввімкнути/вимкнути коментар --&gt;</span>
+
+<span class="c">&lt;!-- Використовується для: --&gt;</span>
+<span class="c">&lt;!-- 1. Пояснення коду --&gt;</span>
+<span class="c">&lt;!-- 2. Тимчасове вимкнення коду --&gt;</span>
+<span class="c">&lt;!-- 3. Навігація по великому файлу --&gt;</span>
+
+<span class="t">&lt;h1&gt;</span><span class="tx">Заголовок</span><span class="t">&lt;/h1&gt;</span>
+<span class="c">&lt;!-- &lt;p&gt;Цей параграф вимкнений&lt;/p&gt; --&gt;</span>
+<span class="t">&lt;p&gt;</span><span class="tx">Цей параграф активний</span><span class="t">&lt;/p&gt;</span></pre>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-title">🎯 Завдання — Лекція 02</div>
+    <div class="ex-body">
+      <strong>1.</strong> В своєму index.html змінь &lt;title&gt; на "Мій HTML" → перевір у вкладці браузера<br>
+      <strong>2.</strong> В &lt;body&gt; напиши &lt;h1&gt;Hello World&lt;/h1&gt; і &lt;p&gt;Я вчу HTML&lt;/p&gt;<br>
+      <strong>3.</strong> Додай коментар перед h1: &lt;!-- Головний заголовок --&gt;<br>
+      <strong>4.</strong> Спробуй Ctrl+/ (Cmd+/) щоб закоментувати h1 → перевір що він зник зі сторінки<br>
+      <strong>5.</strong> Відкрий DevTools → Elements → знайди свій h1 і p<br>
+      <strong>6.</strong> Виклич Alt+Shift+F (Option+Shift+F) → подивись як Prettier форматує код
+    </div>
+    <div class="ex-hint">Підказка: &lt;!DOCTYPE html&gt; завжди першим рядком. Якщо забудеш — сторінка може відображатись неправильно.</div>
+  </div>
+</section>
+
+</div>
+
+<div class="foot">
+  <a href="lesson-01.html" class="foot-link">← 01 · Setup</a>
+  <div class="foot-info">Лекція 02 / 08</div>
+  <a href="lesson-03.html" class="foot-link">03 · Headings & Paragraphs →</a>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

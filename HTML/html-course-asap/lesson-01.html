@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 01 · Setup & What is HTML</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">HTML · ASAP Frontend</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Огляд</a>
+    <a class="nav-link on" href="lesson-01.html">01</a>
+    <a class="nav-link" href="lesson-02.html">02</a><a class="nav-link" href="lesson-03.html">03</a>
+    <a class="nav-link" href="lesson-04.html">04</a><a class="nav-link" href="lesson-05.html">05</a>
+    <a class="nav-link" href="lesson-06.html">06</a><a class="nav-link" href="lesson-07.html">07</a>
+    <a class="nav-link" href="lesson-08.html">08</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="lesson-badge">Лекція 01 · ASAP Frontend HTML Crash Course</div>
+  <h1>Setup<br><b>&amp; What is HTML</b></h1>
+  <p>VS Code, розширення, Live Server, Emmet. Що таке HTML — різниця між HTML, CSS і JavaScript. Навіщо вчити HTML першим.</p>
+</div>
+
+<div class="w">
+
+<!-- ═══ 01 ЩО ТАКЕ HTML ═══ -->
+<section class="section">
+  <div class="sec-label">01 — Що таке HTML</div>
+  <h2>HTML, CSS і JavaScript — різниця</h2>
+  <p class="lead">
+    Перш ніж писати код — треба зрозуміти навіщо він взагалі існує. ASAP Frontend пояснює просто і чітко через реальний приклад з їх сайту.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Три технології веб-розробки</div>
+    <div class="three">
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:20px">
+        <div style="font-family:var(--mono);font-size:24px;margin-bottom:12px">🏗️</div>
+        <div style="font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--acc)">HTML</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7">
+          <strong style="color:var(--t1)">Що є на сторінці</strong><br>
+          Markup Language — не програмна мова. Визначає вміст: текст, зображення, кнопки, форми. Вся видима структура.
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:20px">
+        <div style="font-family:var(--mono);font-size:24px;margin-bottom:12px">🎨</div>
+        <div style="font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--acc2)">CSS</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7">
+          <strong style="color:var(--t1)">Як виглядає</strong><br>
+          Стилі HTML елементів: кольори, шрифти, розміри, відступи, анімації. Без CSS — сайт виглядає як текстовий документ.
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:20px">
+        <div style="font-family:var(--mono);font-size:24px;margin-bottom:12px">⚡</div>
+        <div style="font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--acc3)">JavaScript</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7">
+          <strong style="color:var(--t1)">Логіка та правила</strong><br>
+          Програмна мова. Якщо користувач залогінений — показуємо відео. Якщо ні — показуємо popup. Інтерактивність.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Реальний приклад з ASAP Frontend</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.9;margin-bottom:16px">
+      Відкрий будь-який сайт → правий клік → <strong style="color:var(--t1)">Inspect</strong> → вкладка <strong style="color:var(--t1)">Elements</strong>. Весь код який ти бачиш — це HTML. Він визначає що є на сторінці.
+    </div>
+    <pre>
+<span class="c">&lt;!-- Це HTML. Він кажe ЩО є на сторінці --&gt;</span>
+<span class="t">&lt;img&gt;</span>   <span class="tx">← це зображення</span>
+<span class="t">&lt;button&gt;</span>Купити<span class="t">&lt;/button&gt;</span>   <span class="tx">← це кнопка</span>
+<span class="t">&lt;p&gt;</span>Текст статті<span class="t">&lt;/p&gt;</span>   <span class="tx">← це параграф</span>
+
+<span class="c">/* Це CSS. Він каже ЯК ВИГЛЯДАЄ */</span>
+<span class="a">button</span> { <span class="v">background: blue</span>; <span class="v">color: white</span>; }
+
+<span class="c">// Це JavaScript. Він каже ЩО ВІДБУВАЄТЬСЯ</span>
+<span class="a">if</span> (userLoggedIn) { showVideo() } <span class="a">else</span> { showPopup() }</pre>
+  </div>
+
+  <div class="quote r">
+    <p>«HTML is not a programming language. Instead, it's a markup language that we use to build web pages.»</p>
+    <cite>— ASAP FRONTEND</cite>
+  </div>
+</section>
+
+<!-- ═══ 02 SETUP ═══ -->
+<section class="section">
+  <div class="sec-label">02 — Setup</div>
+  <h2>VS Code і три розширення</h2>
+  <p class="lead">
+    ASAP Frontend використовує VS Code з трьома розширеннями. Встанови все це перед тим як починати — заощадить час.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Крок 1 · VS Code — редактор коду</div>
+    <div class="two" style="align-items:start">
+      <div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:14px">
+          Йди на <strong style="color:var(--t1)">code.visualstudio.com</strong> → завантаж для своєї ОС → встанови. VS Code — найпопулярніший редактор для веб-розробки, безкоштовний від Microsoft.
+        </div>
+        <div class="box amber">
+          <strong>Для macOS (твій випадок)</strong>
+          Скачай .dmg файл → перетягни VS Code в Applications → запусти.
+        </div>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:18px">
+        <div style="font-size:12px;color:var(--t3);font-family:var(--mono);margin-bottom:10px">Відкрити розширення:</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.8">
+          <strong style="color:var(--t1)">Mac:</strong> Cmd + Shift + X<br>
+          <strong style="color:var(--t1)">Win:</strong> Ctrl + Shift + X<br><br>
+          Або через іконку Extensions на лівій панелі.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc2)">Крок 2 · Три обов'язкових розширення</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:18px;display:flex;gap:16px;align-items:flex-start">
+        <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--acc);white-space:nowrap;flex-shrink:0">Prettier</div>
+        <div>
+          <div style="font-weight:600;margin-bottom:4px">Prettier — Code formatter</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.7">
+            Автоматично форматує код. Натиснув <strong style="color:var(--t1)">Alt+Shift+F</strong> (Mac: <strong style="color:var(--t1)">Option+Shift+F</strong>) — і код став акуратним. 46+ млн завантажень.
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:18px;display:flex;gap:16px;align-items:flex-start">
+        <div style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--acc2);white-space:nowrap;flex-shrink:0">Live Server</div>
+        <div>
+          <div style="font-weight:600;margin-bottom:4px">Live Server</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.7">
+            Запускає локальний сервер. Правий клік на HTML файлі → <strong style="color:var(--t1)">Open with Live Server</strong>. При збереженні — браузер автоматично оновлюється. 50+ млн завантажень.
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:18px;display:flex;gap:16px;align-items:flex-start">
+        <div style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--acc3);white-space:nowrap;flex-shrink:0">Emmet</div>
+        <div>
+          <div style="font-weight:600;margin-bottom:4px">Emmet (вбудований або Mithil Emmet)</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.7">
+            Скорочення для HTML. Напишіть <code style="font-family:var(--mono);color:var(--acc)">!</code> → Enter — і отримаєте повний HTML boilerplate. Або <code style="font-family:var(--mono);color:var(--acc)">div</code> → Enter — і відразу &lt;div&gt;&lt;/div&gt;.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 03 ПЕРШИЙ ФАЙЛ ═══ -->
+<section class="section">
+  <div class="sec-label">03 — Перший файл</div>
+  <h2>Створюємо index.html</h2>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Покрокова інструкція</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:30px;height:30px;border-radius:50%;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--acc);flex-shrink:0">1</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.75;padding-top:5px">Створи папку на робочому столі — назви <strong style="color:var(--t1)">html-crash-course</strong></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:30px;height:30px;border-radius:50%;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--acc);flex-shrink:0">2</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.75;padding-top:5px">Відкрий VS Code → перетягни папку всередину (або File → Open Folder)</div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:30px;height:30px;border-radius:50%;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--acc);flex-shrink:0">3</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.75;padding-top:5px">В Explorer (лівий бік) натисни іконку New File → назви <strong style="color:var(--t1)">index.html</strong></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:30px;height:30px;border-radius:50%;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--acc);flex-shrink:0">4</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.75;padding-top:5px">Введи <strong style="color:var(--t1)">!</strong> (знак оклику) → натисни <strong style="color:var(--t1)">Enter</strong> — Emmet генерує boilerplate</div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:30px;height:30px;border-radius:50%;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--acc2);flex-shrink:0">5</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.75;padding-top:5px">Правий клік на файлі → <strong style="color:var(--t1)">Open with Live Server</strong> → бачиш результат у браузері</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Emmet boilerplate — що виходить після !</div>
+    <div class="code-file"><div class="dot" style="background:#f87171"></div>index.html</div>
+    <pre>
+<span class="t">&lt;!DOCTYPE html&gt;</span>
+<span class="t">&lt;html</span> <span class="a">lang</span>=<span class="v">"en"</span><span class="t">&gt;</span>
+<span class="t">&lt;head&gt;</span>
+    <span class="t">&lt;meta</span> <span class="a">charset</span>=<span class="v">"UTF-8"</span><span class="t">&gt;</span>
+    <span class="t">&lt;meta</span> <span class="a">name</span>=<span class="v">"viewport"</span> <span class="a">content</span>=<span class="v">"width=device-width, initial-scale=1.0"</span><span class="t">&gt;</span>
+    <span class="t">&lt;title&gt;</span><span class="tx">Document</span><span class="t">&lt;/title&gt;</span>
+<span class="t">&lt;/head&gt;</span>
+<span class="t">&lt;body&gt;</span>
+
+<span class="c">    &lt;!-- Тут ти будеш писати HTML --&gt;</span>
+
+<span class="t">&lt;/body&gt;</span>
+<span class="t">&lt;/html&gt;</span></pre>
+    <div class="box amber" style="margin-top:12px">
+      <strong>Чому файл називається index.html?</strong>
+      index.html — це домашня сторінка сайту за замовчуванням. Коли браузер відкриває папку — він шукає саме index.html першим.
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Емет скорочення — корисно знати вже зараз</div>
+    <table class="tbl">
+      <tr><th>Введи</th><th>Результат</th><th>Опис</th></tr>
+      <tr><td class="tm">!</td><td class="tm">&lt;!DOCTYPE html&gt; + структура</td><td class="td">Повний HTML шаблон</td></tr>
+      <tr><td class="tm">h1</td><td class="tm">&lt;h1&gt;&lt;/h1&gt;</td><td class="td">Заголовок H1</td></tr>
+      <tr><td class="tm">p</td><td class="tm">&lt;p&gt;&lt;/p&gt;</td><td class="td">Параграф</td></tr>
+      <tr><td class="tm">a</td><td class="tm">&lt;a href=""&gt;&lt;/a&gt;</td><td class="td">Посилання</td></tr>
+      <tr><td class="tm">ul&gt;li*3</td><td class="tm">&lt;ul&gt; з 3 &lt;li&gt;</td><td class="td">Список з трьох пунктів</td></tr>
+      <tr><td class="tm">lorem20</td><td class="tm">20 слів тексту</td><td class="td">Placeholder текст</td></tr>
+    </table>
+    <div class="box blue" style="margin-top:12px">
+      <strong>Alt+Shift+F (Option+Shift+F на Mac)</strong>
+      Prettier форматує код. Використовуй після кожного великого блоку — код стає читабельнішим.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 04 DEVTOOLS ═══ -->
+<section class="section">
+  <div class="sec-label">04 — DevTools</div>
+  <h2>F12 — твій найкращий друг</h2>
+  <p class="lead">
+    ASAP Frontend постійно використовує DevTools щоб показувати як браузер "бачить" HTML. Навчись відкривати це з першого дня.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Як відкрити і що там є</div>
+    <div class="two" style="align-items:start">
+      <div>
+        <pre>
+<span class="c">/* Відкрити DevTools: */</span>
+F12                    <span class="tx">← будь-який браузер</span>
+Ctrl+Shift+I           <span class="tx">← Windows/Linux</span>
+Cmd+Option+I           <span class="tx">← macOS</span>
+
+<span class="c">/* Або: */</span>
+<span class="tx">Правий клік → Inspect</span>
+
+<span class="c">/* Вкладка Elements: */</span>
+<span class="tx">← тут видно HTML дерево</span>
+<span class="tx">← можна клікати на елементи</span>
+<span class="tx">← можна редагувати прямо тут!</span>
+
+<span class="c">/* Редагування в DevTools: */</span>
+<span class="tx">→ подвійний клік на тексті</span>
+<span class="tx">→ зміни видно одразу</span>
+<span class="tx">→ Refresh — повертає оригінал</span></pre>
+      </div>
+      <div>
+        <div class="box green">
+          <strong>Навіщо редагувати в DevTools?</strong>
+          Тестуєш ідеї без зміни файлу. Якщо щось поламалось — просто оновив сторінку і все повернулось. Зміни в DevTools НЕ зберігаються.
+        </div>
+        <div class="box amber" style="margin-top:10px">
+          <strong>Hover → побачиш розміри</strong>
+          Наведи курсор на елемент в DevTools → браузер підсвітить його на сторінці і покаже розміри, padding, margin.
+        </div>
+        <div class="box blue" style="margin-top:10px">
+          <strong>Elements panel щодня</strong>
+          Відкривай DevTools коли щось виглядає не так. Це як рентген для твого HTML.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-title">🎯 Завдання — Лекція 01</div>
+    <div class="ex-body">
+      <strong>1.</strong> Встанови VS Code, Prettier, Live Server і Emmet<br>
+      <strong>2.</strong> Створи папку <code style="font-family:var(--mono)">html-crash-course</code> та відкрий у VS Code<br>
+      <strong>3.</strong> Створи <code style="font-family:var(--mono)">index.html</code> → введи <code style="font-family:var(--mono)">!</code> → Enter<br>
+      <strong>4.</strong> Запусти Live Server → відкрий F12 → знайди вкладку Elements<br>
+      <strong>5.</strong> В &lt;body&gt; напиши <code style="font-family:var(--mono)">hello world</code> → збережи → переконайся що бачиш у браузері<br>
+      <strong>6.</strong> Поміняй текст прямо в DevTools → зроби Refresh → переконайся що зміни зникли
+    </div>
+    <div class="ex-hint">Підказка: щоб зберегти файл в VS Code — Cmd+S (Mac) або Ctrl+S (Windows)</div>
+  </div>
+</section>
+
+</div>
+
+<div class="foot">
+  <a href="index.html" class="foot-link">← Огляд</a>
+  <div class="foot-info">Лекція 01 / 08</div>
+  <a href="lesson-02.html" class="foot-link">02 · HTML Структура →</a>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

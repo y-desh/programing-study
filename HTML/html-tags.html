@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Теги — Шпаргалка</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #22263a;
+    --border: #2e3250;
+    --text: #e2e4f0;
+    --muted: #7b80a0;
+    --teal: #2dd4bf;
+    --teal-bg: #0d2e2b;
+    --blue: #60a5fa;
+    --blue-bg: #0d1e3a;
+    --purple: #a78bfa;
+    --purple-bg: #1a1230;
+    --amber: #fbbf24;
+    --amber-bg: #2a1f0a;
+    --coral: #f87171;
+    --coral-bg: #2a0f0f;
+    --green: #4ade80;
+    --green-bg: #0d2a15;
+    --pink: #f472b6;
+    --pink-bg: #2a0f1e;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 40px 24px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    margin-bottom: 40px;
+    font-size: 14px;
+  }
+
+  .section { margin-bottom: 36px; }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    min-width: 150px;
+    flex: 1;
+    transition: border-color 0.15s, transform 0.1s;
+    cursor: default;
+  }
+
+  .tag:hover {
+    border-color: #4a5080;
+    transform: translateY(-1px);
+  }
+
+  .tag code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .tag span {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* Кольори по категоріях */
+  .teal code   { color: var(--teal); }
+  .blue code   { color: var(--blue); }
+  .purple code { color: var(--purple); }
+  .amber code  { color: var(--amber); }
+  .coral code  { color: var(--coral); }
+  .green code  { color: var(--green); }
+  .pink code   { color: var(--pink); }
+
+  .teal   { border-color: #1a3a38; }
+  .blue   { border-color: #1a2e4a; }
+  .purple { border-color: #2a1e45; }
+  .amber  { border-color: #3a2a10; }
+  .coral  { border-color: #3a1818; }
+  .green  { border-color: #1a3a22; }
+  .pink   { border-color: #3a1a28; }
+
+  /* Типи інпутів — компактніші */
+  .compact {
+    min-width: 110px;
+    flex: 0 1 110px;
+  }
+
+  .search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .search-bar input {
+    flex: 1;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .search-bar input:focus { border-color: var(--teal); }
+  .search-bar input::placeholder { color: var(--muted); }
+
+  .tag.hidden-tag { display: none; }
+</style>
+</head>
+<body>
+
+<h1>🏷️ HTML Теги</h1>
+<p class="subtitle">Повна шпаргалка — від структури до форм</p>
+
+<div class="search-bar">
+  <input type="text" id="search" placeholder="Пошук тегу або опису...">
+</div>
+
+<div class="section">
+  <div class="section-title">📐 Структура сторінки</div>
+  <div class="tags">
+    <div class="tag teal"><code>&lt;html&gt;</code><span>Корінь документа</span></div>
+    <div class="tag teal"><code>&lt;head&gt;</code><span>Мета-інформація (не видима)</span></div>
+    <div class="tag teal"><code>&lt;body&gt;</code><span>Весь видимий контент</span></div>
+    <div class="tag teal"><code>&lt;meta&gt;</code><span>charset, viewport, SEO</span></div>
+    <div class="tag teal"><code>&lt;title&gt;</code><span>Назва у вкладці браузера</span></div>
+    <div class="tag teal"><code>&lt;link&gt;</code><span>Підключення CSS, favicon</span></div>
+    <div class="tag teal"><code>&lt;script&gt;</code><span>Підключення JS</span></div>
+    <div class="tag teal"><code>&lt;style&gt;</code><span>CSS прямо в HTML</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🏗️ Семантичні блоки</div>
+  <div class="tags">
+    <div class="tag blue"><code>&lt;header&gt;</code><span>Шапка сайту або секції</span></div>
+    <div class="tag blue"><code>&lt;main&gt;</code><span>Головний контент — один на сторінці</span></div>
+    <div class="tag blue"><code>&lt;footer&gt;</code><span>Підвал сайту або секції</span></div>
+    <div class="tag blue"><code>&lt;nav&gt;</code><span>Навігаційне меню</span></div>
+    <div class="tag blue"><code>&lt;section&gt;</code><span>Тематична секція з заголовком</span></div>
+    <div class="tag blue"><code>&lt;article&gt;</code><span>Самостійний незалежний контент</span></div>
+    <div class="tag blue"><code>&lt;aside&gt;</code><span>Бічна панель, доповнення</span></div>
+    <div class="tag blue"><code>&lt;div&gt;</code><span>Нейтральний блок без змісту</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">📝 Текст та типографія</div>
+  <div class="tags">
+    <div class="tag purple"><code>&lt;h1&gt;–&lt;h6&gt;</code><span>Заголовки, h1 — один на сторінці</span></div>
+    <div class="tag purple"><code>&lt;p&gt;</code><span>Параграф тексту</span></div>
+    <div class="tag purple"><code>&lt;span&gt;</code><span>Інлайн контейнер без змісту</span></div>
+    <div class="tag purple"><code>&lt;strong&gt;</code><span>Важливий текст (жирний)</span></div>
+    <div class="tag purple"><code>&lt;em&gt;</code><span>Акцентований текст (курсив)</span></div>
+    <div class="tag purple"><code>&lt;br&gt;</code><span>Перенос рядка</span></div>
+    <div class="tag purple"><code>&lt;hr&gt;</code><span>Горизонтальна лінія</span></div>
+    <div class="tag purple"><code>&lt;blockquote&gt;</code><span>Цитата з іншого джерела</span></div>
+    <div class="tag purple"><code>&lt;code&gt;</code><span>Інлайн код</span></div>
+    <div class="tag purple"><code>&lt;pre&gt;</code><span>Блок коду зі збереженням пробілів</span></div>
+    <div class="tag purple"><code>&lt;mark&gt;</code><span>Виділений / підсвічений текст</span></div>
+    <div class="tag purple"><code>&lt;time&gt;</code><span>Дата або час — datetime для SEO</span></div>
+    <div class="tag purple"><code>&lt;address&gt;</code><span>Контактна інформація</span></div>
+    <div class="tag purple"><code>&lt;abbr&gt;</code><span>Абревіатура з розшифровкою</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🔗 Посилання та медіа</div>
+  <div class="tags">
+    <div class="tag amber"><code>&lt;a&gt;</code><span>Посилання — href, target</span></div>
+    <div class="tag amber"><code>&lt;img&gt;</code><span>Зображення — alt обов'язковий</span></div>
+    <div class="tag amber"><code>&lt;picture&gt;</code><span>Адаптивні зображення різних форматів</span></div>
+    <div class="tag amber"><code>&lt;video&gt;</code><span>Відео — autoplay, controls, loop</span></div>
+    <div class="tag amber"><code>&lt;audio&gt;</code><span>Аудіо — controls</span></div>
+    <div class="tag amber"><code>&lt;source&gt;</code><span>Джерело для video / audio / picture</span></div>
+    <div class="tag amber"><code>&lt;iframe&gt;</code><span>Вбудована зовнішня сторінка</span></div>
+    <div class="tag amber"><code>&lt;svg&gt;</code><span>Векторна графіка прямо в HTML</span></div>
+    <div class="tag amber"><code>&lt;canvas&gt;</code><span>Полотно для малювання через JS</span></div>
+    <div class="tag amber"><code>&lt;figure&gt;</code><span>Зображення або медіа з підписом</span></div>
+    <div class="tag amber"><code>&lt;figcaption&gt;</code><span>Підпис до figure</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">📋 Списки</div>
+  <div class="tags">
+    <div class="tag green"><code>&lt;ul&gt;</code><span>Невпорядкований список (крапки)</span></div>
+    <div class="tag green"><code>&lt;ol&gt;</code><span>Впорядкований список (цифри)</span></div>
+    <div class="tag green"><code>&lt;li&gt;</code><span>Елемент списку</span></div>
+    <div class="tag green"><code>&lt;dl&gt;</code><span>Список визначень</span></div>
+    <div class="tag green"><code>&lt;dt&gt;</code><span>Термін у dl</span></div>
+    <div class="tag green"><code>&lt;dd&gt;</code><span>Визначення терміну у dl</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">📊 Таблиці</div>
+  <div class="tags">
+    <div class="tag coral"><code>&lt;table&gt;</code><span>Таблиця</span></div>
+    <div class="tag coral"><code>&lt;thead&gt;</code><span>Шапка таблиці</span></div>
+    <div class="tag coral"><code>&lt;tbody&gt;</code><span>Тіло таблиці</span></div>
+    <div class="tag coral"><code>&lt;tfoot&gt;</code><span>Підвал таблиці</span></div>
+    <div class="tag coral"><code>&lt;tr&gt;</code><span>Рядок таблиці</span></div>
+    <div class="tag coral"><code>&lt;th&gt;</code><span>Заголовок стовпця</span></div>
+    <div class="tag coral"><code>&lt;td&gt;</code><span>Комірка з даними</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">📬 Форми</div>
+  <div class="tags">
+    <div class="tag pink"><code>&lt;form&gt;</code><span>Форма — action + method</span></div>
+    <div class="tag pink"><code>&lt;input&gt;</code><span>Поле вводу — type визначає тип</span></div>
+    <div class="tag pink"><code>&lt;label&gt;</code><span>Підпис до інпуту — for="id"</span></div>
+    <div class="tag pink"><code>&lt;button&gt;</code><span>Кнопка — submit / button / reset</span></div>
+    <div class="tag pink"><code>&lt;textarea&gt;</code><span>Багаторядкове поле тексту</span></div>
+    <div class="tag pink"><code>&lt;select&gt;</code><span>Випадаючий список</span></div>
+    <div class="tag pink"><code>&lt;option&gt;</code><span>Варіант у select</span></div>
+    <div class="tag pink"><code>&lt;optgroup&gt;</code><span>Група варіантів у select</span></div>
+    <div class="tag pink"><code>&lt;fieldset&gt;</code><span>Група полів форми</span></div>
+    <div class="tag pink"><code>&lt;legend&gt;</code><span>Заголовок для fieldset</span></div>
+    <div class="tag pink"><code>&lt;datalist&gt;</code><span>Підказки-автодоповнення для input</span></div>
+    <div class="tag pink"><code>&lt;progress&gt;</code><span>Прогрес-бар</span></div>
+    <div class="tag pink"><code>&lt;meter&gt;</code><span>Шкала значення (HP, рейтинг)</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🔢 Типи input (type=)</div>
+  <div class="tags">
+    <div class="tag teal compact"><code>text</code><span>Звичайний текст</span></div>
+    <div class="tag teal compact"><code>email</code><span>Email з валідацією</span></div>
+    <div class="tag teal compact"><code>password</code><span>Прихований текст</span></div>
+    <div class="tag teal compact"><code>number</code><span>Тільки числа</span></div>
+    <div class="tag teal compact"><code>tel</code><span>Телефон</span></div>
+    <div class="tag teal compact"><code>url</code><span>Посилання</span></div>
+    <div class="tag teal compact"><code>search</code><span>Пошук</span></div>
+    <div class="tag teal compact"><code>checkbox</code><span>Чекбокс</span></div>
+    <div class="tag teal compact"><code>radio</code><span>Один з варіантів</span></div>
+    <div class="tag teal compact"><code>range</code><span>Слайдер</span></div>
+    <div class="tag teal compact"><code>date</code><span>Вибір дати</span></div>
+    <div class="tag teal compact"><code>time</code><span>Вибір часу</span></div>
+    <div class="tag teal compact"><code>color</code><span>Палітра кольорів</span></div>
+    <div class="tag teal compact"><code>file</code><span>Завантаження файлу</span></div>
+    <div class="tag teal compact"><code>hidden</code><span>Прихований (для JS)</span></div>
+    <div class="tag teal compact"><code>submit</code><span>Кнопка відправки</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🎛️ Інтерактивні елементи</div>
+  <div class="tags">
+    <div class="tag blue"><code>&lt;details&gt;</code><span>Розкривний блок (акордеон без JS)</span></div>
+    <div class="tag blue"><code>&lt;summary&gt;</code><span>Заголовок для details</span></div>
+    <div class="tag blue"><code>&lt;dialog&gt;</code><span>Нативне модальне вікно</span></div>
+  </div>
+</div>
+
+<script>
+  const input = document.getElementById('search')
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase()
+    document.querySelectorAll('.tag').forEach(tag => {
+      const text = tag.textContent.toLowerCase()
+      tag.classList.toggle('hidden-tag', q.length > 0 && !text.includes(q))
+    })
+  })
+</script>
+</body>
+</html>

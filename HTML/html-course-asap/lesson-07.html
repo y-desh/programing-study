@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лекція 07 · Images</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">HTML · ASAP Frontend</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Огляд</a>
+    <a class="nav-link" href="lesson-01.html">01</a><a class="nav-link" href="lesson-02.html">02</a>
+    <a class="nav-link" href="lesson-03.html">03</a><a class="nav-link" href="lesson-04.html">04</a>
+    <a class="nav-link" href="lesson-05.html">05</a><a class="nav-link" href="lesson-06.html">06</a>
+    <a class="nav-link on" href="lesson-07.html">07</a>
+    <a class="nav-link" href="lesson-08.html">08</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="lesson-badge">Лекція 07 · ASAP Frontend HTML Crash Course</div>
+  <h1>Images<br><b>Зображення</b></h1>
+  <p>Тег &lt;img&gt; — самозакриваючий. src: зовнішній URL vs локальний файл. Відносні шляхи і вкладені папки. alt атрибут для доступності.</p>
+</div>
+
+<div class="w">
+
+<!-- ═══ 01 IMG TAG ═══ -->
+<section class="section">
+  <div class="sec-label">01 — img tag</div>
+  <h2>&lt;img&gt; — самозакриваючий тег</h2>
+  <p class="lead">
+    ASAP Frontend: <strong>"Just like an input element, this is a self-closing tag."</strong> img має два атрибути: src (де зображення) і alt (опис).
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Базовий синтаксис</div>
+    <pre>
+<span class="c">&lt;!-- Images --&gt;</span>
+
+<span class="c">&lt;!-- img — самозакриваючий тег --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"URL або шлях"</span> <span class="a">alt</span>=<span class="v">"опис"</span> <span class="t">/&gt;</span>
+<span class="c"> ↑    ↑               ↑
+ тег  де знайти     що це
+      зображення    (для скрін-рідерів)</span>
+
+<span class="c">&lt;!-- Emmet: img → Enter → отримуєш:
+     &lt;img src="" alt="" /&gt;            --&gt;</span>
+
+<span class="c">&lt;!-- Заповнюємо атрибути:    --&gt;
+&lt;img src="superman.jpeg" alt="Superman image" /&gt;</span></pre>
+    <div class="box amber">
+      <strong>img — inline елемент!</strong>
+      За замовчуванням img — inline. Якщо хочеш щоб він займав весь рядок або мав відступи — обгорни в div (block). Через CSS можна поставити display: block на сам img.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 02 SRC ЗОВНІШНІЙ ═══ -->
+<section class="section">
+  <div class="sec-label">02 — Зовнішній URL</div>
+  <h2>Зображення з інтернету</h2>
+  <p class="lead">
+    Перший спосіб: вказати URL зображення з інтернету. Правий клік на будь-якому фото → <strong>Copy image address</strong> → вставляєш в src.
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">src — зовнішній URL</div>
+    <div class="two" style="align-items:start">
+      <pre>
+<span class="c">&lt;!-- Спосіб 1: зовнішній URL --&gt;</span>
+<span class="c">&lt;!-- Правий клік на фото в браузері
+     → Copy image address
+     → вставляєш сюди:             --&gt;</span>
+
+<span class="t">&lt;img</span>
+  <span class="a">src</span>=<span class="v">"https://site.com/image.jpg"</span>
+  <span class="a">alt</span>=<span class="v">"Опис зображення"</span>
+<span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- Наприклад ASAP Frontend logo: --&gt;</span>
+<span class="t">&lt;img</span>
+  <span class="a">src</span>=<span class="v">"https://asapfrontend.com/logo.png"</span>
+  <span class="a">alt</span>=<span class="v">"ASAP Frontend Logo"</span>
+<span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- ✅ Переваги:
+     Не треба завантажувати файл
+     
+     ❌ Недоліки:
+     Якщо сайт впаде — зображення зникне
+     Залежиш від зовнішнього сервера --&gt;</span></pre>
+      <div>
+        <div class="box green">
+          <strong>Copy image address vs Copy image</strong>
+          Copy image address — копіює URL. Copy image — завантажує файл. Нам потрібен URL → Copy image address.
+        </div>
+        <div class="box blue" style="margin-top:10px">
+          <strong>Де знайти URL зображення?</strong>
+          Google Images → клік на фото → правий клік → Copy image address. Або на будь-якому сайті — правий клік на фото.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 03 SRC ЛОКАЛЬНИЙ ═══ -->
+<section class="section">
+  <div class="sec-label">03 — Локальний файл</div>
+  <h2>Зображення зі свого комп'ютера</h2>
+  <p class="lead">
+    Другий спосіб: зберегти зображення в папку проєкту і вказати шлях до нього. <strong>HTML шукає файли відносно поточного HTML файлу.</strong>
+  </p>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Той самий рівень — найпростіший випадок</div>
+    <div class="two" style="align-items:start">
+      <pre>
+<span class="c">html-crash-course/
+├── index.html
+└── superman.jpeg   ← ПОРЯД з HTML!</span>
+
+<span class="c">&lt;!-- Якщо файл поряд з HTML —
+     просто пишемо ім'я файлу: --&gt;</span>
+<span class="t">&lt;img</span>
+  <span class="a">src</span>=<span class="v">"superman.jpeg"</span>
+  <span class="a">alt</span>=<span class="v">"Superman image"</span>
+<span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- HTML починає пошук з папки
+     де знаходиться index.html.
+     Якщо superman.jpeg там же —
+     просто пишемо ім'я!         --&gt;</span></pre>
+      <div>
+        <div class="box green">
+          <strong>Чому це працює?</strong>
+          ASAP Frontend: "HTML by default starts by searching for files on the same level as the current HTML file." Тобто в тій самій папці де лежить index.html.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Вкладені папки — шлях через /</div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+
+      <div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--acc2);margin-bottom:8px">Структура: один рівень вкладеності</div>
+        <div class="two" style="align-items:start">
+          <pre>
+<span class="c">html-crash-course/
+├── index.html
+└── assets/
+    └── superman.jpeg</span>
+
+<span class="c">&lt;!-- superman.jpeg тепер в assets/ --&gt;
+&lt;!-- Потрібно вказати шлях:        --&gt;</span>
+<span class="t">&lt;img</span>
+  <span class="a">src</span>=<span class="v">"assets/superman.jpeg"</span>
+  <span class="a">alt</span>=<span class="v">"Superman"</span>
+<span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- assets/ — заходимо в папку
+     superman.jpeg — беремо файл --&gt;</span></pre>
+          <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:16px">
+            <div style="font-size:12px;color:var(--t3);font-family:var(--mono);margin-bottom:10px">Як HTML шукає файл:</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.9">
+              1. Старт з папки index.html<br>
+              2. Бачить: assets/<br>
+              3. Заходить всередину<br>
+              4. Знаходить superman.jpeg ✅
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--acc);margin-bottom:8px">Структура: два рівні вкладеності</div>
+        <div class="two" style="align-items:start">
+          <pre>
+<span class="c">html-crash-course/
+├── index.html
+└── assets/
+    └── images/
+        └── superman.jpeg</span>
+
+<span class="c">&lt;!-- Потрібно пройти два рівні: --&gt;</span>
+<span class="t">&lt;img</span>
+  <span class="a">src</span>=<span class="v">"assets/images/superman.jpeg"</span>
+  <span class="a">alt</span>=<span class="v">"Superman"</span>
+<span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- assets/ → images/ → superman.jpeg
+     
+     Кожен / = входимо в папку --&gt;</span></pre>
+          <div style="background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:16px">
+            <div style="font-size:12px;color:var(--t3);font-family:var(--mono);margin-bottom:10px">Логіка шляху:</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.9">
+              1. Старт з папки index.html<br>
+              2. Бачить: assets/<br>
+              3. Заходить всередину<br>
+              4. Бачить: images/<br>
+              5. Заходить всередину<br>
+              6. Знаходить superman.jpeg ✅
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box red" style="margin-top:14px">
+      <strong>VS Code — Compact Folders — вимкнути!</strong>
+      ASAP Frontend показує: якщо папки мають одну вкладену папку — VS Code по дефолту згортає їх в один рядок. Щоб виправити: File → References and Settings → шукаємо "compact folders" → вимикаємо. Тепер структура папок зрозуміліша.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 04 ALT ═══ -->
+<section class="section">
+  <div class="sec-label">04 — alt атрибут</div>
+  <h2>Доступність — alt для зображень</h2>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Навіщо alt і коли він показується</div>
+    <div class="two" style="align-items:start">
+      <pre>
+<span class="t">&lt;img</span>
+  <span class="a">src</span>=<span class="v">"superman.jpeg"</span>
+  <span class="a">alt</span>=<span class="v">"Superman flying over city"</span>
+<span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- alt показується/використовується:
+     
+     1. Якщо зображення не завантажилось
+        (битий URL, нема інтернету)
+        → браузер показує текст з alt
+        
+     2. Screen reader для людей з вадами зору
+        → читає вголос текст alt
+        
+     3. SEO — пошуковики читають alt
+        для розуміння що на фото         --&gt;</span>
+
+<span class="c">&lt;!-- Порожній alt — для декоративних фото: --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"background.jpg"</span> <span class="a">alt</span>=<span class="v">""</span> <span class="t">/&gt;</span>
+<span class="c">&lt;!-- Порожній alt = screen reader ігнорує --&gt;</span></pre>
+      <div>
+        <div class="box amber">
+          <strong>ASAP Frontend:</strong>
+          "Let's say someone is blind and they are using what we call a screen reader — something that goes through your website and describes the content to the blind person. The alt attribute is where we tell the screen reader what our image is actually about."
+        </div>
+        <div class="box green" style="margin-top:10px">
+          <strong>Хороший alt текст</strong>
+          Описуй ЩО на зображенні. "Superman flying over New York at night" — добре. "image1" або "photo" — погано.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card r">
+    <div class="card-t" style="color:var(--acc)">Шпаргалка — src для різних ситуацій</div>
+    <table class="tbl">
+      <tr><th>Ситуація</th><th>src</th></tr>
+      <tr><td class="td">Файл в тій самій папці</td><td class="tm">src="photo.jpg"</td></tr>
+      <tr><td class="td">Файл в папці images/</td><td class="tm">src="images/photo.jpg"</td></tr>
+      <tr><td class="td">Файл в assets/img/</td><td class="tm">src="assets/img/photo.jpg"</td></tr>
+      <tr><td class="td">Зображення з інтернету</td><td class="tm">src="https://site.com/photo.jpg"</td></tr>
+      <tr><td class="td">На один рівень вгору</td><td class="tm">src="../photo.jpg"</td></tr>
+    </table>
+  </div>
+
+  <div class="exercise r">
+    <div class="ex-title">🎯 Завдання — Лекція 07</div>
+    <div class="ex-body">
+      <strong>1.</strong> Знайди будь-яке зображення в Google Images → правий клік → Copy image address → встав в src<br>
+      <strong>2.</strong> Завантаж зображення в папку проєкту → вкажи src з лише іменем файлу<br>
+      <strong>3.</strong> Створи папку images/ → перемісти зображення туди → виправ src на images/назва.jpg<br>
+      <strong>4.</strong> Для кожного img напиши осмислений alt текст<br>
+      <strong>5.</strong> Зроби img що відкриває посилання при кліці: обгорни img в &lt;a href="..."&gt;<br>
+      <strong>6.</strong> Обгорни img в div → переконайся що div займає весь рядок (block)
+    </div>
+    <div class="ex-hint">Підказка: &lt;a href="url"&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt; — клікабельне зображення</div>
+  </div>
+</section>
+
+</div>
+
+<div class="foot">
+  <a href="lesson-06.html" class="foot-link">← 06 · Forms</a>
+  <div class="foot-info">Лекція 07 / 08</div>
+  <a href="lesson-08.html" class="foot-link">08 · Buttons & Spans →</a>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;document.getElementById('prog').style.width=p+'%';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.06});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
